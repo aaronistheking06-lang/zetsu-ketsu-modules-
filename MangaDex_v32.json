@@ -1,0 +1,416 @@
+{
+  "moduleInfo": {
+    "moduleName": "MangaDex",
+    "moduleInitials": "MD",
+    "moduleDesc": "MangaDex with working covers, full chapter pagination, a fuller home page, and embedded selector art.",
+    "developer": "Aaron/Codex",
+    "moduleID": "mangadex_fixed_v26_wp_i1_covers",
+    "moduleImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAIAAAD9b0jDAAAD6UlEQVR4AbSUbUxbVRjHT0/bS1v6QrsC7Ycx3GYQShybI4IKAsmc2UaYSWeyzQziSPwAhlDNps4vZBnoB1+BxBjDsiU6oyZ+YdlmNpRN5hd1YtSJCWa+NpBaaHt76X3pvf7bW25LYKXRrfnl3HOe8zy/e17a0ipf3R2HkrvwWUcqKWQuqcwIcizBo1/gAm4r5WQCV73L/EF1cbi55K/BnlmO/19S6Frc5t+ay87dy+/atds0fHGcljn4xH+UYo8wXtnpPltnrpCjUn1HvOsYXJ+ffrfYYkKnEFZsH0ZBIVhgm0MmgkwYC3/kOYOcZGKL38zMygxTiBE5WSmMcUWZfsheYZSIQojACW0HJaoH4lJ8qLbE7ynGJnDWKMsPhSsaY5E0K8pTjaVOI00ZMSaStKUWT+bGVNHbzzd6HMNVDG6sw2OBGvE80B33+57uPDzz462xasdmJr3GnHTr6AnzSI8uHknFFOI00OFa06d17pl4vm8CffKA/8SLx+fnf+na6lpeY8pAGLtltF//05fE7k2PlxtB3r9BvtS1L4+XVm7aKMsyY7WJD+7BOS6Xpp+MBXeV7q1sIsGmYwMHGnbg6FZOZEbU5XQlk0mdKOhb2kkivc3M1FoPHcGLpaZDAtHtfGA7x6YuY3Uedbs3qFHW5uSfGiDRoDpcs52I0JGboYul1QxR2lpbgr+H1kzLfqWw2ERrB9n/7O28EV7gE4mGkY/+XIyJouirqekLdIfY2GovDYX+0aLwRtqPLvWOpiJCFDvNEg1afQ2PvfMJXJ2HDyIBN/Ha8cBe99bVJ0vDC2G9Xo8kFXiF7Q9H3rjA9QwLjx+V6vdKj/h5fyAxNB7ufCGsM2CNQE0mv8b6alr/FrnMcPlBv74xTWn2EBCHFyj3bVtqP4IfPud/JlrfFrM4MAWwM8DzPK5X2LYx9Ogmi5BEPBc6cWUid6z1UQM1QH0sxmogwWazolV57/J4kYFR+1pLP/7wPMuyuSegzWmd8vIyoLnwAkwZjcZTQ69+NnndZirCMBfqrXCfPnMWJ4CkNbFarRzHzc3No8zr9agg+MXk1VMn3/K4MseCWQ1qt1kHXx89f+FSHiavTX373TRaLefM++e6e/u31FTi6jWyUvTwtu7ewCuB/pf7CuXNgZMVVlOpUafhZXSwwwYy924vceyuLP35ic2F81WzM5dmhwF/8DCCjNRCydi80HRtYd/1RbSNVxcKBMlqCcohgRFkpOg5qC4oKN9z8kv3mMd8xQWCZJSgEOWQqGSlGBt0BG/b8wN7OSTeWpLXBWmHbsZRgkKUa6yQqtEqhg7+kUD2uiCtXI9/Q7Uu2/4LAAD//zkgbQQAAAAGSURBVAMALqpoJypOPxEAAAAASUVORK5CYII=",
+    "moduleVersion": 1.32,
+    "moduleLenguage": "ENG",
+    "moduleType": "Image",
+    "baseURL": "https://mangadex.org/",
+    "moduleDeveloperSite": "",
+    "UpdateSite": "",
+    "preferedServer": "",
+    "preferedDownloadServer": "",
+    "blackListed": [
+      ""
+    ]
+  },
+  "global": {
+    "variables": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "cookies": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "headers": [
+      {
+        "key": "Accept",
+        "value": "application/json"
+      }
+    ]
+  },
+  "mainPage": [
+    {
+      "request": {
+        "url": "https://api.mangadex.org/chapter?translatedLanguage%5B%5D=en&limit=60&order%5BreadableAt%5D=desc&includes%5B%5D=manga",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\ntry {\n\nvar KETSU_ASYNC = true;\n\nfunction MR(url, method, headers, body){ this.url=url; this.method=method; this.headers=headers; this.httpBody=body; }\nfunction KV(key,value){ this.key=key; this.value=value; }\nfunction Extra(commands, extraInfo){ this.commands=commands; this.extraInfo=extraInfo; }\nfunction Commands(commandName, params){ this.commandName=commandName; this.params=params; }\nfunction JC(removeJavascript, loadInWebView, javaScript){ this.removeJavascript=removeJavascript; this.loadInWebView=loadInWebView; this.javaScript=javaScript; }\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image; this.title=title; this.description=description; this.field1=field1; this.field2=field2;\n  this.field3=field3; this.field4=field4; this.isChapter=isChapter; this.link=link; this.openInWebView=openInWebView || false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing; this.orientation=orientation; this.defaultLayout=defaultLayout; this.paging=paging;\n  this.section=section; this.layout=layout; this.data=data;\n}\nfunction Section(sectionName,separator){ this.sectionName=sectionName; this.separator=separator; }\nfunction MainPage(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Search(request,extra,separator,javascriptConfig,output){ this.request=request; this.extra=extra; this.separator=separator; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Info(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Chapter(chapName,link,openInWebView){ this.chapName=chapName; this.link=link; this.openInWebView=openInWebView; }\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image; this.title=title; this.link=link; this.description=description; this.genres=genres;\n  this.field1=field1; this.field2=field2; this.field3=field3; this.field4=field4; this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction ChapterOutput(videos,images,text){ this.videos=videos; this.images=images; this.text=text; }\n\nconst E = [new KV('', '')];\nconst JSON_H = [new KV('Accept', 'application/json')];\nconst MD_API = 'https://api.mangadex.org';\nconst MD_SITE = 'https://mangadex.org';\nconst PLACEHOLDER = 'https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg';\n\nfunction saved(){ return document.getElementById('ketsu-final-data'); }\n\nfunction meta(){\n  try { return JSON.parse(saved().textContent || saved().innerText || '{}'); }\n  catch(e){ return {}; }\n}\n\nfunction done(){\n  try { window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); } catch(e){}\n}\n\nfunction req(url, referer){\n  let h = referer ? [new KV('Referer', referer)] : E;\n  return new MR(url, 'GET', h, null);\n}\n\nfunction apiReq(url){\n  return new MR(url, 'GET', JSON_H, null);\n}\n\nfunction currentUrl(){\n  let m = meta();\n  return m && m.request && m.request.url ? m.request.url : location.href;\n}\n\nfunction parseJsonText(txt){\n  txt = (txt || '').trim();\n  if(!txt) throw new Error('empty');\n  try { return JSON.parse(txt); } catch(e) {}\n  let a = txt.indexOf('{');\n  let b = txt.lastIndexOf('}');\n  if(a >= 0 && b > a) return JSON.parse(txt.slice(a, b + 1));\n  throw new Error('not json');\n}\n\nfunction parseJsonFromPage(){\n  let candidates = [];\n  try { candidates.push(document.querySelector('pre')?.textContent || ''); } catch(e){}\n  try { candidates.push(document.body?.innerText || ''); } catch(e){}\n  try { candidates.push(document.documentElement?.innerText || ''); } catch(e){}\n  try { \n    let m = meta();\n    candidates.push(m.responseInfo?.httpBody || '');\n    candidates.push(m.responseInfo?.body || '');\n  } catch(e){}\n  for (let txt of candidates) {\n    try { return parseJsonText(txt); } catch(e) {}\n  }\n  throw new Error('Could not parse API JSON from page');\n}\n\nasync function fetchJSON(url){\n  let r = await fetch(url, { headers: { 'Accept': 'application/json' } });\n  if(!r.ok) throw new Error('HTTP ' + r.status);\n  return await r.json();\n}\n\nfunction titleOf(m){\n  let t = (m.attributes && m.attributes.title) || {};\n  return t.en || t[\"ja-ro\"] || t.ja || t[\"ko-ro\"] || t.ko || Object.values(t)[0] || 'Untitled';\n}\n\nfunction descOf(m){\n  let d = (m.attributes && m.attributes.description) || {};\n  return d.en || Object.values(d)[0] || '';\n}\n\nfunction coverFile(m){\n  let rels = m.relationships || [];\n  let cover = rels.find(r => r.type === 'cover_art');\n  return cover && cover.attributes ? cover.attributes.fileName : '';\n}\n\nfunction coverReq(manga){\n  let file = coverFile(manga);\n  if(!manga || !manga.id || !file) return req(PLACEHOLDER);\n  return req('https://i1.wp.com/uploads.mangadex.org/covers/' + manga.id + '/' + file + '.512.jpg');\n}\n\nfunction mangaInfoReq(id){\n  return apiReq(MD_API + '/manga/' + id + '?includes%5B%5D=cover_art');\n}\n\nfunction atHomeReq(chapterId){\n  return apiReq(MD_API + '/at-home/server/' + chapterId);\n}\n\nfunction chapterLabel(attrs){\n  let ch = attrs && attrs.chapter ? String(attrs.chapter) : '?';\n  return 'Chapter ' + ch;\n}\n\nfunction errorCard(title, msg){\n  return new Data(\n    req(PLACEHOLDER),\n    title || 'Parser error',\n    msg || 'Unknown error',\n    '', '', '', '',\n    false,\n    req(MD_SITE),\n    false\n  );\n}\n\nfunction searchTerm(){\n  let u = currentUrl();\n  try {\n    let p = new URL(u).searchParams;\n    let raw = p.get('title') || p.get('q') || p.get('query') || p.get('ketsu_search') || p.get('search') || '';\n    if(raw && raw !== '<searched>') return raw;\n  } catch(e){}\n  try {\n    let body = document.body ? document.body.innerText : '';\n    let m = body.match(/Searched:\\s*([^\\n\\r]+)/i);\n    if(m) return m[1].trim();\n  } catch(e){}\n  return '';\n}\n\nfunction cleanText(s, max){\n  s = (s || '').replace(/\\s+/g, ' ').trim();\n  if(max && s.length > max) return s.slice(0, max - 3) + '...';\n  return s;\n}\n\nfunction contentQuery(){\n  return '&availableTranslatedLanguage%5B%5D=en' +\n    '&hasAvailableChapters=true' +\n    '&contentRating%5B%5D=safe' +\n    '&contentRating%5B%5D=suggestive';\n}\n\nfunction titleCard(manga, label){\n  let a = manga.attributes || {};\n  let status = a.status || 'Manga';\n  let year = a.year ? String(a.year) : '';\n  let rating = a.contentRating || '';\n  return new Data(\n    coverReq(manga),\n    titleOf(manga),\n    cleanText(descOf(manga), 95),\n    label || status,\n    'MangaDex',\n    year,\n    rating,\n    false,\n    mangaInfoReq(manga.id),\n    false\n  );\n}\n\nasync function mangaList(url, label, max){\n  let out = [];\n  try {\n    let json = await fetchJSON(url);\n    for (const manga of (json.data || [])) {\n      if(!manga || !manga.id) continue;\n      out.push(titleCard(manga, label));\n      if(out.length >= max) break;\n    }\n  } catch(e) {}\n  return out;\n}\n\nasync function latestCards(json, max){\n  let out = [];\n  let seen = {};\n  let rows = [];\n  let ids = [];\n  let items = (json.data || []).filter(x => x.type === 'chapter');\n\n  for(const item of items){\n    let attrs = item.attributes || {};\n    let mangaRel = (item.relationships || []).find(r => r.type === 'manga');\n    let mangaId = mangaRel ? mangaRel.id : '';\n    if(!mangaId || seen[mangaId]) continue;\n    seen[mangaId] = true;\n    ids.push(mangaId);\n    rows.push({ item: item, attrs: attrs, mangaRel: mangaRel, mangaId: mangaId });\n    if(rows.length >= max) break;\n  }\n\n  let mangaMap = {};\n  if(ids.length > 0){\n    try {\n      let url = MD_API + '/manga?limit=' + ids.length + '&includes%5B%5D=cover_art';\n      for (const id of ids) url += '&ids%5B%5D=' + id;\n      let batch = await fetchJSON(url);\n      for (const m of (batch.data || [])) mangaMap[m.id] = m;\n    } catch(e) {}\n  }\n\n  for(const row of rows){\n    let attrs = row.attrs;\n    let mangaId = row.mangaId;\n\n    let manga = mangaMap[mangaId] || row.mangaRel || { id: mangaId, attributes: { title: { en: 'MangaDex Title' } }, relationships: [] };\n\n    let chap = chapterLabel(attrs);\n    out.push(new Data(\n      coverReq(manga),\n      titleOf(manga),\n      chap + (attrs.title ? ': ' + attrs.title : ''),\n      chap,\n      'Manga',\n      '',\n      '',\n      false,\n      mangaInfoReq(mangaId),\n      false\n    ));\n  }\n\n  return out;\n}\n\nasync function run(){\n  let output = [];\n  let featured = [];\n  let latest = [];\n  let more = [];\n  let popular = [];\n  let newlyAdded = [];\n  let completed = [];\n\n  try {\n    let json = parseJsonFromPage();\n    let updates = await latestCards(json, 31);\n    featured = updates.slice(0, 1);\n    latest = updates.slice(1, 13);\n    more = updates.slice(13, 31);\n\n    let base = MD_API + '/manga?limit=18&includes%5B%5D=cover_art' + contentQuery();\n    popular = await mangaList(base + '&status%5B%5D=ongoing&order%5BfollowedCount%5D=desc', 'Ongoing', 18);\n    newlyAdded = await mangaList(base + '&order%5BcreatedAt%5D=desc', 'New', 18);\n    completed = await mangaList(base + '&status%5B%5D=completed&order%5BfollowedCount%5D=desc', 'Complete', 18);\n\n    if(featured.length === 0 && latest.length === 0) {\n      latest.push(errorCard('No latest chapters', 'MangaDex returned no latest English chapters.'));\n    }\n  } catch(e){\n    latest.push(errorCard('Main page error', e.message));\n  }\n\n  if(featured.length > 0){\n    output.push(new Output('wide11','horizontal','ultraWideFull','leading',new Section('Featured Update',true),null,featured));\n  }\n  if(latest.length > 0){\n    output.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('Latest Updates',true),null,latest));\n  }\n  if(popular.length > 0){\n    output.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('Popular Ongoing',true),null,popular));\n  }\n  if(newlyAdded.length > 0){\n    output.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('Newly Added',true),null,newlyAdded));\n  }\n  if(completed.length > 0){\n    output.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('Completed Picks',true),null,completed));\n  }\n  if(more.length > 0){\n    output.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('More Updates',true),null,more));\n  }\n\n  let obj = new MainPage(new MR('', 'GET', E, null), new Extra([new Commands('', E)], E), new JC(false,false,''), output);\n  saved().textContent = JSON.stringify(obj);\n  done();\n}\nsetTimeout(function(){ run(); }, 700);\n} catch(e){\n  console.error(e.message);\n  done();\n}\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal1",
+          "orientation": "vertical",
+          "defaultLayout": "wide",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": false
+          },
+          "layout": {
+            "insets": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "visibleCellsWidthS": 2,
+            "visibleCellsWidthM": 2,
+            "visibleCellsWidthL": 2,
+            "visibleCellsHeight": 2,
+            "heightForVisibleCells": 400,
+            "cellSize": {
+              "width": 300,
+              "height": 300
+            },
+            "ratio": {
+              "inRelation": "width",
+              "number1": 1,
+              "number2": 2
+            },
+            "constant": {
+              "width": 1,
+              "height": 2
+            },
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0
+          },
+          "data": [
+            {
+              "image": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "openInWebView": false,
+              "isChapter": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "search": [
+    {
+      "request": {
+        "url": "https://mangadex.org/search?q=<searched>",
+        "method": "get",
+        "headers": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "httpBody": null
+      },
+      "separator": "+",
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\ntry {\nvar KETSU_ASYNC = true;\n\nconst MD_API = 'https://api.mangadex.org';\nconst MD_SITE = 'https://mangadex.org';\nconst PLACEHOLDER = 'https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg';\n\nconst DefaultLayouts = {\n  ultraWideFull:'ultraWideFull', ultraWide:'ultraWide', wideFull:'wideFull', wide:'wide',\n  wideStrechedFull:'wideStrechedFull', wideStrechedFullDouble:'WideStrechedFullDouble',\n  wideStreched:'wideStreched', wideStrechedDouble:'wideStrechedDouble',\n  wideStrechedFullList:'wideStrechedFullList', wideStrechedList:'wideStrechedList',\n  doublets:'doublets', doubletsDouble:'doubletsDouble', doubletsFull:'doubletsFull', doubletsFullDouble:'doubletsFullDouble',\n  doubletsConstant:'doubletsConstant', doubletsDoubleConstant:'doubletsDoubleConstant', doubletsFullConstant:'doubletsFullConstant', doubletsFullDoubleConstant:'doubletsFullDoubleConstant',\n  longDoublets:'longDoublets', longDoubletsDouble:'longDoubletsDouble', longDoubletsFull:'longDoubletsFull', longDoubletsFullDouble:'longDoubletsFullDouble',\n  longDoubletsConstant:'longDoubletsConstant', longDoubletsDoubleConstant:'longDoubletsDoubleConstant', longDoubletsFullConstant:'longDoubletsFullConstant', longDoubletsFullDoubleConstant:'longDoubletsFullDoubleConstant',\n  triplets:'triplets', tripletsDouble:'tripletsDouble', tripletsFull:'tripletsFull', tripletsFullDouble:'tripletsFullDouble',\n  tripletsConstant:'tripletsConstant', tripletsDoubleConstant:'tripletsDoubleConstant', tripletsFullConstant:'tripletsFullConstant', tripletsFullDoubleConstant:'tripletsFullDoubleConstant',\n  longTriplets:'longTriplets', longTripletsDouble:'longTripletsDouble', longTripletsFull:'longTripletsFull', longTripletsFullDouble:'longTripletsFullDouble',\n  longTripletsConstant:'longTripletsConstant', longTripletsDoubleConstant:'longTripletsDoubleConstant', longTripletsFullConstant:'longTripletsFullConstant', longTripletsFullDoubleConstant:'longTripletsFullDoubleConstant',\n  none:''\n};\nconst CellDesings = { wide6:'wide6', normal1:'normal1', normal7:'normal7', CELLHelperText:'CELLHelperText' };\nconst Paging = { none:'', leading:'leading', centered:'centered' };\nconst Orientation = { vertical:'vertical', horizontal:'horizontal' };\n\nfunction ModuleRequest(url, method, headers, httpBody){ this.url=url; this.method=method; this.headers=headers; this.httpBody=httpBody; }\nfunction KeyValue(key,value){ this.key=key; this.value=value; }\nfunction Extra(commands, extraInfo){ this.commands=commands; this.extraInfo=extraInfo; }\nfunction Commands(commandName, params){ this.commandName=commandName; this.params=params; }\nfunction JavascriptConfig(removeJavascript, loadInWebView, javaScript){ this.removeJavascript=removeJavascript; this.loadInWebView=loadInWebView; this.javaScript=javaScript; }\nfunction Output(cellDesing, orientation, defaultLayout, paging, section, layout, data){ this.cellDesing=cellDesing; this.orientation=orientation; this.defaultLayout=defaultLayout; this.paging=paging; this.section=section; this.layout=layout; this.data=data; }\nfunction Section(sectionName, separator){ this.sectionName=sectionName; this.separator=separator; }\nfunction Search(request, extra, separator, javascriptConfig, output){ this.request=request; this.extra=extra; this.separator=separator; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){ this.image=image; this.title=title; this.description=description; this.field1=field1; this.field2=field2; this.field3=field3; this.field4=field4; this.isChapter=isChapter; this.link=link; this.openInWebView=openInWebView || false; }\n\nlet emptyKeyValue = [new KeyValue('', '')];\nlet jsonHeaders = [new KeyValue('Accept', 'application/json')];\nlet imgHeaders = [new KeyValue('Referer', MD_SITE + '/')];\n\nfunction clean(s){ return (s || '').replace(/\\s+/g,' ').trim(); }\nfunction saved(){ return document.getElementById('ketsu-final-data'); }\nfunction done(){ window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); }\nfunction req(url, referer){ return new ModuleRequest(url || PLACEHOLDER, 'get', referer ? [new KeyValue('Referer', referer)] : emptyKeyValue, null); }\nfunction apiReq(url){ return new ModuleRequest(url, 'GET', jsonHeaders, null); }\nfunction encodeQS(v){ return encodeURIComponent(v || ''); }\n\nfunction currentQuery(){\n  try {\n    let p = new URL(location.href).searchParams;\n    let q = p.get('q') || p.get('title') || p.get('query') || '';\n    if(q && q !== '<searched>') return q;\n  } catch(e) {}\n  try {\n    let meta = JSON.parse(saved().textContent || '{}');\n    let u = meta.request && meta.request.url ? meta.request.url : '';\n    let p = new URL(u).searchParams;\n    let q = p.get('q') || p.get('title') || p.get('query') || '';\n    if(q && q !== '<searched>') return q;\n  } catch(e) {}\n  try {\n    let body = document.body ? document.body.innerText : '';\n    let m = body.match(/Searched:\\s*([^\\n\\r]+)/i);\n    if(m) return m[1].trim();\n  } catch(e) {}\n  return '';\n}\n\nfunction titleOf(m){\n  let t = (m.attributes && m.attributes.title) || {};\n  return t.en || t['ja-ro'] || t.ja || t['ko-ro'] || t.ko || Object.values(t)[0] || 'MangaDex Title';\n}\n\nfunction descOf(m){\n  let d = (m.attributes && m.attributes.description) || {};\n  let s = d.en || Object.values(d)[0] || 'Manga';\n  s = clean(s);\n  return s.length > 120 ? s.slice(0, 120) + '...' : s;\n}\n\nfunction coverFile(m){\n  let rels = m.relationships || [];\n  let c = rels.find(r => r.type === 'cover_art');\n  return c && c.attributes ? c.attributes.fileName : '';\n}\nfunction coverReq(m){\n  let f = coverFile(m);\n  if(!m || !m.id || !f) return req(PLACEHOLDER);\n  return req('https://i1.wp.com/uploads.mangadex.org/covers/' + m.id + '/' + f + '.512.jpg');\n}\nfunction infoReq(m){ return apiReq(MD_API + '/manga/' + m.id + '?includes%5B%5D=cover_art'); }\n\nfunction fallbackCard(title, desc){\n  return new Data(req(PLACEHOLDER), title, desc || 'No usable results.', '', '', '', '', false, req(MD_SITE + '/search'), false);\n}\n\nasync function getJSON(url){\n  let r = await fetch(url, { headers: { 'Accept': 'application/json' } });\n  if(!r.ok) throw new Error('HTTP ' + r.status + ' from MangaDex API');\n  return await r.json();\n}\n\nasync function hasEnglishChapter(id){\n  try {\n    let url = MD_API + '/chapter?manga=' + id + '&translatedLanguage%5B%5D=en&limit=1&order%5Bchapter%5D=asc';\n    let j = await getJSON(url);\n    return (j && typeof j.total === 'number') ? j.total > 0 : ((j.data || []).length > 0);\n  } catch(e) {\n    // If this check fails, keep the result rather than hiding everything.\n    return true;\n  }\n}\n\nasync function searchApi(q){\n  let url = MD_API + '/manga?title=' + encodeQS(q) +\n    '&limit=24' +\n    '&includes%5B%5D=cover_art' +\n    '&availableTranslatedLanguage%5B%5D=en' +\n    '&hasAvailableChapters=true' +\n    '&contentRating%5B%5D=safe' +\n    '&contentRating%5B%5D=suggestive' +\n    '&contentRating%5B%5D=erotica' +\n    '&order%5Brelevance%5D=desc';\n  let j = await getJSON(url);\n  let items = j.data || [];\n\n  let out = [];\n  for (let m of items) {\n    // This removes search hits like Sip of Poison when MangaDex has no English readable chapters for it.\n    if (!(await hasEnglishChapter(m.id))) continue;\n    let a = m.attributes || {};\n    out.push(new Data(\n      coverReq(m),\n      titleOf(m),\n      descOf(m),\n      'Manga',\n      'MangaDex',\n      a.status || '',\n      a.year ? String(a.year) : '',\n      false,\n      infoReq(m),\n      false\n    ));\n  }\n  return out;\n}\n\nfunction finish(results){\n  let output = [new Output(\n    CellDesings.wide6,\n    Orientation.vertical,\n    DefaultLayouts.doubletsFull,\n    Paging.none,\n    new Section('', true),\n    null,\n    results\n  )];\n  let obj = new Search(new ModuleRequest('', '', emptyKeyValue, null), new Extra([new Commands('', emptyKeyValue)], emptyKeyValue), '', new JavascriptConfig(false, false, ''), output);\n  saved().textContent = JSON.stringify(obj);\n  done();\n}\n\nasync function run(){\n  try {\n    let q = currentQuery();\n    if(!q) return finish([fallbackCard('No search text', 'KETSU did not pass a search query.')]);\n    let results = await searchApi(q);\n    if(!results.length) results = [fallbackCard('No English chapters found', 'MangaDex has titles for this search, but none with readable English chapters in the API.')];\n    finish(results);\n  } catch(e) {\n    finish([fallbackCard('Search API error', e.message)]);\n  }\n}\n\nsetTimeout(run, 50);\nsetTimeout(function(){ finish([fallbackCard('Search timeout', 'MangaDex API did not finish in time.')]); }, 14000);\n\n} catch(e) {\n  console.error(e.message);\n  try { window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); } catch(err) {}\n}\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal1",
+          "orientation": "vertical",
+          "defaultLayout": "wide",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": false
+          },
+          "layout": {
+            "insets": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "visibleCellsWidthS": 2,
+            "visibleCellsWidthM": 2,
+            "visibleCellsWidthL": 2,
+            "visibleCellsHeight": 2,
+            "heightForVisibleCells": 400,
+            "cellSize": {
+              "width": 300,
+              "height": 300
+            },
+            "ratio": {
+              "inRelation": "width",
+              "number1": 1,
+              "number2": 2
+            },
+            "constant": {
+              "width": 1,
+              "height": 2
+            },
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0
+          },
+          "data": [
+            {
+              "image": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "openInWebView": false,
+              "isChapter": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": [
+    {
+      "request": {
+        "url": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\ntry {\n\nvar KETSU_ASYNC = true;\n\nfunction MR(url, method, headers, body){ this.url=url; this.method=method; this.headers=headers; this.httpBody=body; }\nfunction KV(key,value){ this.key=key; this.value=value; }\nfunction Extra(commands, extraInfo){ this.commands=commands; this.extraInfo=extraInfo; }\nfunction Commands(commandName, params){ this.commandName=commandName; this.params=params; }\nfunction JC(removeJavascript, loadInWebView, javaScript){ this.removeJavascript=removeJavascript; this.loadInWebView=loadInWebView; this.javaScript=javaScript; }\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image; this.title=title; this.description=description; this.field1=field1; this.field2=field2;\n  this.field3=field3; this.field4=field4; this.isChapter=isChapter; this.link=link; this.openInWebView=openInWebView || false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing; this.orientation=orientation; this.defaultLayout=defaultLayout; this.paging=paging;\n  this.section=section; this.layout=layout; this.data=data;\n}\nfunction Section(sectionName,separator){ this.sectionName=sectionName; this.separator=separator; }\nfunction MainPage(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Search(request,extra,separator,javascriptConfig,output){ this.request=request; this.extra=extra; this.separator=separator; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Info(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Chapter(chapName,link,openInWebView){ this.chapName=chapName; this.link=link; this.openInWebView=openInWebView; }\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image; this.title=title; this.link=link; this.description=description; this.genres=genres;\n  this.field1=field1; this.field2=field2; this.field3=field3; this.field4=field4; this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction ChapterOutput(videos,images,text){ this.videos=videos; this.images=images; this.text=text; }\n\nconst E = [new KV('', '')];\nconst JSON_H = [new KV('Accept', 'application/json')];\nconst MD_API = 'https://api.mangadex.org';\nconst MD_SITE = 'https://mangadex.org';\nconst PLACEHOLDER = 'https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg';\n\nfunction saved(){ return document.getElementById('ketsu-final-data'); }\n\nfunction meta(){\n  try { return JSON.parse(saved().textContent || saved().innerText || '{}'); }\n  catch(e){ return {}; }\n}\n\nfunction done(){\n  try { window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); } catch(e){}\n}\n\nfunction req(url, referer){\n  let h = referer ? [new KV('Referer', referer)] : E;\n  return new MR(url, 'GET', h, null);\n}\n\nfunction apiReq(url){\n  return new MR(url, 'GET', JSON_H, null);\n}\n\nfunction currentUrl(){\n  let m = meta();\n  return m && m.request && m.request.url ? m.request.url : location.href;\n}\n\nfunction parseJsonText(txt){\n  txt = (txt || '').trim();\n  if(!txt) throw new Error('empty');\n  try { return JSON.parse(txt); } catch(e) {}\n  let a = txt.indexOf('{');\n  let b = txt.lastIndexOf('}');\n  if(a >= 0 && b > a) return JSON.parse(txt.slice(a, b + 1));\n  throw new Error('not json');\n}\n\nfunction parseJsonFromPage(){\n  let candidates = [];\n  try { candidates.push(document.querySelector('pre')?.textContent || ''); } catch(e){}\n  try { candidates.push(document.body?.innerText || ''); } catch(e){}\n  try { candidates.push(document.documentElement?.innerText || ''); } catch(e){}\n  try { \n    let m = meta();\n    candidates.push(m.responseInfo?.httpBody || '');\n    candidates.push(m.responseInfo?.body || '');\n  } catch(e){}\n  for (let txt of candidates) {\n    try { return parseJsonText(txt); } catch(e) {}\n  }\n  throw new Error('Could not parse API JSON from page');\n}\n\nasync function fetchJSON(url){\n  let r = await fetch(url, { headers: { 'Accept': 'application/json' } });\n  if(!r.ok) throw new Error('HTTP ' + r.status);\n  return await r.json();\n}\n\nfunction titleOf(m){\n  let t = (m.attributes && m.attributes.title) || {};\n  return t.en || t[\"ja-ro\"] || t.ja || t[\"ko-ro\"] || t.ko || Object.values(t)[0] || 'Untitled';\n}\n\nfunction descOf(m){\n  let d = (m.attributes && m.attributes.description) || {};\n  return d.en || Object.values(d)[0] || '';\n}\n\nfunction coverFile(m){\n  let rels = m.relationships || [];\n  let cover = rels.find(r => r.type === 'cover_art');\n  return cover && cover.attributes ? cover.attributes.fileName : '';\n}\n\nfunction coverReq(manga){\n  let file = coverFile(manga);\n  if(!manga || !manga.id || !file) return req(PLACEHOLDER);\n  return req('https://i1.wp.com/uploads.mangadex.org/covers/' + manga.id + '/' + file + '.512.jpg');\n}\n\nfunction mangaInfoReq(id){\n  return apiReq(MD_API + '/manga/' + id + '?includes%5B%5D=cover_art');\n}\n\nfunction atHomeReq(chapterId){\n  return apiReq(MD_API + '/at-home/server/' + chapterId);\n}\n\nfunction chapterLabel(attrs){\n  let ch = attrs && attrs.chapter ? String(attrs.chapter) : '?';\n  return 'Chapter ' + ch;\n}\n\nfunction errorCard(title, msg){\n  return new Data(\n    req(PLACEHOLDER),\n    title || 'Parser error',\n    msg || 'Unknown error',\n    '', '', '', '',\n    false,\n    req(MD_SITE),\n    false\n  );\n}\n\nfunction searchTerm(){\n  let u = currentUrl();\n  try {\n    let p = new URL(u).searchParams;\n    let raw = p.get('title') || p.get('q') || p.get('query') || p.get('ketsu_search') || p.get('search') || '';\n    if(raw && raw !== '<searched>') return raw;\n  } catch(e){}\n  try {\n    let body = document.body ? document.body.innerText : '';\n    let m = body.match(/Searched:\\s*([^\\n\\r]+)/i);\n    if(m) return m[1].trim();\n  } catch(e){}\n  return '';\n}\n\nfunction chapterKey(ch){\n  let a = ch.attributes || {};\n  let num = a.chapter ? String(a.chapter) : '';\n  let vol = a.volume ? String(a.volume) : '';\n  if(num) return vol + '|' + num;\n  let title = (a.title || '').replace(/\\s+/g, ' ').trim().toLowerCase();\n  return title ? 'special|' + title : ch.id;\n}\n\nasync function fetchAllChapters(mangaId){\n  let chapters = [];\n  let seen = {};\n  let offset = 0;\n  let total = null;\n  let limit = 100;\n  let pages = 0;\n\n  while(pages < 60){\n    let chapterUrl = MD_API + '/chapter?manga=' + mangaId +\n      '&translatedLanguage%5B%5D=en' +\n      '&limit=' + limit +\n      '&offset=' + offset +\n      '&order%5Bchapter%5D=desc' +\n      '&order%5Bvolume%5D=desc';\n\n    let chapterJSON = await fetchJSON(chapterUrl);\n    let data = chapterJSON.data || [];\n    if(total === null) total = Number(chapterJSON.total || 0);\n    if(data.length === 0) break;\n\n    for(const ch of data){\n      let key = chapterKey(ch);\n      if(key && seen[key]) continue;\n      if(key) seen[key] = true;\n      let a = ch.attributes || {};\n      let name = chapterLabel(a) + (a.title ? ': ' + a.title : '');\n      chapters.push(new Chapter(name, atHomeReq(ch.id), false));\n    }\n\n    offset += data.length;\n    pages++;\n    if(data.length < limit || (total && offset >= total)) break;\n  }\n\n  chapters.reverse();\n  return chapters;\n}\n\nasync function run(){\n  let out;\n  try {\n    let mangaJSON = parseJsonFromPage();\n    let manga = mangaJSON.data || {};\n    let mangaId = manga.id;\n    let attrs = manga.attributes || {};\n    let genres = [];\n\n    if(attrs.tags){\n      genres = attrs.tags.map(t => {\n        let n = t.attributes && t.attributes.name ? t.attributes.name : {};\n        return n.en || Object.values(n)[0] || '';\n      }).filter(Boolean);\n    }\n\n    let chapters = await fetchAllChapters(mangaId);\n\n    out = new InfoOutput(\n      coverReq(manga),\n      titleOf(manga),\n      mangaInfoReq(mangaId),\n      descOf(manga),\n      genres,\n      attrs.status || '',\n      attrs.year ? String(attrs.year) : '',\n      attrs.contentRating || '',\n      'Chaps: ' + chapters.length,\n      chapters\n    );\n  } catch(e){\n    out = new InfoOutput(\n      req(PLACEHOLDER),\n      'Info error',\n      req(MD_SITE),\n      e.message,\n      [],\n      '', '', '', '',\n      []\n    );\n  }\n\n  let obj = new Info(new MR('', '', E, null), new Extra([new Commands('', E)], E), new JC(false,false,''), out);\n  saved().textContent = JSON.stringify(obj);\n  done();\n}\nsetTimeout(function(){ run(); }, 700);\n} catch(e){\n  console.error(e.message);\n  done();\n}\n"
+      },
+      "output": {
+        "image": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "link": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "title": "",
+        "description": "",
+        "genres": [
+          ""
+        ],
+        "field1": "",
+        "field2": "",
+        "field3": "",
+        "field4": "",
+        "chapters": [
+          {
+            "chapName": "",
+            "openInWebView": false,
+            "link": {
+              "url": "empty",
+              "method": "GET",
+              "headers": [
+                {
+                  "key": "",
+                  "value": ""
+                }
+              ],
+              "httpBody": null
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "request": {
+        "url": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\ntry {\n\nvar KETSU_ASYNC = true;\n\nfunction MR(url, method, headers, body){ this.url=url; this.method=method; this.headers=headers; this.httpBody=body; }\nfunction KV(key,value){ this.key=key; this.value=value; }\nfunction Extra(commands, extraInfo){ this.commands=commands; this.extraInfo=extraInfo; }\nfunction Commands(commandName, params){ this.commandName=commandName; this.params=params; }\nfunction JC(removeJavascript, loadInWebView, javaScript){ this.removeJavascript=removeJavascript; this.loadInWebView=loadInWebView; this.javaScript=javaScript; }\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image; this.title=title; this.description=description; this.field1=field1; this.field2=field2;\n  this.field3=field3; this.field4=field4; this.isChapter=isChapter; this.link=link; this.openInWebView=openInWebView || false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing; this.orientation=orientation; this.defaultLayout=defaultLayout; this.paging=paging;\n  this.section=section; this.layout=layout; this.data=data;\n}\nfunction Section(sectionName,separator){ this.sectionName=sectionName; this.separator=separator; }\nfunction MainPage(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Search(request,extra,separator,javascriptConfig,output){ this.request=request; this.extra=extra; this.separator=separator; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Info(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Chapter(chapName,link,openInWebView){ this.chapName=chapName; this.link=link; this.openInWebView=openInWebView; }\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image; this.title=title; this.link=link; this.description=description; this.genres=genres;\n  this.field1=field1; this.field2=field2; this.field3=field3; this.field4=field4; this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction ChapterOutput(videos,images,text){ this.videos=videos; this.images=images; this.text=text; }\n\nconst E = [new KV('', '')];\nconst JSON_H = [new KV('Accept', 'application/json')];\nconst MD_API = 'https://api.mangadex.org';\nconst MD_SITE = 'https://mangadex.org';\nconst PLACEHOLDER = 'https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg';\n\nfunction saved(){ return document.getElementById('ketsu-final-data'); }\n\nfunction meta(){\n  try { return JSON.parse(saved().textContent || saved().innerText || '{}'); }\n  catch(e){ return {}; }\n}\n\nfunction done(){\n  try { window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); } catch(e){}\n}\n\nfunction req(url, referer){\n  let h = referer ? [new KV('Referer', referer)] : E;\n  return new MR(url, 'GET', h, null);\n}\n\nfunction apiReq(url){\n  return new MR(url, 'GET', JSON_H, null);\n}\n\nfunction currentUrl(){\n  let m = meta();\n  return m && m.request && m.request.url ? m.request.url : location.href;\n}\n\nfunction parseJsonText(txt){\n  txt = (txt || '').trim();\n  if(!txt) throw new Error('empty');\n  try { return JSON.parse(txt); } catch(e) {}\n  let a = txt.indexOf('{');\n  let b = txt.lastIndexOf('}');\n  if(a >= 0 && b > a) return JSON.parse(txt.slice(a, b + 1));\n  throw new Error('not json');\n}\n\nfunction parseJsonFromPage(){\n  let candidates = [];\n  try { candidates.push(document.querySelector('pre')?.textContent || ''); } catch(e){}\n  try { candidates.push(document.body?.innerText || ''); } catch(e){}\n  try { candidates.push(document.documentElement?.innerText || ''); } catch(e){}\n  try { \n    let m = meta();\n    candidates.push(m.responseInfo?.httpBody || '');\n    candidates.push(m.responseInfo?.body || '');\n  } catch(e){}\n  for (let txt of candidates) {\n    try { return parseJsonText(txt); } catch(e) {}\n  }\n  throw new Error('Could not parse API JSON from page');\n}\n\nasync function fetchJSON(url){\n  let r = await fetch(url, { headers: { 'Accept': 'application/json' } });\n  if(!r.ok) throw new Error('HTTP ' + r.status);\n  return await r.json();\n}\n\nfunction titleOf(m){\n  let t = (m.attributes && m.attributes.title) || {};\n  return t.en || t[\"ja-ro\"] || t.ja || t[\"ko-ro\"] || t.ko || Object.values(t)[0] || 'Untitled';\n}\n\nfunction descOf(m){\n  let d = (m.attributes && m.attributes.description) || {};\n  return d.en || Object.values(d)[0] || '';\n}\n\nfunction coverFile(m){\n  let rels = m.relationships || [];\n  let cover = rels.find(r => r.type === 'cover_art');\n  return cover && cover.attributes ? cover.attributes.fileName : '';\n}\n\nfunction coverReq(manga){\n  let file = coverFile(manga);\n  if(!manga || !manga.id || !file) return req(PLACEHOLDER);\n  return req('https://i1.wp.com/uploads.mangadex.org/covers/' + manga.id + '/' + file + '.512.jpg');\n}\n\nfunction mangaInfoReq(id){\n  return apiReq(MD_API + '/manga/' + id + '?includes%5B%5D=cover_art');\n}\n\nfunction atHomeReq(chapterId){\n  return apiReq(MD_API + '/at-home/server/' + chapterId);\n}\n\nfunction chapterLabel(attrs){\n  let ch = attrs && attrs.chapter ? String(attrs.chapter) : '?';\n  return 'Chapter ' + ch;\n}\n\nfunction errorCard(title, msg){\n  return new Data(\n    req(PLACEHOLDER),\n    title || 'Parser error',\n    msg || 'Unknown error',\n    '', '', '', '',\n    false,\n    req(MD_SITE),\n    false\n  );\n}\n\nfunction searchTerm(){\n  let u = currentUrl();\n  try {\n    let p = new URL(u).searchParams;\n    let raw = p.get('title') || p.get('q') || p.get('query') || p.get('ketsu_search') || p.get('search') || '';\n    if(raw && raw !== '<searched>') return raw;\n  } catch(e){}\n  try {\n    let body = document.body ? document.body.innerText : '';\n    let m = body.match(/Searched:\\s*([^\\n\\r]+)/i);\n    if(m) return m[1].trim();\n  } catch(e){}\n  return '';\n}\n\nfunction run(){\n  let images = [];\n  try {\n    let json = parseJsonFromPage();\n    let baseUrl = json.baseUrl || '';\n    let chapter = json.chapter || {};\n    let hash = chapter.hash || '';\n    let files = chapter.dataSaver && chapter.dataSaver.length ? chapter.dataSaver : (chapter.data || []);\n    let mode = chapter.dataSaver && chapter.dataSaver.length ? 'data-saver' : 'data';\n\n    images = files.map(f => req(baseUrl + '/' + mode + '/' + hash + '/' + f, MD_SITE));\n    if(images.length === 0) images.push(req(PLACEHOLDER));\n  } catch(e){\n    images.push(req(PLACEHOLDER));\n  }\n\n  let obj = new Chapters(new MR('', '', E, null), new Extra([new Commands('', E)], E), new JC(false,false,''), new ChapterOutput(null, images, null));\n  saved().textContent = JSON.stringify(obj);\n  done();\n}\nsetTimeout(run, 700);\n} catch(e){\n  console.error(e.message);\n  done();\n}\n"
+      },
+      "output": {
+        "videos": null,
+        "images": [
+          {
+            "url": "empty",
+            "method": "GET",
+            "headers": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ],
+            "httpBody": null
+          }
+        ],
+        "text": null
+      }
+    }
+  ],
+  "moduleResolvers": [],
+  "responseCodeFunctions": [],
+  "helperFunctions": []
+}
