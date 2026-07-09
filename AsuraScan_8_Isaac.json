@@ -1,0 +1,369 @@
+{
+  "moduleInfo": {
+    "moduleName": "AsuraScan",
+    "moduleInitials": "AS",
+    "moduleDesc": "AsuraScan module",
+    "developer": "Isaac",
+    "moduleID": "asurascan_ketsu_v8_status_normalized",
+    "moduleImage": "https://asurascans.com/images/logo.webp",
+    "moduleVersion": 1.7,
+    "moduleLenguage": "ENG",
+    "moduleType": "Image",
+    "baseURL": "https://asurascans.com/",
+    "moduleDeveloperSite": "https://asurascans.com/",
+    "UpdateSite": "",
+    "preferedServer": "",
+    "preferedDownloadServer": "",
+    "blackListed": [
+      ""
+    ]
+  },
+  "global": {
+    "variables": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "cookies": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "headers": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ]
+  },
+  "mainPage": [
+    {
+      "request": {
+        "url": "https://asurascans.com/",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": true,
+        "loadInWebView": false,
+        "javaScript": "\ntry {\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Section(sectionName,separator){this.sectionName=sectionName;this.separator=separator;}\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){this.image=image;this.title=title;this.description=description;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.isChapter=isChapter;this.link=link;this.openInWebView=openInWebView||false;}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){this.cellDesing=cellDesing;this.orientation=orientation;this.defaultLayout=defaultLayout;this.paging=paging;this.section=section;this.layout=layout;this.data=data;}\nfunction MainPage(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Search(request,extra,separator,javascriptConfig,output){this.request=request;this.extra=extra;this.separator=separator;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Info(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Chapter(chapName,link,openInWebView){this.chapName=chapName;this.link=link;this.openInWebView=openInWebView||false;}\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){this.image=image;this.title=title;this.link=link;this.description=description;this.moduleID='';this.genres=genres;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.chapters=chapters;}\nfunction Chapters(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction ChapterOutput(videos,images,text){this.videos=videos;this.images=images;this.text=text;}\nvar E=[new KV('','')];\nvar BASE='https://asurascans.com';\nvar PLACEHOLDER='https://asurascans.com/images/default-cover.webp';\nfunction saved(){return document.getElementById('ketsu-final-data');}\nfunction setFinal(obj){var el=saved();if(el){el.textContent=JSON.stringify(obj);}}\nfunction req(url){return new MR(url,'GET',E,null);}\nfunction imgReq(url){return new MR(url,'GET',[new KV('Referer',BASE + '/')],null);}\nfunction clean(s){var t=document.createElement('textarea');t.innerHTML=(s||'');return (t.value||'').replace(/\\s+/g,' ').trim();}\nfunction abs(u){if(!u){return '';}if(u.indexOf('http')===0){return u;}if(u.charAt(0)==='/'){return BASE+u;}return BASE+'/'+u;}\nfunction metaContent(sel){var m=document.querySelector(sel);return m?clean(m.getAttribute('content')):'';}\nfunction meta(){try{return JSON.parse((saved()&&saved().textContent)||'{}');}catch(e){return {};}}\nfunction currentUrl(){var m=meta();return (m&&m.request&&m.request.url)||location.href||BASE;}\nfunction unique(arr){var seen={};var out=[];arr.forEach(function(x){if(x&&!seen[x]){seen[x]=true;out.push(x);}});return out;}\nfunction pageTitle(){return (metaContent('meta[property=\"og:title\"]')||clean(document.title)||'').replace(' | Asura Scans','');}\nfunction makeCard(a){\n  var href=abs(a.getAttribute('href'));\n  if(!href||href.indexOf('/chapter/')>-1){return null;}\n  var box=a.closest('.series-card')||a.closest('[class*=\"slide\"]')||a.parentElement||a;\n  var img=(box&&box.querySelector('img'))||a.querySelector('img');\n  var title=clean((box&&box.querySelector('h3')&&box.querySelector('h3').textContent)||(img&&img.getAttribute('alt'))||a.textContent);\n  if(!title||title.length<2||title==='Asura Scans'){return null;}\n  var cover=img?(img.getAttribute('src')||img.getAttribute('data-src')||img.getAttribute('data-full-src')):'';\n  var boxText=clean((box&&box.textContent)||'');\n  var st=(boxText.match(/\\b(ongoing|completed)\\b/i)||[])[1]||'';\n  st=st?st.charAt(0).toUpperCase()+st.slice(1).toLowerCase():'';\n  return new Data(imgReq(abs(cover)||PLACEHOLDER),title,'',st,st,'','',false,req(href),false);\n}\nfunction collectCards(root,limit){\n  var seen={};\n  var cards=[];\n  (root||document).querySelectorAll('a[href*=\"/comics/\"]').forEach(function(a){\n    var href=abs(a.getAttribute('href'));\n    if(seen[href]){return;}\n    var c=makeCard(a);\n    if(c){seen[href]=true;cards.push(c);}\n  });\n  return cards.slice(0,limit||30);\n}\n\nfunction headingText(h){return clean(h.textContent).toLowerCase();}\nfunction sectionRootFor(h){\n  var n=h;\n  for(var i=0;i<6&&n;i++){\n    if(n.querySelectorAll&&n.querySelectorAll('a[href*=\"/comics/\"]').length>0){return n;}\n    n=n.parentElement;\n  }\n  return h.parentElement||document;\n}\nfunction cardsNearHeading(names,limit){\n  var hs=document.querySelectorAll('h1,h2,h3');\n  for(var i=0;i<hs.length;i++){\n    var tx=headingText(hs[i]);\n    for(var j=0;j<names.length;j++){\n      if(tx.indexOf(names[j])>-1){\n        var cards=collectCards(sectionRootFor(hs[i]),limit);\n        if(cards.length>0){return cards;}\n      }\n    }\n  }\n  return [];\n}\nvar output=[];\nvar trending=cardsNearHeading(['trending'],20);\nvar latest=cardsNearHeading(['latest','updated'],30);\nvar popular=cardsNearHeading(['popular'],20);\nvar all=collectCards(document,40);\nif(trending.length===0){trending=all.slice(0,12);}\nif(latest.length===0){latest=all.slice(12,30);}\nif(popular.length<8){popular=all.slice(0,24);}\noutput.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('Trending Today',true),null,trending));\noutput.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('Latest Updates',true),null,latest));\noutput.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('Popular',true),null,popular));\nif(all.length===0){output=[new Output('wide7','vertical','wideFull','',new Section('AsuraScans',true),null,[new Data(imgReq(PLACEHOLDER),'No results','AsuraScans layout may have changed.','','','','',false,req(BASE),false)])];}\nsetFinal(new MainPage(req(''),new Extra([new Commands('',E)],E),new JC(true,false,''),output));\n} catch(e) {\nsetFinal(new MainPage(req(''),new Extra([new Commands('',E)],E),new JC(true,false,''),[new Output('wide7','vertical','wideFull','',new Section('Error',true),null,[new Data(imgReq(PLACEHOLDER),'Main page error',e.message,'','','','',false,req(BASE),false)])]));\n}\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal4",
+          "orientation": "horizontal",
+          "defaultLayout": "longTripletsDouble",
+          "paging": "leading",
+          "section": {
+            "sectionName": "",
+            "separator": true
+          },
+          "layout": null,
+          "data": [
+            {
+              "image": {
+                "url": "https://asurascans.com/images/default-cover.webp",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "isChapter": false,
+              "openInWebView": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "search": [
+    {
+      "request": {
+        "url": "https://asurascans.com/browse?search=<searched>",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "httpBody": null
+      },
+      "separator": "+",
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": true,
+        "loadInWebView": false,
+        "javaScript": "\ntry {\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Section(sectionName,separator){this.sectionName=sectionName;this.separator=separator;}\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){this.image=image;this.title=title;this.description=description;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.isChapter=isChapter;this.link=link;this.openInWebView=openInWebView||false;}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){this.cellDesing=cellDesing;this.orientation=orientation;this.defaultLayout=defaultLayout;this.paging=paging;this.section=section;this.layout=layout;this.data=data;}\nfunction MainPage(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Search(request,extra,separator,javascriptConfig,output){this.request=request;this.extra=extra;this.separator=separator;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Info(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Chapter(chapName,link,openInWebView){this.chapName=chapName;this.link=link;this.openInWebView=openInWebView||false;}\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){this.image=image;this.title=title;this.link=link;this.description=description;this.moduleID='';this.genres=genres;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.chapters=chapters;}\nfunction Chapters(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction ChapterOutput(videos,images,text){this.videos=videos;this.images=images;this.text=text;}\nvar E=[new KV('','')];\nvar BASE='https://asurascans.com';\nvar PLACEHOLDER='https://asurascans.com/images/default-cover.webp';\nfunction saved(){return document.getElementById('ketsu-final-data');}\nfunction setFinal(obj){var el=saved();if(el){el.textContent=JSON.stringify(obj);}}\nfunction req(url){return new MR(url,'GET',E,null);}\nfunction imgReq(url){return new MR(url,'GET',[new KV('Referer',BASE + '/')],null);}\nfunction clean(s){var t=document.createElement('textarea');t.innerHTML=(s||'');return (t.value||'').replace(/\\s+/g,' ').trim();}\nfunction abs(u){if(!u){return '';}if(u.indexOf('http')===0){return u;}if(u.charAt(0)==='/'){return BASE+u;}return BASE+'/'+u;}\nfunction metaContent(sel){var m=document.querySelector(sel);return m?clean(m.getAttribute('content')):'';}\nfunction meta(){try{return JSON.parse((saved()&&saved().textContent)||'{}');}catch(e){return {};}}\nfunction currentUrl(){var m=meta();return (m&&m.request&&m.request.url)||location.href||BASE;}\nfunction unique(arr){var seen={};var out=[];arr.forEach(function(x){if(x&&!seen[x]){seen[x]=true;out.push(x);}});return out;}\nfunction pageTitle(){return (metaContent('meta[property=\"og:title\"]')||clean(document.title)||'').replace(' | Asura Scans','');}\nfunction makeCard(a){\n  var href=abs(a.getAttribute('href'));\n  if(!href||href.indexOf('/chapter/')>-1){return null;}\n  var box=a.closest('.series-card')||a.closest('[class*=\"slide\"]')||a.parentElement||a;\n  var img=(box&&box.querySelector('img'))||a.querySelector('img');\n  var title=clean((box&&box.querySelector('h3')&&box.querySelector('h3').textContent)||(img&&img.getAttribute('alt'))||a.textContent);\n  if(!title||title.length<2||title==='Asura Scans'){return null;}\n  var cover=img?(img.getAttribute('src')||img.getAttribute('data-src')||img.getAttribute('data-full-src')):'';\n  var boxText=clean((box&&box.textContent)||'');\n  var st=(boxText.match(/\\b(ongoing|completed)\\b/i)||[])[1]||'';\n  st=st?st.charAt(0).toUpperCase()+st.slice(1).toLowerCase():'';\n  return new Data(imgReq(abs(cover)||PLACEHOLDER),title,'',st,st,'','',false,req(href),false);\n}\nfunction collectCards(root,limit){\n  var seen={};\n  var cards=[];\n  (root||document).querySelectorAll('a[href*=\"/comics/\"]').forEach(function(a){\n    var href=abs(a.getAttribute('href'));\n    if(seen[href]){return;}\n    var c=makeCard(a);\n    if(c){seen[href]=true;cards.push(c);}\n  });\n  return cards.slice(0,limit||30);\n}\n\nvar cards=collectCards(document,50);\nif(cards.length===0){cards=[new Data(imgReq(PLACEHOLDER),'No search results','Try a different title.','','','','',false,req(BASE + '/browse'),false)];}\nvar output=[new Output('wide6','vertical','doubletsFull','',new Section('Search Results',true),null,cards)];\nsetFinal(new Search(req(''),new Extra([new Commands('',E)],E),'+',new JC(true,false,''),output));\n} catch(e) {\nsetFinal(new Search(req(''),new Extra([new Commands('',E)],E),'+',new JC(true,false,''),[new Output('wide7','vertical','wideFull','',new Section('Error',true),null,[new Data(imgReq(PLACEHOLDER),'Search error',e.message,'','','','',false,req(BASE),false)])]));\n}\n"
+      },
+      "output": [
+        {
+          "cellDesing": "wide6",
+          "orientation": "vertical",
+          "defaultLayout": "doubletsFull",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": true
+          },
+          "layout": null,
+          "data": [
+            {
+              "image": {
+                "url": "https://asurascans.com/images/default-cover.webp",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "isChapter": false,
+              "openInWebView": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": [
+    {
+      "request": {
+        "url": "empty",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": true,
+        "loadInWebView": false,
+        "javaScript": "\ntry {\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Info(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Chapter(chapName,link,openInWebView){this.chapName=chapName;this.link=link;this.openInWebView=openInWebView||false;}\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){this.image=image;this.title=title;this.link=link;this.description=description;this.moduleID='';this.genres=genres;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.chapters=chapters;}\nvar E=[new KV('','')];\nvar BASE='https://asurascans.com';\nvar PLACEHOLDER='https://asurascans.com/images/default-cover.webp';\nfunction saved(){return document.getElementById('ketsu-final-data');}\nfunction setFinal(obj){var el=saved();if(el){el.textContent=JSON.stringify(obj);}}\nfunction req(url){return new MR(url,'GET',E,null);}\nfunction imgReq(url){return new MR(url,'GET',[new KV('Referer',BASE + '/')],null);}\nfunction clean(s){var t=document.createElement('textarea');t.innerHTML=(s||'');return (t.value||'').replace(/\\s+/g,' ').trim();}\nfunction abs(u){if(!u){return '';}if(u.indexOf('http')===0){return u;}if(u.charAt(0)==='/'){return BASE+u;}return BASE+'/'+u;}\nfunction metaContent(sel){var m=document.querySelector(sel);return m?clean(m.getAttribute('content')):'';}\nfunction meta(){try{return JSON.parse((saved()&&saved().textContent)||'{}');}catch(e){return {};}}\nfunction currentUrl(){var m=meta();return (m&&m.request&&m.request.url)||location.href||BASE;}\nfunction pageTitle(){return (metaContent('meta[property=\"og:title\"]')||clean(document.title)||'').replace(' | Asura Scans','');}\nfunction cap(s){s=clean(s||'').toLowerCase();if(s==='ongoing'){return 'Ongoing';}if(s==='completed'){return 'Completed';}return '';}\nfunction decodeHtml(s){var t=document.createElement('textarea');t.innerHTML=s||'';return t.value||'';}\nvar url=currentUrl();\nvar title=pageTitle()||clean(document.querySelector('h1')&&document.querySelector('h1').textContent)||'AsuraScan Title';\nvar cover=metaContent('meta[property=\"og:image\"]')||((document.querySelector('[data-full-src]')||{}).getAttribute&&document.querySelector('[data-full-src]').getAttribute('data-full-src'))||PLACEHOLDER;\nvar genres=[];\nvar status='';\nvar type='Manhwa';\nvar episodeCount=0;\nvar html=document.documentElement.innerHTML||'';\nvar sm=html.match(/&quot;status&quot;:\\[0,&quot;([^&]+)&quot;\\]/);if(sm){status=cap(sm[1]);}\nvar tm=html.match(/&quot;type&quot;:\\[0,&quot;([^&]+)&quot;\\]/);if(tm){type=cap(tm[1]);}\ndocument.querySelectorAll('script[type=\"application/ld+json\"]').forEach(function(s){\n  try{\n    var j=JSON.parse(s.textContent||'{}');\n    if(j.genre&&genres.length===0){genres=Array.isArray(j.genre)?j.genre:[j.genre];}\n    if(j.articleSection&&genres.length===0){genres=String(j.articleSection).split(',').map(function(x){return clean(x);}).filter(Boolean);}\n    if(j.numberOfEpisodes){episodeCount=j.numberOfEpisodes;}\n    if(j.name&&(!title||title==='AsuraScan Title')){title=clean(j.name);}\n    if(j.image){cover=(typeof j.image==='string')?j.image:(j.image.url||cover);}\n  }catch(e){}\n});\nif(genres.length===0){\n  var gm=html.match(/&quot;genres&quot;:\\[1,\\[(.*?)\\]\\]/);\n  if(gm){\n    var names=gm[1].match(/&quot;name&quot;:\\[0,&quot;([^&]+)&quot;\\]/g)||[];\n    names.forEach(function(x){var m=x.match(/&quot;name&quot;:\\[0,&quot;([^&]+)&quot;\\]/);if(m){genres.push(decodeHtml(m[1]));}});\n  }\n}\nif(!status){\n  var statusNodes=[];\n  document.querySelectorAll('span,div').forEach(function(el){var tx=clean(el.textContent);if(/^(ongoing|completed)$/i.test(tx)){statusNodes.push(cap(tx));}});\n  if(statusNodes.length){status=statusNodes[0];}\n}\nvar chapterMap={};\ndocument.querySelectorAll('a[href*=\"/chapter/\"]').forEach(function(a){\n  var href=abs(a.getAttribute('href'));\n  var m=href.match(/\\/chapter\\/([0-9]+(?:\\.[0-9]+)?)/);\n  if(!m||chapterMap[href]){return;}\n  var num=parseFloat(m[1]);\n  chapterMap[href]={num:num,chapter:new Chapter('Chapter '+m[1],req(href),false)};\n});\nvar chapters=Object.keys(chapterMap).map(function(k){return chapterMap[k];}).sort(function(a,b){return a.num-b.num;}).map(function(x){return x.chapter;});\nif(chapters.length===0){chapters=[new Chapter('No chapters found',req(url),false)];}\nif(!episodeCount){episodeCount=chapters.length;}\nvar countLabel=episodeCount?episodeCount+' chapters':chapters.length+' chapters';\nvar output=new InfoOutput(imgReq(cover),title,req(url),'',genres,status,type,countLabel,'',chapters);\nsetFinal(new Info(req(''),new Extra([new Commands('',E)],E),new JC(true,false,''),output));\n} catch(e) {\nvar E2=[new KV('','')];\nvar output=new InfoOutput(new MR('https://asurascans.com/images/default-cover.webp','GET',E2,null),'Info error',new MR('https://asurascans.com','GET',E2,null),'',[],'','','','',[new Chapter('Open AsuraScan',new MR('https://asurascans.com','GET',E2,null),true)]);\nsetFinal(new Info(new MR('','GET',E2,null),new Extra([new Commands('',E2)],E2),new JC(true,false,''),output));\n}\n"
+      },
+      "output": {
+        "image": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "link": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "title": "",
+        "description": "",
+        "moduleID": "",
+        "genres": [
+          ""
+        ],
+        "field1": "",
+        "field2": "",
+        "field3": "",
+        "field4": "",
+        "chapters": [
+          {
+            "chapName": "",
+            "openInWebView": false,
+            "link": {
+              "url": "",
+              "method": "GET",
+              "headers": [
+                {
+                  "key": "",
+                  "value": ""
+                }
+              ],
+              "httpBody": null
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "request": {
+        "url": "empty",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": true,
+        "loadInWebView": false,
+        "javaScript": "\ntry {\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Chapters(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction ChapterOutput(videos,images,text){this.videos=videos;this.images=images;this.text=text;}\nvar E=[new KV('','')];\nvar BASE='https://asurascans.com';\nvar PLACEHOLDER='https://asurascans.com/images/default-cover.webp';\nfunction saved(){return document.getElementById('ketsu-final-data');}\nfunction setFinal(obj){var el=saved();if(el){el.textContent=JSON.stringify(obj);}}\nfunction req(url){return new MR(url,'GET',E,null);}\nfunction imgReq(url){return new MR(url,'GET',[new KV('Referer',BASE + '/')],null);}\nfunction unique(arr){var seen={};var out=[];for(var i=0;i<arr.length;i++){var x=arr[i];if(x&&!seen[x]){seen[x]=true;out.push(x);}}return out;}\nvar html=document.body?document.body.innerHTML:document.documentElement.innerHTML;\nvar urls=[];\nvar re=/https:\\/\\/cdn\\.asurascans\\.com\\/asura-images\\/chapters\\/[^\\\"'&< ]+?\\.webp/g;\nvar m;\nwhile((m=re.exec(html))!==null){urls.push(m[0]);}\nif(urls.length===0){\n  var imgs=document.querySelectorAll('img');\n  for(var i=0;i<imgs.length;i++){\n    var src=imgs[i].getAttribute('src')||imgs[i].getAttribute('data-src')||imgs[i].getAttribute('data-full-src')||'';\n    if(src.indexOf('/asura-images/chapters/')>-1){urls.push(src.indexOf('http')===0?src:BASE+src);}\n  }\n}\nurls=unique(urls).filter(function(u){return u.indexOf('/covers/')===-1;});\nvar images=urls.map(function(u){return imgReq(u);});\nif(images.length===0){images=[imgReq(PLACEHOLDER)];}\nsetFinal(new Chapters(req(''),new Extra([new Commands('',E)],E),new JC(true,false,''),new ChapterOutput({needsResolver:[],rawVideo:[]},images,{text:''})));\n} catch(e) {\nvar E2=[new KV('','')];\nsetFinal(new Chapters(new MR('','GET',E2,null),new Extra([new Commands('',E2)],E2),new JC(true,false,''),new ChapterOutput({needsResolver:[],rawVideo:[]},[new MR('https://asurascans.com/images/default-cover.webp','GET',E2,null)],{text:'Chapter error: '+e.message})));\n}\n"
+      },
+      "output": {
+        "moduleID": "",
+        "videos": {
+          "needsResolver": [],
+          "rawVideo": []
+        },
+        "images": [
+          {
+            "url": "",
+            "method": "GET",
+            "headers": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ],
+            "httpBody": null
+          }
+        ],
+        "text": {
+          "text": ""
+        }
+      }
+    }
+  ],
+  "moduleResolvers": [],
+  "responseCodeFunctions": [],
+  "helperFunctions": []
+}
