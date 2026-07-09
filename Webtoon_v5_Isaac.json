@@ -1,0 +1,369 @@
+{
+  "moduleInfo": {
+    "moduleName": "WEBTOON",
+    "moduleInitials": "WT",
+    "moduleDesc": "WEBTOON module",
+    "developer": "Isaac",
+    "moduleID": "webtoon_ketsu_v5_status_normalized",
+    "moduleImage": "https://webtoons-static.pstatic.net/image/favicon/favicon.ico?dt=2017082301",
+    "moduleVersion": 1.4,
+    "moduleLenguage": "ENG",
+    "moduleType": "Image",
+    "baseURL": "https://www.webtoons.com/en/",
+    "moduleDeveloperSite": "https://www.webtoons.com/en/",
+    "UpdateSite": "",
+    "preferedServer": "",
+    "preferedDownloadServer": "",
+    "blackListed": [
+      ""
+    ]
+  },
+  "global": {
+    "variables": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "cookies": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "headers": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ]
+  },
+  "mainPage": [
+    {
+      "request": {
+        "url": "https://www.webtoons.com/en/",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": true,
+        "loadInWebView": false,
+        "javaScript": "\ntry {\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Section(sectionName,separator){this.sectionName=sectionName;this.separator=separator;}\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){this.image=image;this.title=title;this.description=description;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.isChapter=isChapter;this.link=link;this.openInWebView=openInWebView||false;}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){this.cellDesing=cellDesing;this.orientation=orientation;this.defaultLayout=defaultLayout;this.paging=paging;this.section=section;this.layout=layout;this.data=data;}\nfunction MainPage(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Search(request,extra,separator,javascriptConfig,output){this.request=request;this.extra=extra;this.separator=separator;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Info(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Chapter(chapName,link,openInWebView){this.chapName=chapName;this.link=link;this.openInWebView=openInWebView||false;}\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){this.image=image;this.title=title;this.link=link;this.description=description;this.moduleID='';this.genres=genres;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.chapters=chapters;}\nfunction Chapters(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction ChapterOutput(videos,images,text){this.videos=videos;this.images=images;this.text=text;}\nvar E=[new KV('','')];\nvar BASE='https://www.webtoons.com';\nvar PLACEHOLDER='https://webtoons-static.pstatic.net/image/pc/home/og_en.jpg?dt=2021111201';\nfunction saved(){return document.getElementById('ketsu-final-data');}\nfunction setFinal(obj){var el=saved();if(el){el.textContent=JSON.stringify(obj);}}\nfunction req(url){return new MR(url,'GET',E,null);}\nfunction imgReq(url){return new MR(url,'GET',[new KV('Referer',BASE + '/en/')],null);}\nfunction clean(s){var t=document.createElement('textarea');t.innerHTML=(s||'');return (t.value||'').replace(/\\s+/g,' ').trim();}\nfunction abs(u){if(!u){return '';}if(u.indexOf('http')===0){return u;}if(u.charAt(0)==='/'){return BASE+u;}return BASE+'/'+u;}\nfunction meta(sel){var m=document.querySelector(sel);return m?clean(m.getAttribute('content')):'';}\nfunction state(){try{return JSON.parse((saved()&&saved().textContent)||'{}');}catch(e){return {};}}\nfunction currentUrl(){var m=state();return (m&&m.request&&m.request.url)||location.href||BASE+'/en/';}\nfunction titleFromUrl(url){try{var path=new URL(url).pathname.split('/');var slug=path[path.indexOf('en')+2]||'';return slug.replace(/-/g,' ').replace(/\\b\\w/g,function(c){return c.toUpperCase();});}catch(e){return 'WEBTOON';}}\nfunction cap(s){s=clean(s||'');return s?s.charAt(0).toUpperCase()+s.slice(1).toLowerCase():'';}\nfunction unique(arr){var seen={};var out=[];for(var i=0;i<arr.length;i++){var x=arr[i];if(x&&!seen[x]){seen[x]=true;out.push(x);}}return out;}\nfunction statusFromText(txt){txt=clean(txt).toLowerCase();if(/\\bcompleted\\b/.test(txt)){return 'Completed';}if(/\\bongoing\\b/.test(txt)||/every\\s+[a-z]+/.test(txt)||/\\bup\\b/.test(txt)){return 'Ongoing';}return '';}\nfunction cardFromAnchor(a){\n  var href=abs(a.getAttribute('href'));\n  if(!href||href.indexOf('/list?title_no=')===-1){return null;}\n  var box=a.closest('li')||a.closest('div')||a;\n  var img=(box&&box.querySelector('img'))||a.querySelector('img');\n  var title=clean((img&&img.getAttribute('alt'))||(box&&box.querySelector('.subj')&&box.querySelector('.subj').textContent)||(box&&box.querySelector('.title')&&box.querySelector('.title').textContent)||a.textContent);\n  title=title.replace(/\\s+(comic|webtoon)$/i,'');\n  if(!title||title.length<2||title.length>120){title=titleFromUrl(href);}\n  var cover=img?(img.getAttribute('src')||img.getAttribute('data-url')||img.getAttribute('data-src')):'';\n  var genre='WEBTOON';var m=href.match(/\\/en\\/([^\\/]+)\\//);if(m){genre=cap(m[1].replace(/-/g,' '));}\n  var st=statusFromText(box&&box.textContent);\n  return new Data(imgReq(abs(cover)||PLACEHOLDER),title,'',st,st,genre,'',false,req(href),false);\n}\nfunction collectCards(root,limit){var seen={};var cards=[];(root||document).querySelectorAll('a[href*=\"/list?title_no=\"]').forEach(function(a){var href=abs(a.getAttribute('href'));if(seen[href]){return;}var c=cardFromAnchor(a);if(c){seen[href]=true;cards.push(c);}});return cards.slice(0,limit||40);}\n\nfunction cardsAfterHeading(words,limit){\n  var hs=document.querySelectorAll('h2,h3');\n  for(var i=0;i<hs.length;i++){\n    var tx=clean(hs[i].textContent).toLowerCase();\n    for(var j=0;j<words.length;j++){\n      if(tx.indexOf(words[j])>-1){\n        var n=hs[i].parentElement;\n        for(var k=0;k<5&&n;k++){var cards=collectCards(n,limit);if(cards.length>0){return cards;}n=n.parentElement;}\n      }\n    }\n  }\n  return [];\n}\nvar all=collectCards(document,90);\nvar trending=cardsAfterHeading(['trending','popular'],24);if(trending.length<8){trending=all.slice(0,24);}\nvar newly=cardsAfterHeading(['newly','now on','original'],24);if(newly.length<8){newly=all.slice(24,48);}\nvar daily=cardsAfterHeading(['daily'],24);if(daily.length<8){daily=all.slice(48,72);}\nvar output=[];\noutput.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('Trending & Popular',true),null,trending));\noutput.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('New & Original',true),null,newly));\noutput.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('Daily',true),null,daily));\nif(all.length===0){output=[new Output('wide7','vertical','wideFull','',new Section('WEBTOON',true),null,[new Data(imgReq(PLACEHOLDER),'No results','','','','','',false,req(BASE+'/en/'),false)])];}\nsetFinal(new MainPage(req(''),new Extra([new Commands('',E)],E),new JC(true,false,''),output));\n} catch(e) {setFinal(new MainPage(req(''),new Extra([new Commands('',E)],E),new JC(true,false,''),[new Output('wide7','vertical','wideFull','',new Section('Error',true),null,[new Data(imgReq(PLACEHOLDER),'Homepage error',e.message,'','','','',false,req(BASE+'/en/'),false)])]));}\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal4",
+          "orientation": "horizontal",
+          "defaultLayout": "longTripletsDouble",
+          "paging": "leading",
+          "section": {
+            "sectionName": "",
+            "separator": true
+          },
+          "layout": null,
+          "data": [
+            {
+              "image": {
+                "url": "https://webtoons-static.pstatic.net/image/pc/home/og_en.jpg?dt=2021111201",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "isChapter": false,
+              "openInWebView": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "search": [
+    {
+      "request": {
+        "url": "https://www.webtoons.com/en/search?keyword=<searched>",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "httpBody": null
+      },
+      "separator": "+",
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": true,
+        "loadInWebView": false,
+        "javaScript": "\ntry {\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Section(sectionName,separator){this.sectionName=sectionName;this.separator=separator;}\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){this.image=image;this.title=title;this.description=description;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.isChapter=isChapter;this.link=link;this.openInWebView=openInWebView||false;}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){this.cellDesing=cellDesing;this.orientation=orientation;this.defaultLayout=defaultLayout;this.paging=paging;this.section=section;this.layout=layout;this.data=data;}\nfunction MainPage(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Search(request,extra,separator,javascriptConfig,output){this.request=request;this.extra=extra;this.separator=separator;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Info(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Chapter(chapName,link,openInWebView){this.chapName=chapName;this.link=link;this.openInWebView=openInWebView||false;}\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){this.image=image;this.title=title;this.link=link;this.description=description;this.moduleID='';this.genres=genres;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.chapters=chapters;}\nfunction Chapters(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction ChapterOutput(videos,images,text){this.videos=videos;this.images=images;this.text=text;}\nvar E=[new KV('','')];\nvar BASE='https://www.webtoons.com';\nvar PLACEHOLDER='https://webtoons-static.pstatic.net/image/pc/home/og_en.jpg?dt=2021111201';\nfunction saved(){return document.getElementById('ketsu-final-data');}\nfunction setFinal(obj){var el=saved();if(el){el.textContent=JSON.stringify(obj);}}\nfunction req(url){return new MR(url,'GET',E,null);}\nfunction imgReq(url){return new MR(url,'GET',[new KV('Referer',BASE + '/en/')],null);}\nfunction clean(s){var t=document.createElement('textarea');t.innerHTML=(s||'');return (t.value||'').replace(/\\s+/g,' ').trim();}\nfunction abs(u){if(!u){return '';}if(u.indexOf('http')===0){return u;}if(u.charAt(0)==='/'){return BASE+u;}return BASE+'/'+u;}\nfunction meta(sel){var m=document.querySelector(sel);return m?clean(m.getAttribute('content')):'';}\nfunction state(){try{return JSON.parse((saved()&&saved().textContent)||'{}');}catch(e){return {};}}\nfunction currentUrl(){var m=state();return (m&&m.request&&m.request.url)||location.href||BASE+'/en/';}\nfunction titleFromUrl(url){try{var path=new URL(url).pathname.split('/');var slug=path[path.indexOf('en')+2]||'';return slug.replace(/-/g,' ').replace(/\\b\\w/g,function(c){return c.toUpperCase();});}catch(e){return 'WEBTOON';}}\nfunction cap(s){s=clean(s||'');return s?s.charAt(0).toUpperCase()+s.slice(1).toLowerCase():'';}\nfunction unique(arr){var seen={};var out=[];for(var i=0;i<arr.length;i++){var x=arr[i];if(x&&!seen[x]){seen[x]=true;out.push(x);}}return out;}\nfunction statusFromText(txt){txt=clean(txt).toLowerCase();if(/\\bcompleted\\b/.test(txt)){return 'Completed';}if(/\\bongoing\\b/.test(txt)||/every\\s+[a-z]+/.test(txt)||/\\bup\\b/.test(txt)){return 'Ongoing';}return '';}\nfunction cardFromAnchor(a){\n  var href=abs(a.getAttribute('href'));\n  if(!href||href.indexOf('/list?title_no=')===-1){return null;}\n  var box=a.closest('li')||a.closest('div')||a;\n  var img=(box&&box.querySelector('img'))||a.querySelector('img');\n  var title=clean((img&&img.getAttribute('alt'))||(box&&box.querySelector('.subj')&&box.querySelector('.subj').textContent)||(box&&box.querySelector('.title')&&box.querySelector('.title').textContent)||a.textContent);\n  title=title.replace(/\\s+(comic|webtoon)$/i,'');\n  if(!title||title.length<2||title.length>120){title=titleFromUrl(href);}\n  var cover=img?(img.getAttribute('src')||img.getAttribute('data-url')||img.getAttribute('data-src')):'';\n  var genre='WEBTOON';var m=href.match(/\\/en\\/([^\\/]+)\\//);if(m){genre=cap(m[1].replace(/-/g,' '));}\n  var st=statusFromText(box&&box.textContent);\n  return new Data(imgReq(abs(cover)||PLACEHOLDER),title,'',st,st,genre,'',false,req(href),false);\n}\nfunction collectCards(root,limit){var seen={};var cards=[];(root||document).querySelectorAll('a[href*=\"/list?title_no=\"]').forEach(function(a){var href=abs(a.getAttribute('href'));if(seen[href]){return;}var c=cardFromAnchor(a);if(c){seen[href]=true;cards.push(c);}});return cards.slice(0,limit||40);}\n\nvar cards=collectCards(document,60);\nif(cards.length===0){cards=[new Data(imgReq(PLACEHOLDER),'No search results','','','','','',false,req(BASE+'/en/search?keyword='),false)];}\nsetFinal(new Search(req(''),new Extra([new Commands('',E)],E),'+',new JC(true,false,''),[new Output('wide6','vertical','doubletsFull','',new Section('Search Results',true),null,cards)]));\n} catch(e) {setFinal(new Search(req(''),new Extra([new Commands('',E)],E),'+',new JC(true,false,''),[new Output('wide7','vertical','wideFull','',new Section('Error',true),null,[new Data(imgReq(PLACEHOLDER),'Search error',e.message,'','','','',false,req(BASE+'/en/'),false)])]));}\n"
+      },
+      "output": [
+        {
+          "cellDesing": "wide6",
+          "orientation": "vertical",
+          "defaultLayout": "doubletsFull",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": true
+          },
+          "layout": null,
+          "data": [
+            {
+              "image": {
+                "url": "https://webtoons-static.pstatic.net/image/pc/home/og_en.jpg?dt=2021111201",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "isChapter": false,
+              "openInWebView": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": [
+    {
+      "request": {
+        "url": "empty",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": true,
+        "loadInWebView": false,
+        "javaScript": "\ntry {\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Section(sectionName,separator){this.sectionName=sectionName;this.separator=separator;}\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){this.image=image;this.title=title;this.description=description;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.isChapter=isChapter;this.link=link;this.openInWebView=openInWebView||false;}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){this.cellDesing=cellDesing;this.orientation=orientation;this.defaultLayout=defaultLayout;this.paging=paging;this.section=section;this.layout=layout;this.data=data;}\nfunction MainPage(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Search(request,extra,separator,javascriptConfig,output){this.request=request;this.extra=extra;this.separator=separator;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Info(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Chapter(chapName,link,openInWebView){this.chapName=chapName;this.link=link;this.openInWebView=openInWebView||false;}\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){this.image=image;this.title=title;this.link=link;this.description=description;this.moduleID='';this.genres=genres;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.chapters=chapters;}\nfunction Chapters(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction ChapterOutput(videos,images,text){this.videos=videos;this.images=images;this.text=text;}\nvar E=[new KV('','')];\nvar BASE='https://www.webtoons.com';\nvar PLACEHOLDER='https://webtoons-static.pstatic.net/image/pc/home/og_en.jpg?dt=2021111201';\nfunction saved(){return document.getElementById('ketsu-final-data');}\nfunction setFinal(obj){var el=saved();if(el){el.textContent=JSON.stringify(obj);}}\nfunction req(url){return new MR(url,'GET',E,null);}\nfunction imgReq(url){return new MR(url,'GET',[new KV('Referer',BASE + '/en/')],null);}\nfunction clean(s){var t=document.createElement('textarea');t.innerHTML=(s||'');return (t.value||'').replace(/\\s+/g,' ').trim();}\nfunction abs(u){if(!u){return '';}if(u.indexOf('http')===0){return u;}if(u.charAt(0)==='/'){return BASE+u;}return BASE+'/'+u;}\nfunction meta(sel){var m=document.querySelector(sel);return m?clean(m.getAttribute('content')):'';}\nfunction state(){try{return JSON.parse((saved()&&saved().textContent)||'{}');}catch(e){return {};}}\nfunction currentUrl(){var m=state();return (m&&m.request&&m.request.url)||location.href||BASE+'/en/';}\nfunction titleFromUrl(url){try{var path=new URL(url).pathname.split('/');var slug=path[path.indexOf('en')+2]||'';return slug.replace(/-/g,' ').replace(/\\b\\w/g,function(c){return c.toUpperCase();});}catch(e){return 'WEBTOON';}}\nfunction cap(s){s=clean(s||'');return s?s.charAt(0).toUpperCase()+s.slice(1).toLowerCase():'';}\nfunction unique(arr){var seen={};var out=[];for(var i=0;i<arr.length;i++){var x=arr[i];if(x&&!seen[x]){seen[x]=true;out.push(x);}}return out;}\nfunction statusFromText(txt){txt=clean(txt).toLowerCase();if(/\\bcompleted\\b/.test(txt)){return 'Completed';}if(/\\bongoing\\b/.test(txt)||/every\\s+[a-z]+/.test(txt)||/\\bup\\b/.test(txt)){return 'Ongoing';}return '';}\nfunction cardFromAnchor(a){\n  var href=abs(a.getAttribute('href'));\n  if(!href||href.indexOf('/list?title_no=')===-1){return null;}\n  var box=a.closest('li')||a.closest('div')||a;\n  var img=(box&&box.querySelector('img'))||a.querySelector('img');\n  var title=clean((img&&img.getAttribute('alt'))||(box&&box.querySelector('.subj')&&box.querySelector('.subj').textContent)||(box&&box.querySelector('.title')&&box.querySelector('.title').textContent)||a.textContent);\n  title=title.replace(/\\s+(comic|webtoon)$/i,'');\n  if(!title||title.length<2||title.length>120){title=titleFromUrl(href);}\n  var cover=img?(img.getAttribute('src')||img.getAttribute('data-url')||img.getAttribute('data-src')):'';\n  var genre='WEBTOON';var m=href.match(/\\/en\\/([^\\/]+)\\//);if(m){genre=cap(m[1].replace(/-/g,' '));}\n  var st=statusFromText(box&&box.textContent);\n  return new Data(imgReq(abs(cover)||PLACEHOLDER),title,'',st,st,genre,'',false,req(href),false);\n}\nfunction collectCards(root,limit){var seen={};var cards=[];(root||document).querySelectorAll('a[href*=\"/list?title_no=\"]').forEach(function(a){var href=abs(a.getAttribute('href'));if(seen[href]){return;}var c=cardFromAnchor(a);if(c){seen[href]=true;cards.push(c);}});return cards.slice(0,limit||40);}\n\nvar url=currentUrl();\nvar title=clean(document.querySelector('h1.subj')&&document.querySelector('h1.subj').textContent)||meta('meta[property=\"og:title\"]')||titleFromUrl(url);\nvar cover=meta('meta[property=\"og:image\"]')||PLACEHOLDER;\nvar genres=[];\nvar g=clean(document.querySelector('.genre')&&document.querySelector('.genre').textContent);if(g){genres=[g];}\nif(genres.length===0){var m=url.match(/\\/en\\/([^\\/]+)\\//);if(m){genres=[cap(m[1].replace(/-/g,' '))];}}\nvar dayInfo=clean(document.querySelector('.day_info')&&document.querySelector('.day_info').textContent);\nvar status=statusFromText(dayInfo)||statusFromText(document.body&&document.body.innerText);\nvar titleNo=(url.match(/[?&]title_no=([0-9]+)/)||[])[1]||'';\nvar maxEp=0;\ndocument.querySelectorAll('li._episodeItem, a[href*=\"episode_no=\"]').forEach(function(el){\n  var raw=(el.getAttribute&&el.getAttribute('data-episode-no'))||((el.getAttribute&&el.getAttribute('href')||'').match(/episode_no=([0-9]+)/)||[])[1]||'';\n  var n=parseInt(raw,10);if(n>maxEp){maxEp=n;}\n});\nvar firstHref='';\nvar firstA=document.querySelector('a[href*=\"episode_no=1\"]');if(firstA){firstHref=abs(firstA.getAttribute('href'));}\nif(!firstHref&&titleNo){firstHref=url.replace(/\\/list\\?title_no=.*/, '/episode-1/viewer?title_no='+titleNo+'&episode_no=1');}\nvar chapters=[];\nif(maxEp>0&&firstHref){\n  for(var i=1;i<=maxEp;i++){\n    var href=firstHref.replace(/episode-1\\/viewer\\?/, 'episode-'+i+'/viewer?').replace(/episode_no=1(?![0-9])/, 'episode_no='+i);\n    chapters.push(new Chapter('Episode '+i,req(href),false));\n  }\n} else {\n  var tmp=[];var seen={};\n  document.querySelectorAll('li._episodeItem a[href*=\"/viewer?title_no=\"]').forEach(function(a){var href=abs(a.getAttribute('href'));if(seen[href]){return;}seen[href]=true;var ep=((href.match(/episode_no=([0-9]+)/)||[])[1])||'';tmp.push({num:parseFloat(ep)||0,chapter:new Chapter(ep?'Episode '+ep:clean(a.textContent)||'Episode',req(href),false)});});\n  chapters=tmp.sort(function(a,b){return a.num-b.num;}).map(function(x){return x.chapter;});\n}\nif(chapters.length===0){chapters=[new Chapter('No episodes found',req(url),false)];}\nsetFinal(new Info(req(''),new Extra([new Commands('',E)],E),new JC(true,false,''),new InfoOutput(imgReq(cover),title,req(url),'',genres,status,'WEBTOON',chapters.length+' episodes','',chapters)));\n} catch(e) {setFinal(new Info(req(''),new Extra([new Commands('',E)],E),new JC(true,false,''),new InfoOutput(imgReq(PLACEHOLDER),'Info error',req(BASE+'/en/'),'',[],'','','','',[new Chapter('Open WEBTOON',req(BASE+'/en/'),true)])));}\n"
+      },
+      "output": {
+        "image": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "link": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "title": "",
+        "description": "",
+        "moduleID": "",
+        "genres": [
+          ""
+        ],
+        "field1": "",
+        "field2": "",
+        "field3": "",
+        "field4": "",
+        "chapters": [
+          {
+            "chapName": "",
+            "openInWebView": false,
+            "link": {
+              "url": "",
+              "method": "GET",
+              "headers": [
+                {
+                  "key": "",
+                  "value": ""
+                }
+              ],
+              "httpBody": null
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "request": {
+        "url": "empty",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": true,
+        "loadInWebView": false,
+        "javaScript": "\ntry {\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Chapters(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction ChapterOutput(videos,images,text){this.videos=videos;this.images=images;this.text=text;}\nvar E=[new KV('','')];var BASE='https://www.webtoons.com';var PLACEHOLDER='https://webtoons-static.pstatic.net/image/pc/home/og_en.jpg?dt=2021111201';\nfunction saved(){return document.getElementById('ketsu-final-data');}\nfunction meta(){try{return JSON.parse((saved()&&saved().textContent)||'{}');}catch(e){return {};}}\nfunction currentUrl(){var m=meta();return (m&&m.request&&m.request.url)||location.href||BASE+'/en/';}\nfunction setFinal(obj){var el=saved();if(el){el.textContent=JSON.stringify(obj);}}\nfunction req(url){return new MR(url,'GET',E,null);}\nfunction imgReq(url){return new MR(url,'GET',[new KV('Referer',currentUrl()),new KV('User-Agent','Mozilla/5.0')],null);}\nfunction unique(arr){var seen={};var out=[];for(var i=0;i<arr.length;i++){var x=arr[i];if(x&&!seen[x]){seen[x]=true;out.push(x);}}return out;}\nvar root=document.getElementById('_imageList')||document.querySelector('.viewer_img');\nvar urls=[];\nif(root){\n  var imgs=root.querySelectorAll('img._images[data-url]');\n  for(var i=0;i<imgs.length;i++){\n    var u=imgs[i].getAttribute('data-url')||'';\n    if(u.indexOf('webtoon-phinf.pstatic.net')>-1&&u.indexOf('/thumb_')===-1){urls.push(u);}\n  }\n}\nurls=unique(urls);\nvar images=urls.map(function(u){return imgReq(u);});\nif(images.length===0){images=[imgReq(PLACEHOLDER)];}\nsetFinal(new Chapters(req(''),new Extra([new Commands('',E)],E),new JC(true,false,''),new ChapterOutput({needsResolver:[],rawVideo:[]},images,{text:''})));\n} catch(e) {var E2=[new KV('','')];setFinal(new Chapters(new MR('','GET',E2,null),new Extra([new Commands('',E2)],E2),new JC(true,false,''),new ChapterOutput({needsResolver:[],rawVideo:[]},[new MR('https://webtoons-static.pstatic.net/image/pc/home/og_en.jpg?dt=2021111201','GET',E2,null)],{text:'Reader error: '+e.message})));}\n"
+      },
+      "output": {
+        "moduleID": "",
+        "videos": {
+          "needsResolver": [],
+          "rawVideo": []
+        },
+        "images": [
+          {
+            "url": "",
+            "method": "GET",
+            "headers": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ],
+            "httpBody": null
+          }
+        ],
+        "text": {
+          "text": ""
+        }
+      }
+    }
+  ],
+  "moduleResolvers": [],
+  "responseCodeFunctions": [],
+  "helperFunctions": []
+}
