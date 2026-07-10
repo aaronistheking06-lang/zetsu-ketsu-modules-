@@ -1,0 +1,436 @@
+{
+  "moduleInfo": {
+    "moduleName": "BatCave",
+    "moduleInitials": "BC",
+    "moduleDesc": "BatCave comics with complete ordered issue lists and direct page images for KETSU.",
+    "developer": "Aaron/Codex",
+    "moduleID": "batcave_ketsu_full_issues_v1_0",
+    "moduleImage": "https://batcave.biz/android-chrome-192x192.png?v=1.0.0",
+    "moduleVersion": 1,
+    "moduleLenguage": "ENG",
+    "moduleType": "Image",
+    "baseURL": "https://batcave.biz/",
+    "moduleDeveloperSite": "",
+    "UpdateSite": "",
+    "preferedServer": "",
+    "preferedDownloadServer": "",
+    "blackListed": [
+      ""
+    ]
+  },
+  "global": {
+    "variables": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "cookies": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "headers": [
+      {
+        "key": "Accept",
+        "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+      },
+      {
+        "key": "Referer",
+        "value": "https://batcave.biz/"
+      }
+    ]
+  },
+  "mainPage": [
+    {
+      "request": {
+        "url": "https://batcave.biz/",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://batcave.biz/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\nvar KETSU_ASYNC = true;\n\nfunction MR(url, method, headers, body){ this.url=url; this.method=method; this.headers=headers; this.httpBody=body; }\nfunction KV(key,value){ this.key=key; this.value=value; }\nfunction Extra(commands, extraInfo){ this.commands=commands; this.extraInfo=extraInfo; }\nfunction Commands(commandName, params){ this.commandName=commandName; this.params=params; }\nfunction JC(removeJavascript, loadInWebView, javaScript){ this.removeJavascript=removeJavascript; this.loadInWebView=loadInWebView; this.javaScript=javaScript; }\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image; this.title=title; this.description=description; this.field1=field1; this.field2=field2;\n  this.field3=field3; this.field4=field4; this.isChapter=isChapter; this.link=link; this.openInWebView=openInWebView || false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing; this.orientation=orientation; this.defaultLayout=defaultLayout; this.paging=paging;\n  this.section=section; this.layout=layout; this.data=data;\n}\nfunction Section(sectionName,separator){ this.sectionName=sectionName; this.separator=separator; }\nfunction MainPage(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Search(request,extra,separator,javascriptConfig,output){ this.request=request; this.extra=extra; this.separator=separator; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Info(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Chapter(chapName,link,openInWebView){ this.chapName=chapName; this.link=link; this.openInWebView=openInWebView; }\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image; this.title=title; this.link=link; this.description=description; this.genres=genres;\n  this.field1=field1; this.field2=field2; this.field3=field3; this.field4=field4; this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction ChapterOutput(videos,images,text){ this.videos=videos; this.images=images; this.text=text; }\n\nvar BASE = 'https://batcave.biz/';\nvar ICON = 'https://batcave.biz/android-chrome-192x192.png?v=1.0.0';\nvar E = [new KV('', '')];\nvar finished = false;\n\nfunction saved(){ return document.getElementById('ketsu-final-data'); }\nfunction done(){ try { window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); } catch(e){} }\nfunction clean(value){ return String(value || '').replace(/\\s+/g, ' ').trim(); }\nfunction abs(url){\n  url = String(url || '').trim();\n  if(!url) return '';\n  if(url.indexOf('//') === 0) return 'https:' + url;\n  if(url.charAt(0) === '/') return BASE.slice(0, -1) + url;\n  return url;\n}\nfunction currentUrl(){\n  try {\n    var m = JSON.parse(saved().textContent || '{}');\n    if(m.request && m.request.url) return m.request.url;\n  } catch(e){}\n  return location.href;\n}\nfunction headers(referer){\n  return [\n    new KV('Referer', referer || BASE),\n    new KV('Accept', '*/*')\n  ];\n}\nfunction req(url, referer){ return new MR(abs(url) || ICON, 'GET', headers(referer), null); }\nfunction emptyExtra(){ return new Extra([new Commands('', E)], E); }\nfunction coverFrom(img){\n  if(!img) return ICON;\n  var value = img.getAttribute('data-src') || img.getAttribute('data-lazy-src') || img.getAttribute('src') || '';\n  if(value.indexOf('data:image/gif') === 0) value = img.getAttribute('data-src') || '';\n  return abs(value) || ICON;\n}\nfunction embeddedData(){\n  var scripts = Array.prototype.slice.call(document.scripts || []);\n  var script = scripts.find(function(s){ return (s.textContent || '').indexOf('window.__DATA__') >= 0; });\n  if(!script) return null;\n  var text = script.textContent || '';\n  var marker = text.indexOf('window.__DATA__');\n  var start = text.indexOf('{', marker);\n  if(start < 0) return null;\n  var depth = 0;\n  var quote = '';\n  var escaped = false;\n  for(var i=start; i<text.length; i++){\n    var c = text.charAt(i);\n    if(quote){\n      if(escaped) escaped = false;\n      else if(c === '\\\\') escaped = true;\n      else if(c === quote) quote = '';\n      continue;\n    }\n    if(c === '\"' || c === \"'\"){ quote = c; continue; }\n    if(c === '{') depth++;\n    else if(c === '}'){\n      depth--;\n      if(depth === 0) return JSON.parse(text.slice(start, i + 1));\n    }\n  }\n  return null;\n}\nfunction errorCard(title, message){\n  return new Data(req(ICON, BASE), title, message || '', 'Comic', 'BatCave', '', '', false, req(BASE, BASE), false);\n}\n\nfunction cardFromPoster(anchor, label){\n  var image = anchor.querySelector('img');\n  var title = clean(image && image.getAttribute('alt'));\n  var href = abs(anchor.getAttribute('href'));\n  if(!title || !href) return null;\n  return new Data(\n    req(coverFrom(image), BASE),\n    title,\n    '',\n    label || 'Comic',\n    'BatCave',\n    '',\n    '',\n    false,\n    req(href, BASE),\n    false\n  );\n}\n\nfunction finishMain(outputs){\n  if(finished) return;\n  finished = true;\n  var obj = new MainPage(new MR('', 'GET', E, null), emptyExtra(), new JC(false,false,''), outputs);\n  saved().textContent = JSON.stringify(obj);\n  done();\n}\n\nfunction runMain(attempt){\n  try {\n    var nodes = Array.prototype.slice.call(document.querySelectorAll('a.poster.grid-item.has-overlay'));\n    if(!nodes.length && attempt < 24) return setTimeout(function(){ runMain(attempt + 1); }, 400);\n\n    var seen = {};\n    var cards = [];\n    nodes.forEach(function(node){\n      var href = abs(node.getAttribute('href'));\n      if(!href || seen[href]) return;\n      seen[href] = true;\n      var card = cardFromPoster(node, 'Comic');\n      if(card) cards.push(card);\n    });\n\n    if(!cards.length) cards.push(errorCard('BatCave is still loading', 'Close and reopen the module to retry.'));\n    var outputs = [];\n    var featured = cards.slice(0, 1);\n    var latest = cards.slice(1, 13);\n    var popular = cards.slice(13, 25);\n    var more = cards.slice(25, 49);\n\n    if(featured.length) outputs.push(new Output('wide11','horizontal','ultraWideFull','leading',new Section('Featured Comic',true),null,featured));\n    if(latest.length) outputs.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('Popular Right Now',true),null,latest));\n    if(popular.length) outputs.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('Fresh Releases',true),null,popular));\n    if(more.length) outputs.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('More From BatCave',true),null,more));\n    finishMain(outputs);\n  } catch(e){\n    finishMain([new Output('wide6','vertical','doubletsFull','',new Section('',true),null,[errorCard('Home page error', e.message)])]);\n  }\n}\nsetTimeout(function(){ runMain(0); }, 300);\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal1",
+          "orientation": "vertical",
+          "defaultLayout": "wide",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": false
+          },
+          "layout": {
+            "insets": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "visibleCellsWidthS": 2,
+            "visibleCellsWidthM": 2,
+            "visibleCellsWidthL": 2,
+            "visibleCellsHeight": 2,
+            "heightForVisibleCells": 400,
+            "cellSize": {
+              "width": 300,
+              "height": 300
+            },
+            "ratio": {
+              "inRelation": "width",
+              "number1": 1,
+              "number2": 2
+            },
+            "constant": {
+              "width": 1,
+              "height": 2
+            },
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0
+          },
+          "data": [
+            {
+              "image": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "openInWebView": false,
+              "isChapter": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "search": [
+    {
+      "request": {
+        "url": "https://batcave.biz/search/<searched>",
+        "method": "get",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://batcave.biz/"
+          }
+        ],
+        "httpBody": null
+      },
+      "separator": "%20",
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\nvar KETSU_ASYNC = true;\n\nfunction MR(url, method, headers, body){ this.url=url; this.method=method; this.headers=headers; this.httpBody=body; }\nfunction KV(key,value){ this.key=key; this.value=value; }\nfunction Extra(commands, extraInfo){ this.commands=commands; this.extraInfo=extraInfo; }\nfunction Commands(commandName, params){ this.commandName=commandName; this.params=params; }\nfunction JC(removeJavascript, loadInWebView, javaScript){ this.removeJavascript=removeJavascript; this.loadInWebView=loadInWebView; this.javaScript=javaScript; }\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image; this.title=title; this.description=description; this.field1=field1; this.field2=field2;\n  this.field3=field3; this.field4=field4; this.isChapter=isChapter; this.link=link; this.openInWebView=openInWebView || false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing; this.orientation=orientation; this.defaultLayout=defaultLayout; this.paging=paging;\n  this.section=section; this.layout=layout; this.data=data;\n}\nfunction Section(sectionName,separator){ this.sectionName=sectionName; this.separator=separator; }\nfunction MainPage(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Search(request,extra,separator,javascriptConfig,output){ this.request=request; this.extra=extra; this.separator=separator; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Info(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Chapter(chapName,link,openInWebView){ this.chapName=chapName; this.link=link; this.openInWebView=openInWebView; }\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image; this.title=title; this.link=link; this.description=description; this.genres=genres;\n  this.field1=field1; this.field2=field2; this.field3=field3; this.field4=field4; this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction ChapterOutput(videos,images,text){ this.videos=videos; this.images=images; this.text=text; }\n\nvar BASE = 'https://batcave.biz/';\nvar ICON = 'https://batcave.biz/android-chrome-192x192.png?v=1.0.0';\nvar E = [new KV('', '')];\nvar finished = false;\n\nfunction saved(){ return document.getElementById('ketsu-final-data'); }\nfunction done(){ try { window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); } catch(e){} }\nfunction clean(value){ return String(value || '').replace(/\\s+/g, ' ').trim(); }\nfunction abs(url){\n  url = String(url || '').trim();\n  if(!url) return '';\n  if(url.indexOf('//') === 0) return 'https:' + url;\n  if(url.charAt(0) === '/') return BASE.slice(0, -1) + url;\n  return url;\n}\nfunction currentUrl(){\n  try {\n    var m = JSON.parse(saved().textContent || '{}');\n    if(m.request && m.request.url) return m.request.url;\n  } catch(e){}\n  return location.href;\n}\nfunction headers(referer){\n  return [\n    new KV('Referer', referer || BASE),\n    new KV('Accept', '*/*')\n  ];\n}\nfunction req(url, referer){ return new MR(abs(url) || ICON, 'GET', headers(referer), null); }\nfunction emptyExtra(){ return new Extra([new Commands('', E)], E); }\nfunction coverFrom(img){\n  if(!img) return ICON;\n  var value = img.getAttribute('data-src') || img.getAttribute('data-lazy-src') || img.getAttribute('src') || '';\n  if(value.indexOf('data:image/gif') === 0) value = img.getAttribute('data-src') || '';\n  return abs(value) || ICON;\n}\nfunction embeddedData(){\n  var scripts = Array.prototype.slice.call(document.scripts || []);\n  var script = scripts.find(function(s){ return (s.textContent || '').indexOf('window.__DATA__') >= 0; });\n  if(!script) return null;\n  var text = script.textContent || '';\n  var marker = text.indexOf('window.__DATA__');\n  var start = text.indexOf('{', marker);\n  if(start < 0) return null;\n  var depth = 0;\n  var quote = '';\n  var escaped = false;\n  for(var i=start; i<text.length; i++){\n    var c = text.charAt(i);\n    if(quote){\n      if(escaped) escaped = false;\n      else if(c === '\\\\') escaped = true;\n      else if(c === quote) quote = '';\n      continue;\n    }\n    if(c === '\"' || c === \"'\"){ quote = c; continue; }\n    if(c === '{') depth++;\n    else if(c === '}'){\n      depth--;\n      if(depth === 0) return JSON.parse(text.slice(start, i + 1));\n    }\n  }\n  return null;\n}\nfunction errorCard(title, message){\n  return new Data(req(ICON, BASE), title, message || '', 'Comic', 'BatCave', '', '', false, req(BASE, BASE), false);\n}\n\nfunction finishSearch(cards){\n  if(finished) return;\n  finished = true;\n  var output = [new Output('wide6','vertical','doubletsFull','',new Section('',true),null,cards)];\n  var obj = new Search(new MR('', '', E, null), emptyExtra(), '', new JC(false,false,''), output);\n  saved().textContent = JSON.stringify(obj);\n  done();\n}\n\nfunction runSearch(attempt){\n  try {\n    var nodes = Array.prototype.slice.call(document.querySelectorAll('a.readed__img[href$=\".html\"]'));\n    if(!nodes.length && attempt < 24) return setTimeout(function(){ runSearch(attempt + 1); }, 400);\n\n    var seen = {};\n    var cards = [];\n    nodes.forEach(function(anchor){\n      var href = abs(anchor.getAttribute('href'));\n      if(!href || seen[href]) return;\n      seen[href] = true;\n      var image = anchor.querySelector('img');\n      var title = clean(image && image.getAttribute('alt')) || 'Comic';\n      cards.push(new Data(\n        req(coverFrom(image), currentUrl()),\n        title,\n        'Read ' + title + ' on BatCave',\n        'Comic',\n        'BatCave',\n        '',\n        '',\n        false,\n        req(href, currentUrl()),\n        false\n      ));\n    });\n\n    if(!cards.length) cards.push(errorCard('No comics found', 'Try a shorter title or a different spelling.'));\n    finishSearch(cards);\n  } catch(e){\n    finishSearch([errorCard('Search error', e.message)]);\n  }\n}\nsetTimeout(function(){ runSearch(0); }, 300);\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal1",
+          "orientation": "vertical",
+          "defaultLayout": "wide",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": false
+          },
+          "layout": {
+            "insets": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "visibleCellsWidthS": 2,
+            "visibleCellsWidthM": 2,
+            "visibleCellsWidthL": 2,
+            "visibleCellsHeight": 2,
+            "heightForVisibleCells": 400,
+            "cellSize": {
+              "width": 300,
+              "height": 300
+            },
+            "ratio": {
+              "inRelation": "width",
+              "number1": 1,
+              "number2": 2
+            },
+            "constant": {
+              "width": 1,
+              "height": 2
+            },
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0
+          },
+          "data": [
+            {
+              "image": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "openInWebView": false,
+              "isChapter": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": [
+    {
+      "request": {
+        "url": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://batcave.biz/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\nvar KETSU_ASYNC = true;\n\nfunction MR(url, method, headers, body){ this.url=url; this.method=method; this.headers=headers; this.httpBody=body; }\nfunction KV(key,value){ this.key=key; this.value=value; }\nfunction Extra(commands, extraInfo){ this.commands=commands; this.extraInfo=extraInfo; }\nfunction Commands(commandName, params){ this.commandName=commandName; this.params=params; }\nfunction JC(removeJavascript, loadInWebView, javaScript){ this.removeJavascript=removeJavascript; this.loadInWebView=loadInWebView; this.javaScript=javaScript; }\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image; this.title=title; this.description=description; this.field1=field1; this.field2=field2;\n  this.field3=field3; this.field4=field4; this.isChapter=isChapter; this.link=link; this.openInWebView=openInWebView || false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing; this.orientation=orientation; this.defaultLayout=defaultLayout; this.paging=paging;\n  this.section=section; this.layout=layout; this.data=data;\n}\nfunction Section(sectionName,separator){ this.sectionName=sectionName; this.separator=separator; }\nfunction MainPage(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Search(request,extra,separator,javascriptConfig,output){ this.request=request; this.extra=extra; this.separator=separator; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Info(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Chapter(chapName,link,openInWebView){ this.chapName=chapName; this.link=link; this.openInWebView=openInWebView; }\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image; this.title=title; this.link=link; this.description=description; this.genres=genres;\n  this.field1=field1; this.field2=field2; this.field3=field3; this.field4=field4; this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction ChapterOutput(videos,images,text){ this.videos=videos; this.images=images; this.text=text; }\n\nvar BASE = 'https://batcave.biz/';\nvar ICON = 'https://batcave.biz/android-chrome-192x192.png?v=1.0.0';\nvar E = [new KV('', '')];\nvar finished = false;\n\nfunction saved(){ return document.getElementById('ketsu-final-data'); }\nfunction done(){ try { window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); } catch(e){} }\nfunction clean(value){ return String(value || '').replace(/\\s+/g, ' ').trim(); }\nfunction abs(url){\n  url = String(url || '').trim();\n  if(!url) return '';\n  if(url.indexOf('//') === 0) return 'https:' + url;\n  if(url.charAt(0) === '/') return BASE.slice(0, -1) + url;\n  return url;\n}\nfunction currentUrl(){\n  try {\n    var m = JSON.parse(saved().textContent || '{}');\n    if(m.request && m.request.url) return m.request.url;\n  } catch(e){}\n  return location.href;\n}\nfunction headers(referer){\n  return [\n    new KV('Referer', referer || BASE),\n    new KV('Accept', '*/*')\n  ];\n}\nfunction req(url, referer){ return new MR(abs(url) || ICON, 'GET', headers(referer), null); }\nfunction emptyExtra(){ return new Extra([new Commands('', E)], E); }\nfunction coverFrom(img){\n  if(!img) return ICON;\n  var value = img.getAttribute('data-src') || img.getAttribute('data-lazy-src') || img.getAttribute('src') || '';\n  if(value.indexOf('data:image/gif') === 0) value = img.getAttribute('data-src') || '';\n  return abs(value) || ICON;\n}\nfunction embeddedData(){\n  var scripts = Array.prototype.slice.call(document.scripts || []);\n  var script = scripts.find(function(s){ return (s.textContent || '').indexOf('window.__DATA__') >= 0; });\n  if(!script) return null;\n  var text = script.textContent || '';\n  var marker = text.indexOf('window.__DATA__');\n  var start = text.indexOf('{', marker);\n  if(start < 0) return null;\n  var depth = 0;\n  var quote = '';\n  var escaped = false;\n  for(var i=start; i<text.length; i++){\n    var c = text.charAt(i);\n    if(quote){\n      if(escaped) escaped = false;\n      else if(c === '\\\\') escaped = true;\n      else if(c === quote) quote = '';\n      continue;\n    }\n    if(c === '\"' || c === \"'\"){ quote = c; continue; }\n    if(c === '{') depth++;\n    else if(c === '}'){\n      depth--;\n      if(depth === 0) return JSON.parse(text.slice(start, i + 1));\n    }\n  }\n  return null;\n}\nfunction errorCard(title, message){\n  return new Data(req(ICON, BASE), title, message || '', 'Comic', 'BatCave', '', '', false, req(BASE, BASE), false);\n}\n\nfunction infoValue(label){\n  var items = Array.prototype.slice.call(document.querySelectorAll('.page__list li'));\n  var prefix = label.toLowerCase() + ':';\n  for(var i=0; i<items.length; i++){\n    var text = clean(items[i].textContent);\n    if(text.toLowerCase().indexOf(prefix) === 0) return clean(text.slice(prefix.length));\n  }\n  return '';\n}\nfunction chapterOrder(item, index){\n  var title = clean(item.title_en || item.title || '');\n  var issue = title.match(/(?:issue|chapter)\\s*#?\\s*(-?\\d+(?:\\.\\d+)?)/i);\n  if(issue) return { group:0, number:parseFloat(issue[1]), index:index };\n  var annual = title.match(/annual\\s*#?\\s*(\\d+(?:\\.\\d+)?)/i);\n  if(annual) return { group:1, number:parseFloat(annual[1]), index:index };\n  var position = Number(item.posi);\n  return { group:2, number:isNaN(position) ? index : position, index:index };\n}\nfunction finishInfo(value){\n  if(finished) return;\n  finished = true;\n  var obj = new Info(new MR('', '', E, null), emptyExtra(), new JC(false,false,''), value);\n  saved().textContent = JSON.stringify(obj);\n  done();\n}\n\nfunction runInfo(attempt){\n  try {\n    var titleNode = document.querySelector('h1');\n    var data = embeddedData();\n    if((!titleNode || !data || !data.chapters) && attempt < 28) return setTimeout(function(){ runInfo(attempt + 1); }, 400);\n\n    var title = clean(titleNode && titleNode.textContent) || clean(data && data.title) || 'BatCave Comic';\n    var poster = document.querySelector('.page__poster img') || document.querySelector('img[alt^=\"Poster for the comic\"]');\n    var descriptionNode = document.querySelector('.page__text.full-text') || document.querySelector('.page__text');\n    var description = clean(descriptionNode && descriptionNode.textContent);\n    var genreLinks = Array.prototype.slice.call(document.querySelectorAll('a[href*=\"/genres/\"]'));\n    var genreSeen = {};\n    var genres = [];\n    genreLinks.forEach(function(a){\n      var value = clean(a.textContent);\n      var key = value.toLowerCase();\n      if(!value || genreSeen[key]) return;\n      genreSeen[key] = true;\n      genres.push(value.charAt(0).toUpperCase() + value.slice(1));\n    });\n\n    var newsId = data && data.news_id ? String(data.news_id) : '';\n    var rawChapters = data && data.chapters ? data.chapters.slice() : [];\n    var ordered = rawChapters.map(function(item, index){ return { item:item, key:chapterOrder(item,index) }; });\n    ordered.sort(function(a,b){\n      if(a.key.group !== b.key.group) return a.key.group - b.key.group;\n      if(a.key.number !== b.key.number) return a.key.number - b.key.number;\n      return a.key.index - b.key.index;\n    });\n\n    var chapters = ordered.map(function(row){\n      var item = row.item;\n      var name = clean(item.title_en || item.title) || 'Issue';\n      var url = BASE + 'reader/' + newsId + '/' + item.id;\n      return new Chapter(name, req(url, currentUrl()), false);\n    });\n\n    var value = new InfoOutput(\n      req(coverFrom(poster), currentUrl()),\n      title,\n      req(currentUrl(), BASE),\n      description,\n      genres,\n      infoValue('Release type'),\n      infoValue('Year'),\n      infoValue('Publisher'),\n      'Issues: ' + chapters.length,\n      chapters\n    );\n    finishInfo(value);\n  } catch(e){\n    finishInfo(new InfoOutput(req(ICON, BASE),'Comic info error',req(BASE,BASE),e.message,[],'','','','',[]));\n  }\n}\nsetTimeout(function(){ runInfo(0); }, 300);\n"
+      },
+      "output": {
+        "image": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "link": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "title": "",
+        "description": "",
+        "genres": [
+          ""
+        ],
+        "field1": "",
+        "field2": "",
+        "field3": "",
+        "field4": "",
+        "chapters": [
+          {
+            "chapName": "",
+            "openInWebView": false,
+            "link": {
+              "url": "empty",
+              "method": "GET",
+              "headers": [
+                {
+                  "key": "",
+                  "value": ""
+                }
+              ],
+              "httpBody": null
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "request": {
+        "url": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://batcave.biz/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\nvar KETSU_ASYNC = true;\n\nfunction MR(url, method, headers, body){ this.url=url; this.method=method; this.headers=headers; this.httpBody=body; }\nfunction KV(key,value){ this.key=key; this.value=value; }\nfunction Extra(commands, extraInfo){ this.commands=commands; this.extraInfo=extraInfo; }\nfunction Commands(commandName, params){ this.commandName=commandName; this.params=params; }\nfunction JC(removeJavascript, loadInWebView, javaScript){ this.removeJavascript=removeJavascript; this.loadInWebView=loadInWebView; this.javaScript=javaScript; }\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image; this.title=title; this.description=description; this.field1=field1; this.field2=field2;\n  this.field3=field3; this.field4=field4; this.isChapter=isChapter; this.link=link; this.openInWebView=openInWebView || false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing; this.orientation=orientation; this.defaultLayout=defaultLayout; this.paging=paging;\n  this.section=section; this.layout=layout; this.data=data;\n}\nfunction Section(sectionName,separator){ this.sectionName=sectionName; this.separator=separator; }\nfunction MainPage(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Search(request,extra,separator,javascriptConfig,output){ this.request=request; this.extra=extra; this.separator=separator; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Info(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Chapter(chapName,link,openInWebView){ this.chapName=chapName; this.link=link; this.openInWebView=openInWebView; }\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image; this.title=title; this.link=link; this.description=description; this.genres=genres;\n  this.field1=field1; this.field2=field2; this.field3=field3; this.field4=field4; this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction ChapterOutput(videos,images,text){ this.videos=videos; this.images=images; this.text=text; }\n\nvar BASE = 'https://batcave.biz/';\nvar ICON = 'https://batcave.biz/android-chrome-192x192.png?v=1.0.0';\nvar E = [new KV('', '')];\nvar finished = false;\n\nfunction saved(){ return document.getElementById('ketsu-final-data'); }\nfunction done(){ try { window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); } catch(e){} }\nfunction clean(value){ return String(value || '').replace(/\\s+/g, ' ').trim(); }\nfunction abs(url){\n  url = String(url || '').trim();\n  if(!url) return '';\n  if(url.indexOf('//') === 0) return 'https:' + url;\n  if(url.charAt(0) === '/') return BASE.slice(0, -1) + url;\n  return url;\n}\nfunction currentUrl(){\n  try {\n    var m = JSON.parse(saved().textContent || '{}');\n    if(m.request && m.request.url) return m.request.url;\n  } catch(e){}\n  return location.href;\n}\nfunction headers(referer){\n  return [\n    new KV('Referer', referer || BASE),\n    new KV('Accept', '*/*')\n  ];\n}\nfunction req(url, referer){ return new MR(abs(url) || ICON, 'GET', headers(referer), null); }\nfunction emptyExtra(){ return new Extra([new Commands('', E)], E); }\nfunction coverFrom(img){\n  if(!img) return ICON;\n  var value = img.getAttribute('data-src') || img.getAttribute('data-lazy-src') || img.getAttribute('src') || '';\n  if(value.indexOf('data:image/gif') === 0) value = img.getAttribute('data-src') || '';\n  return abs(value) || ICON;\n}\nfunction embeddedData(){\n  var scripts = Array.prototype.slice.call(document.scripts || []);\n  var script = scripts.find(function(s){ return (s.textContent || '').indexOf('window.__DATA__') >= 0; });\n  if(!script) return null;\n  var text = script.textContent || '';\n  var marker = text.indexOf('window.__DATA__');\n  var start = text.indexOf('{', marker);\n  if(start < 0) return null;\n  var depth = 0;\n  var quote = '';\n  var escaped = false;\n  for(var i=start; i<text.length; i++){\n    var c = text.charAt(i);\n    if(quote){\n      if(escaped) escaped = false;\n      else if(c === '\\\\') escaped = true;\n      else if(c === quote) quote = '';\n      continue;\n    }\n    if(c === '\"' || c === \"'\"){ quote = c; continue; }\n    if(c === '{') depth++;\n    else if(c === '}'){\n      depth--;\n      if(depth === 0) return JSON.parse(text.slice(start, i + 1));\n    }\n  }\n  return null;\n}\nfunction errorCard(title, message){\n  return new Data(req(ICON, BASE), title, message || '', 'Comic', 'BatCave', '', '', false, req(BASE, BASE), false);\n}\n\nfunction finishChapter(images){\n  if(finished) return;\n  finished = true;\n  var obj = new Chapters(new MR('', '', E, null), emptyExtra(), new JC(false,false,''), new ChapterOutput(null, images, null));\n  saved().textContent = JSON.stringify(obj);\n  done();\n}\n\nfunction runChapter(attempt){\n  try {\n    var data = embeddedData();\n    if((!data || !data.images || !data.images.length) && attempt < 28) return setTimeout(function(){ runChapter(attempt + 1); }, 400);\n    var referer = currentUrl();\n    var images = (data.images || []).map(function(url){ return req(url, referer); });\n    if(!images.length) images.push(req(ICON, BASE));\n    finishChapter(images);\n  } catch(e){\n    finishChapter([req(ICON, BASE)]);\n  }\n}\nsetTimeout(function(){ runChapter(0); }, 300);\n"
+      },
+      "output": {
+        "videos": null,
+        "images": [
+          {
+            "url": "empty",
+            "method": "GET",
+            "headers": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ],
+            "httpBody": null
+          }
+        ],
+        "text": null
+      }
+    }
+  ],
+  "moduleResolvers": [],
+  "responseCodeFunctions": [],
+  "helperFunctions": []
+}
