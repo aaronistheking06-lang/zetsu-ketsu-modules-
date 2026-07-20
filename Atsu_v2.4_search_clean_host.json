@@ -1,0 +1,436 @@
+{
+  "moduleInfo": {
+    "moduleName": "Atsu v2 | ENG",
+    "moduleInitials": "AT",
+    "moduleDesc": "Atsu manga module with a clean-host search fix, complete title details, full chapter lists, and direct reader pages.",
+    "developer": "Aaron/Codex",
+    "moduleID": "atsu_zetsu_eng",
+    "moduleImage": "https://atsu.moe/favicon/apple-touch-icon-180x180.png",
+    "moduleVersion": 2.4,
+    "moduleLenguage": "ENG",
+    "moduleType": "Image",
+    "baseURL": "https://atsu.moe/",
+    "moduleDeveloperSite": "",
+    "UpdateSite": "",
+    "preferedServer": "",
+    "preferedDownloadServer": "",
+    "blackListed": [
+      ""
+    ]
+  },
+  "global": {
+    "variables": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "cookies": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "headers": [
+      {
+        "key": "Accept",
+        "value": "text/html,application/xhtml+xml,application/json,image/avif,image/webp,image/*,*/*;q=0.8"
+      },
+      {
+        "key": "Referer",
+        "value": "https://atsu.moe/"
+      }
+    ]
+  },
+  "mainPage": [
+    {
+      "request": {
+        "url": "https://atsu.moe/",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://atsu.moe/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "var KETSU_ASYNC=true;\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){this.image=image;this.title=title;this.description=description;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.isChapter=isChapter;this.link=link;this.openInWebView=openInWebView||false;}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){this.cellDesing=cellDesing;this.orientation=orientation;this.defaultLayout=defaultLayout;this.paging=paging;this.section=section;this.layout=layout;this.data=data;}\nfunction Section(sectionName,separator){this.sectionName=sectionName;this.separator=separator;}\nfunction MainPage(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nvar BASE=\"https://atsu.moe/\",CDN=\"https://cdn.atsu.moe/\",ICON=\"https://atsu.moe/favicon/apple-touch-icon-180x180.png\",E=[new KV(\"\",\"\")],finished=false;\nfunction saved(){return document.getElementById(\"ketsu-final-data\");}\nfunction done(){try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(\"\");}catch(e){}}\nfunction clean(value){return String(value||\"\").replace(/\\s+/g,\" \").trim();}\nfunction abs(url){try{return new URL(String(url||\"\"),BASE).href;}catch(e){return String(url||\"\");}}\nfunction media(url){url=String(url||\"\");if(/^https?:/i.test(url))return url;if(url.indexOf(\"/static/\")===0)return CDN+url.replace(/^\\/+/,\"\");if(url.indexOf(\"static/\")===0)return CDN+url;return CDN+\"static/\"+url.replace(/^\\/+/,\"\");}\nfunction req(url,referer,isImage){return new MR(isImage?media(url):abs(url),\"GET\",[new KV(\"Referer\",referer||BASE),new KV(\"Accept\",isImage?\"image/avif,image/webp,image/apng,image/*,*/*;q=0.8\":\"text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8\")],null);}\nfunction extra(){return new Extra([new Commands(\"\",E)],E);}\nfunction card(item,label){\n  var rating=Number(item&&item.mbRating),details=[];\n  if(Number.isFinite(rating)&&rating>0)details.push(rating.toFixed(1)+\" rating\");\n  if(clean(item&&item.views))details.push(clean(item.views)+\" views\");\n  return new Data(req(item.mediumImage||item.smallImage||item.largeImage||item.image||ICON,BASE,true),clean(item.title)||\"Untitled\",details.join(\" - \")||label,clean(item.type)||\"Manga\",\"Atsu\",label,\"\",false,req(\"/manga/\"+encodeURIComponent(item.id),BASE,false),false);\n}\nasync function items(endpoint){\n  try{var response=await fetch(\"/api/home2/\"+endpoint+\"?offset=0&limit=20\",{credentials:\"same-origin\"});if(!response.ok)return [];return (await response.json()).items||[];}catch(e){return [];}\n}\nfunction finish(outputs){if(finished)return;finished=true;saved().textContent=JSON.stringify(new MainPage(new MR(\"\",\"GET\",E,null),extra(),new JC(false,false,\"\"),outputs));done();}\nasync function run(){\n  try{\n    var groups=await Promise.all([items(\"hotUpdates\"),items(\"recentlyUpdated\"),items(\"popular\"),items(\"rising\")]),hot=groups[0].map(function(x){return card(x,\"Hot update\");}),recent=groups[1].map(function(x){return card(x,\"Recently updated\");}),popular=groups[2].map(function(x){return card(x,\"Popular\");}),rising=groups[3].map(function(x){return card(x,\"Rising\");}),outputs=[];\n    if(hot.length)outputs.push(new Output(\"wide11\",\"horizontal\",\"ultraWideFull\",\"leading\",new Section(\"Featured Update\",true),null,[hot[0]]));\n    if(hot.length)outputs.push(new Output(\"normal4\",\"horizontal\",\"longTripletsDouble\",\"leading\",new Section(\"Hot Updates\",true),null,hot.slice(0,18)));\n    if(recent.length)outputs.push(new Output(\"normal4\",\"horizontal\",\"longTripletsDouble\",\"leading\",new Section(\"Recently Updated\",true),null,recent.slice(0,18)));\n    if(popular.length)outputs.push(new Output(\"normal4\",\"horizontal\",\"longTripletsDouble\",\"leading\",new Section(\"Popular\",true),null,popular.slice(0,18)));\n    if(rising.length)outputs.push(new Output(\"normal4\",\"horizontal\",\"longTripletsDouble\",\"leading\",new Section(\"Rising\",true),null,rising.slice(0,18)));\n    if(!outputs.length)throw new Error(\"Atsu's home feeds returned no titles\");\n    finish(outputs);\n  }catch(e){finish([new Output(\"wide6\",\"vertical\",\"doubletsFull\",\"\",new Section(\"\",true),null,[new Data(req(ICON,BASE,true),\"Home page error\",e.message,\"Atsu\",\"\",\"\",\"\",false,req(BASE,BASE,false),true)])]);}\n}\nsetTimeout(run,50);\nsetTimeout(function(){if(!finished)finish([new Output(\"wide6\",\"vertical\",\"doubletsFull\",\"\",new Section(\"\",true),null,[new Data(req(ICON,BASE,true),\"Home page timeout\",\"Please reopen the module.\",\"Atsu\",\"\",\"\",\"\",false,req(BASE,BASE,false),true)])]);},15000);\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal1",
+          "orientation": "vertical",
+          "defaultLayout": "wide",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": false
+          },
+          "layout": {
+            "insets": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "visibleCellsWidthS": 2,
+            "visibleCellsWidthM": 2,
+            "visibleCellsWidthL": 2,
+            "visibleCellsHeight": 2,
+            "heightForVisibleCells": 400,
+            "cellSize": {
+              "width": 300,
+              "height": 300
+            },
+            "ratio": {
+              "inRelation": "width",
+              "number1": 1,
+              "number2": 2
+            },
+            "constant": {
+              "width": 1,
+              "height": 2
+            },
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0
+          },
+          "data": [
+            {
+              "image": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "openInWebView": false,
+              "isChapter": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "search": [
+    {
+      "request": {
+        "url": "https://atsu.moe/robots.txt?ketsu_search=<searched>&ketsu_page=<page>",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/plain,text/html;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://atsu.moe/"
+          }
+        ],
+        "httpBody": null
+      },
+      "separator": "%20",
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\nvar KETSU_ASYNC=true;\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){this.image=image;this.title=title;this.description=description;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.isChapter=isChapter;this.link=link;this.openInWebView=openInWebView||false;}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){this.cellDesing=cellDesing;this.orientation=orientation;this.defaultLayout=defaultLayout;this.paging=paging;this.section=section;this.layout=layout;this.data=data;}\nfunction Section(sectionName,separator){this.sectionName=sectionName;this.separator=separator;}\nfunction Search(request,extra,separator,javascriptConfig,output){this.request=request;this.extra=extra;this.separator=separator;this.javascriptConfig=javascriptConfig;this.output=output;}\n\nvar BASE=\"https://atsu.moe/\";\nvar CDN=\"https://cdn.atsu.moe/\";\nvar ICON=\"https://atsu.moe/favicon/apple-touch-icon-180x180.png\";\nvar E=[new KV(\"\",\"\")];\nvar finished=false;\n\nfunction saved(){return document.getElementById(\"ketsu-final-data\");}\nfunction done(){\n  try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(\"\");}\n  catch(error){try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage();}catch(ignore){}}\n}\nfunction clean(value){return String(value||\"\").replace(/\\s+/g,\" \").trim();}\nfunction abs(url){try{return new URL(String(url||\"\"),BASE).href;}catch(error){return String(url||\"\");}}\nfunction media(url){\n  url=String(url||\"\");\n  if(/^https?:/i.test(url))return url;\n  if(url.indexOf(\"/static/\")===0)return CDN+url.replace(/^\\/+/,\"\");\n  if(url.indexOf(\"static/\")===0)return CDN+url;\n  return CDN+\"static/\"+url.replace(/^\\/+/,\"\");\n}\nfunction req(url,referer,isImage){\n  return new MR(\n    isImage?media(url):abs(url),\n    \"GET\",\n    [\n      new KV(\"Referer\",referer||BASE),\n      new KV(\"Accept\",isImage?\"image/avif,image/webp,image/apng,image/*,*/*;q=0.8\":\"text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8\")\n    ],\n    null\n  );\n}\nfunction extra(){return new Extra([new Commands(\"\",E)],E);}\nfunction currentQuery(){\n  var keys=[\"ketsu_search\",\"search\",\"q\"];\n  try{\n    var local=new URL(location.href);\n    for(var i=0;i<keys.length;i++){\n      var value=local.searchParams.get(keys[i])||\"\";\n      if(value&&value!==\"<searched>\")return value;\n    }\n  }catch(error){}\n  try{\n    var meta=JSON.parse(saved().textContent||saved().innerText||\"{}\");\n    var stored=new URL((meta.request&&meta.request.url)||BASE);\n    for(var j=0;j<keys.length;j++){\n      var savedValue=stored.searchParams.get(keys[j])||\"\";\n      if(savedValue&&savedValue!==\"<searched>\")return savedValue;\n    }\n  }catch(error){}\n  return \"\";\n}\nfunction card(doc){\n  var rating=Number(doc.mbRating);\n  var details=[];\n  if(isFinite(rating)&&rating>0)details.push(rating.toFixed(1)+\" rating\");\n  if(Number(doc.chapterCount)>0)details.push(doc.chapterCount+\" chapters\");\n  return new Data(\n    req(doc.posterMedium||doc.posterSmall||doc.poster||ICON,BASE,true),\n    clean(doc.title)||clean(doc.englishTitle)||\"Untitled\",\n    details.join(\" - \")||\"Search result\",\n    clean(doc.type)||\"Manga\",\n    \"Atsu\",\n    clean(doc.status),\n    doc.releaseYear?String(doc.releaseYear):\"\",\n    false,\n    req(\"/manga/\"+encodeURIComponent(doc.id),BASE,false),\n    false\n  );\n}\nfunction messageCard(title,description){\n  return new Data(req(ICON,BASE,true),title,description,\"Atsu\",\"\",\"\",\"\",false,req(BASE,BASE,false),false);\n}\nfunction finish(cards){\n  if(finished)return;\n  finished=true;\n  var output=[new Output(\"wide6\",\"vertical\",\"doubletsFull\",\"\",new Section(\"\",true),null,cards)];\n  saved().textContent=JSON.stringify(new Search(new MR(\"\",\"\",E,null),extra(),\"\",new JC(false,false,\"\"),output));\n  done();\n}\nfunction fetchWithTimeout(url,timeout){\n  return Promise.race([\n    fetch(url,{method:\"GET\",headers:{\"Accept\":\"application/json\"},credentials:\"same-origin\",cache:\"no-store\"}),\n    new Promise(function(resolve,reject){setTimeout(function(){reject(new Error(\"Search request timed out\"));},timeout);})\n  ]);\n}\nasync function run(){\n  try{\n    var query=currentQuery();\n    if(!query)return finish([messageCard(\"No search text\",\"The app did not pass the search phrase.\")]);\n    var url=BASE+\"collections/manga/documents/search?q=\"+encodeURIComponent(query)+\"&query_by=title&page=1&per_page=40\";\n    var response=await fetchWithTimeout(url,10000);\n    if(!response.ok)throw new Error(\"Atsu search returned HTTP \"+response.status);\n    var json=await response.json();\n    var cards=(json.hits||[]).map(function(hit){return card(hit.document||{});});\n    if(!cards.length)cards=[messageCard(\"No results\",\"Try another title.\")];\n    finish(cards);\n  }catch(error){\n    finish([messageCard(\"Search error\",clean(error&&error.message)||\"Atsu search failed.\")]);\n  }\n}\n\nsetTimeout(run,25);\nsetTimeout(function(){if(!finished)finish([messageCard(\"Search timeout\",\"Atsu did not answer within 12 seconds.\")]);},12000);\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal1",
+          "orientation": "vertical",
+          "defaultLayout": "wide",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": false
+          },
+          "layout": {
+            "insets": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "visibleCellsWidthS": 2,
+            "visibleCellsWidthM": 2,
+            "visibleCellsWidthL": 2,
+            "visibleCellsHeight": 2,
+            "heightForVisibleCells": 400,
+            "cellSize": {
+              "width": 300,
+              "height": 300
+            },
+            "ratio": {
+              "inRelation": "width",
+              "number1": 1,
+              "number2": 2
+            },
+            "constant": {
+              "width": 1,
+              "height": 2
+            },
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0
+          },
+          "data": [
+            {
+              "image": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "openInWebView": false,
+              "isChapter": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": [
+    {
+      "request": {
+        "url": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://atsu.moe/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "var KETSU_ASYNC=true;\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Info(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Chapter(chapName,link,openInWebView){this.chapName=chapName;this.link=link;this.openInWebView=openInWebView;}\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){this.image=image;this.title=title;this.link=link;this.description=description;this.genres=genres;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.chapters=chapters;}\nvar BASE=\"https://atsu.moe/\",CDN=\"https://cdn.atsu.moe/\",ICON=\"https://atsu.moe/favicon/apple-touch-icon-180x180.png\",E=[new KV(\"\",\"\")],finished=false;\nfunction saved(){return document.getElementById(\"ketsu-final-data\");}\nfunction done(){try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(\"\");}catch(e){}}\nfunction clean(value){return String(value||\"\").replace(/\\s+/g,\" \").trim();}\nfunction abs(url){try{return new URL(String(url||\"\"),BASE).href;}catch(e){return String(url||\"\");}}\nfunction media(url){url=String(url||\"\");if(/^https?:/i.test(url))return url;if(url.indexOf(\"/static/\")===0)return CDN+url.replace(/^\\/+/,\"\");if(url.indexOf(\"static/\")===0)return CDN+url;return CDN+\"static/\"+url.replace(/^\\/+/,\"\");}\nfunction req(url,referer,isImage){return new MR(isImage?media(url):abs(url),\"GET\",[new KV(\"Referer\",referer||BASE),new KV(\"Accept\",isImage?\"image/avif,image/webp,image/apng,image/*,*/*;q=0.8\":\"text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8\")],null);}\nfunction extra(){return new Extra([new Commands(\"\",E)],E);}\nfunction embedded(){\n  try{var script=Array.prototype.slice.call(document.scripts).find(function(x){return String(x.textContent||\"\").indexOf(\"window.mangaPage =\")>=0;}),match=String(script&&script.textContent||\"\").match(/window\\.mangaPage\\s*=\\s*(\\{[\\s\\S]*\\})\\s*;/);return match?JSON.parse(match[1]).mangaPage||{}:{};}catch(e){return {};}\n}\nfunction choose(items){\n  var seen={},selected=[];\n  (items||[]).forEach(function(item){var key=String(item&&item.number!==undefined?item.number:clean(item&&item.title));if(!key||!item||!item.id||seen[key])return;seen[key]=true;selected.push(item);});\n  return selected.sort(function(a,b){var x=Number(a.number),y=Number(b.number);if(Number.isFinite(x)&&Number.isFinite(y))return x-y;return clean(a.title).localeCompare(clean(b.title));});\n}\nasync function allChapters(manga){\n  var response=await fetch(\"/api/manga/allChapters?mangaId=\"+encodeURIComponent(manga.id),{credentials:\"same-origin\"});\n  if(!response.ok)throw new Error(\"Full chapter request failed\");\n  return choose((await response.json()).chapters||[]);\n}\nfunction finish(value){if(finished)return;finished=true;saved().textContent=JSON.stringify(new Info(new MR(\"\",\"\",E,null),extra(),new JC(false,false,\"\"),value));done();}\nasync function run(){\n  var manga=embedded();\n  try{\n    if(!manga.id)throw new Error(\"Atsu title data was not found\");\n    var selected=[];try{selected=await allChapters(manga);}catch(e){selected=choose(manga.chapters||[]);}\n    var chapters=selected.map(function(item){return new Chapter(clean(item.title)||(\"Chapter \"+item.number),req(\"/read/\"+manga.id+\"/\"+item.id,location.href,false),false);});\n    var genres=(manga.genres||[]).map(function(x){return clean(x.name);}).filter(Boolean);if(!genres.length)genres=[clean(manga.type)||\"Manga\"];\n    var poster=manga.poster||{},year=manga.released?String(new Date(Number(manga.released)).getFullYear()):\"\";\n    finish(new InfoOutput(req(poster.largeImage||poster.mediumImage||poster.image||ICON,location.href,true),clean(manga.title)||\"Atsu\",req(location.href,BASE,false),clean(manga.synopsis),genres,clean(manga.type)||\"Manga\",clean(manga.status),year,\"Chapters: \"+chapters.length,chapters));\n  }catch(e){finish(new InfoOutput(req(ICON,BASE,true),clean(manga.title)||\"Info error\",req(location.href,BASE,false),e.message,[\"Atsu\"],\"\",\"\",\"\",\"Chapters: 0\",[]));}\n}\nsetTimeout(run,100);\nsetTimeout(function(){if(!finished){var manga=embedded(),fallback=choose(manga.chapters||[]).map(function(item){return new Chapter(clean(item.title)||(\"Chapter \"+item.number),req(\"/read/\"+manga.id+\"/\"+item.id,location.href,false),false);}),poster=manga.poster||{};finish(new InfoOutput(req(poster.largeImage||poster.mediumImage||poster.image||ICON,location.href,true),clean(manga.title)||\"Atsu\",req(location.href,BASE,false),clean(manga.synopsis),(manga.genres||[]).map(function(x){return x.name;}),clean(manga.type),clean(manga.status),manga.released?String(new Date(Number(manga.released)).getFullYear()):\"\",\"Chapters: \"+fallback.length,fallback));}},30000);\n"
+      },
+      "output": {
+        "image": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "link": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "title": "",
+        "description": "",
+        "genres": [
+          ""
+        ],
+        "field1": "",
+        "field2": "",
+        "field3": "",
+        "field4": "",
+        "chapters": [
+          {
+            "chapName": "",
+            "openInWebView": false,
+            "link": {
+              "url": "empty",
+              "method": "GET",
+              "headers": [
+                {
+                  "key": "",
+                  "value": ""
+                }
+              ],
+              "httpBody": null
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "request": {
+        "url": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://atsu.moe/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "var KETSU_ASYNC=true;\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Chapters(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction ChapterOutput(videos,images,text){this.videos=videos;this.images=images;this.text=text;}\nvar BASE=\"https://atsu.moe/\",CDN=\"https://cdn.atsu.moe/\",ICON=\"https://atsu.moe/favicon/apple-touch-icon-180x180.png\",E=[new KV(\"\",\"\")],finished=false;\nfunction saved(){return document.getElementById(\"ketsu-final-data\");}\nfunction done(){try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(\"\");}catch(e){}}\nfunction abs(url){try{return new URL(String(url||\"\"),BASE).href;}catch(e){return String(url||\"\");}}\nfunction media(url){url=String(url||\"\");if(/^https?:/i.test(url))return url;if(url.indexOf(\"/static/\")===0)return CDN+url.replace(/^\\/+/,\"\");if(url.indexOf(\"static/\")===0)return CDN+url;return abs(url);}\nfunction imageRequest(url){return new MR(media(url)||ICON,\"GET\",[new KV(\"Referer\",location.href),new KV(\"Accept\",\"image/avif,image/webp,image/apng,image/*,*/*;q=0.8\")],null);}\nfunction extra(){return new Extra([new Commands(\"\",E)],E);}\nfunction finish(images){if(finished)return;finished=true;if(!images||!images.length)images=[imageRequest(ICON)];saved().textContent=JSON.stringify(new Chapters(new MR(\"\",\"\",E,null),extra(),new JC(false,false,\"\"),new ChapterOutput(null,images,null)));done();}\nfunction domImages(){var seen={};return Array.prototype.slice.call(document.querySelectorAll(\"img[src*='/static/pages/'],img[data-src*='/static/pages/']\")).map(function(img){var url=img.currentSrc||img.getAttribute(\"src\")||img.getAttribute(\"data-src\")||\"\";if(!url||seen[url])return null;seen[url]=true;return imageRequest(url);}).filter(Boolean);}\nasync function run(){\n  try{\n    var parts=location.pathname.split(\"/\").filter(Boolean),mangaId=parts[1]||\"\",chapterId=parts[2]||\"\";\n    if(!mangaId||!chapterId)throw new Error(\"Chapter IDs were not found\");\n    var response=await fetch(\"/api/read/chapter?mangaId=\"+encodeURIComponent(mangaId)+\"&chapterId=\"+encodeURIComponent(chapterId),{credentials:\"same-origin\"});\n    if(!response.ok)throw new Error(\"Reader request failed\");\n    var chapter=(await response.json()).readChapter||{},pages=(chapter.pages||[]).slice().sort(function(a,b){return Number(a.number)-Number(b.number);}),images=pages.map(function(page){return imageRequest(page.image);});\n    finish(images);\n  }catch(e){var fallback=domImages();if(fallback.length)finish(fallback);else setTimeout(function(){finish(domImages());},2500);}\n}\nsetTimeout(run,50);\nsetTimeout(function(){if(!finished)finish(domImages());},12000);\n"
+      },
+      "output": {
+        "videos": null,
+        "images": [
+          {
+            "url": "empty",
+            "method": "GET",
+            "headers": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ],
+            "httpBody": null
+          }
+        ],
+        "text": null
+      }
+    }
+  ],
+  "moduleResolvers": [],
+  "responseCodeFunctions": [],
+  "helperFunctions": []
+}
