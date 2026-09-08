@@ -1,0 +1,722 @@
+{
+  "moduleInfo": {
+    "moduleName": "Toonily | ENG",
+    "moduleInitials": "TL",
+    "moduleDesc": "Expanded Toonily catalog with mature content enabled, rich home sections, complete chapter lists, and CDN image headers for ZETSU.",
+    "developer": "Aaron/Codex",
+    "moduleID": "toonily_zetsu_eng_v1_5_current_search",
+    "moduleImage": "https://static.tnlycdn.com/2017/10/toonily_favicon2-300x300.png",
+    "moduleVersion": 1.5,
+    "moduleLenguage": "ENG",
+    "moduleType": "Image",
+    "baseURL": "https://toonily.com/",
+    "moduleDeveloperSite": "",
+    "UpdateSite": "",
+    "preferedServer": "",
+    "preferedDownloadServer": "",
+    "blackListed": [
+      ""
+    ]
+  },
+  "global": {
+    "variables": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "cookies": [
+      {
+        "key": "toonily-mature",
+        "value": "1"
+      }
+    ],
+    "headers": [
+      {
+        "key": "Accept",
+        "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+      },
+      {
+        "key": "Accept-Language",
+        "value": "en-US,en;q=0.9"
+      },
+      {
+        "key": "Cookie",
+        "value": "toonily-mature=1"
+      },
+      {
+        "key": "Referer",
+        "value": "https://toonily.com/"
+      }
+    ]
+  },
+  "mainPage": [
+    {
+      "request": {
+        "url": "https://toonily.com/",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "Cookie",
+            "value": "toonily-mature=1"
+          },
+          {
+            "key": "Referer",
+            "value": "https://toonily.com/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": true,
+        "loadInWebView": false,
+        "javaScript": "\nvar KETSU_ASYNC = true;\n\nfunction MR(url, method, headers, body){ this.url=url; this.method=method; this.headers=headers; this.httpBody=body; }\nfunction KV(key,value){ this.key=key; this.value=value; }\nfunction Extra(commands, extraInfo){ this.commands=commands; this.extraInfo=extraInfo; }\nfunction Commands(commandName, params){ this.commandName=commandName; this.params=params; }\nfunction JC(removeJavascript, loadInWebView, javaScript){ this.removeJavascript=removeJavascript; this.loadInWebView=loadInWebView; this.javaScript=javaScript; }\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image; this.title=title; this.description=description; this.field1=field1; this.field2=field2;\n  this.field3=field3; this.field4=field4; this.isChapter=isChapter; this.link=link; this.openInWebView=openInWebView || false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing; this.orientation=orientation; this.defaultLayout=defaultLayout; this.paging=paging;\n  this.section=section; this.layout=layout; this.data=data;\n}\nfunction Section(sectionName,separator){ this.sectionName=sectionName; this.separator=separator; }\nfunction MainPage(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Search(request,extra,separator,javascriptConfig,output){ this.request=request; this.extra=extra; this.separator=separator; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Info(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Chapter(chapName,link,openInWebView){ this.chapName=chapName; this.link=link; this.openInWebView=openInWebView; }\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image; this.title=title; this.link=link; this.description=description; this.genres=genres;\n  this.field1=field1; this.field2=field2; this.field3=field3; this.field4=field4; this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction ChapterOutput(videos,images,text){ this.videos=videos; this.images=images; this.text=text; }\n\nvar BASE = 'https://toonily.com/';\nvar ICON = 'https://static.tnlycdn.com/2017/10/toonily_favicon2-300x300.png';\nvar E = [new KV('', '')];\nvar finished = false;\n\nfunction saved(){ return document.getElementById('ketsu-final-data'); }\nfunction done(){ try { window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); } catch(e){} }\nfunction clean(value){ return String(value || '').replace(/\\s+/g, ' ').trim(); }\nfunction abs(url){\n  url = String(url || '').trim();\n  if(!url) return '';\n  if(url.indexOf('//') === 0) return 'https:' + url;\n  try { return new URL(url, BASE).href; } catch(e){}\n  if(url.charAt(0) === '/') return BASE.slice(0, -1) + url;\n  return url;\n}\nfunction currentUrl(){\n  try {\n    var node = saved();\n    var meta = JSON.parse((node && (node.textContent || node.innerText)) || '{}');\n    if(meta.request && meta.request.url) return meta.request.url;\n  } catch(e){}\n  return location.href || BASE;\n}\nfunction imageUrl(img){\n  if(!img) return '';\n  var attrs = ['data-src','data-lazy-src','data-original','src'];\n  for(var i=0; i<attrs.length; i++){\n    var value = String(img.getAttribute(attrs[i]) || '').trim();\n    if(value && value.indexOf('data:image') !== 0) return abs(value);\n  }\n  return '';\n}\nfunction htmlHeaders(referer){\n  return [\n    new KV('Accept','text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'),\n    new KV('Accept-Language','en-US,en;q=0.9'),\n    new KV('Cookie','toonily-mature=1'),\n    new KV('Referer',referer || BASE)\n  ];\n}\nfunction imageHeaders(referer){\n  return [\n    new KV('Accept','image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'),\n    new KV('Referer',referer || BASE)\n  ];\n}\nfunction htmlReq(url, referer){ return new MR(abs(url) || BASE, 'GET', htmlHeaders(referer), null); }\nfunction imageReq(url, referer){ return new MR(abs(url) || ICON, 'GET', imageHeaders(referer), null); }\nfunction emptyExtra(){ return new Extra([new Commands('', E)], E); }\nfunction errorCard(title, message){\n  return new Data(imageReq(ICON,BASE),title,message || '','Manhwa','Toonily','','',false,htmlReq(BASE,BASE),false);\n}\nfunction finish(value){\n  if(finished) return false;\n  finished = true;\n  var node = saved();\n  if(node) node.textContent = JSON.stringify(value);\n  done();\n  return true;\n}\nfunction retry(run, attempt){\n  if(attempt < 8) setTimeout(function(){ run(attempt + 1); }, 125);\n  return attempt < 8;\n}\n\nfunction viewNumber(value){\n  var text = clean(value).replace(/[^0-9.KMB]/gi,'');\n  var number = parseFloat(text) || 0;\n  if(/B$/i.test(text)) return number * 1000000000;\n  if(/M$/i.test(text)) return number * 1000000;\n  if(/K$/i.test(text)) return number * 1000;\n  return number;\n}\nfunction cardRecordFromNode(node){\n  var anchor = node.querySelector('.post-title a');\n  var image = node.querySelector('.item-thumb img');\n  var href = anchor ? abs(anchor.getAttribute('href') || anchor.href) : '';\n  var title = clean(anchor && anchor.textContent);\n  if(!href || !title) return null;\n\n  var latest = node.querySelector('.chapter-item .chapter a');\n  var rating = node.querySelector('[property=\"ratingValue\"]') || node.querySelector('#averagerate');\n  var stats = node.querySelectorAll('.manga-rate-view-comment .item');\n  var views = stats.length ? clean(stats[stats.length - 1].textContent) : '';\n  var badge = node.querySelector('.manga-title-badges');\n  var latestRow = latest ? latest.closest('.chapter-item') : null;\n  var date = latestRow ? latestRow.querySelector('.post-on, .chapter-release-date') : null;\n  var ratingValue = parseFloat(clean(rating && rating.textContent)) || 0;\n  var details = [];\n  if(ratingValue) details.push('Rated ' + ratingValue.toFixed(1));\n  if(views) details.push(views + (views.toLowerCase().indexOf('view') >= 0 ? '' : ' views'));\n\n  return {\n    rating: ratingValue,\n    views: viewNumber(views),\n    data: new Data(\n      imageReq(imageUrl(image), currentUrl()),\n      title,\n      details.join(' | '),\n      clean(badge && badge.textContent).toUpperCase() || 'MANHWA',\n      'Toonily',\n      clean(latest && latest.textContent),\n      clean(date && date.textContent),\n      false,\n      htmlReq(href,currentUrl()),\n      false\n    )\n  };\n}\nfunction collectCardRecords(root){\n  root = root || document;\n  var nodes = root.querySelectorAll('.page-item-detail.manga');\n  var records = [];\n  var seen = {};\n  for(var i=0; i<nodes.length; i++){\n    var record = cardRecordFromNode(nodes[i]);\n    if(!record || !record.data.link || !record.data.link.url || seen[record.data.link.url]) continue;\n    seen[record.data.link.url] = true;\n    records.push(record);\n  }\n  return records;\n}\nfunction collectCards(root){\n  return collectCardRecords(root).map(function(record){ return record.data; });\n}\nfunction collectSliderCards(){\n  var anchors = document.querySelectorAll('.comic-slider-section li a[href*=\"/serie/\"]');\n  var cards = [];\n  var seen = {};\n  for(var i=0; i<anchors.length; i++){\n    var href = abs(anchors[i].getAttribute('href') || anchors[i].href);\n    var image = anchors[i].querySelector('img');\n    var titleNode = anchors[i].querySelector('.txt');\n    var title = clean(titleNode && titleNode.textContent) || clean(image && image.getAttribute('alt')).replace(/\\s+manhwa$/i,'');\n    if(!href || !title || seen[href]) continue;\n    seen[href] = true;\n    cards.push(new Data(\n      imageReq(imageUrl(image),currentUrl()),title,'Recently added to Toonily','NEW','Toonily','','',false,htmlReq(href,currentUrl()),false\n    ));\n  }\n  return cards;\n}\n\nfunction runMain(attempt){\n  try {\n    var records = collectCardRecords();\n    var cards = records.map(function(record){ return record.data; });\n    if(!cards.length && retry(runMain,attempt)) return;\n    if(!cards.length) cards.push(errorCard('No Toonily releases found','Reload the module to try again.'));\n\n    var slider = collectSliderCards();\n    var byViews = records.slice().sort(function(a,b){ return b.views - a.views; }).map(function(record){ return record.data; });\n    var byRating = records.slice().sort(function(a,b){\n      if(b.rating !== a.rating) return b.rating - a.rating;\n      return b.views - a.views;\n    }).map(function(record){ return record.data; });\n    var spotlight = byViews.length ? byViews.slice(0,1) : cards.slice(0,1);\n    var spotlightUrl = spotlight.length && spotlight[0].link ? spotlight[0].link.url : '';\n    var latest = cards.filter(function(card){ return !spotlightUrl || !card.link || card.link.url !== spotlightUrl; }).slice(0,15);\n    var output = [];\n    if(spotlight.length) output.push(new Output('wide11','horizontal','ultraWideFull','leading',new Section('Spotlight',true),null,spotlight));\n    if(slider.length) output.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('New on Toonily',true),null,slider));\n    if(latest.length) output.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('Latest Updates',true),null,latest));\n    if(byViews.length) output.push(new Output('wide6','horizontal','doubletsFull','leading',new Section('Most Read',true),null,byViews.slice(0,10)));\n    if(byRating.length) output.push(new Output('normal4','horizontal','longTripletsDouble','leading',new Section('Top Rated',true),null,byRating.slice(0,12)));\n    finish(new MainPage(new MR('','GET',E,null),emptyExtra(),new JC(false,false,''),output));\n  } catch(e){\n    finish(new MainPage(new MR('','GET',E,null),emptyExtra(),new JC(false,false,''),[\n      new Output('wide6','vertical','doubletsFull','',new Section('',true),null,[errorCard('Home page error',e.message)])\n    ]));\n  }\n}\nrunMain(0);\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal1",
+          "orientation": "vertical",
+          "defaultLayout": "wide",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": false
+          },
+          "layout": {
+            "insets": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "visibleCellsWidthS": 2,
+            "visibleCellsWidthM": 2,
+            "visibleCellsWidthL": 2,
+            "visibleCellsHeight": 2,
+            "heightForVisibleCells": 400,
+            "cellSize": {
+              "width": 300,
+              "height": 300
+            },
+            "ratio": {
+              "inRelation": "width",
+              "number1": 1,
+              "number2": 2
+            },
+            "constant": {
+              "width": 1,
+              "height": 2
+            },
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0
+          },
+          "data": [
+            {
+              "image": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "openInWebView": false,
+              "isChapter": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "request": {
+        "url": "https://toonily.com/webtoons/?m_orderby=trending",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "Cookie",
+            "value": "toonily-mature=1"
+          },
+          {
+            "key": "Referer",
+            "value": "https://toonily.com/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": true,
+        "loadInWebView": false,
+        "javaScript": "\nvar KETSU_ASYNC = true;\n\nfunction MR(url, method, headers, body){ this.url=url; this.method=method; this.headers=headers; this.httpBody=body; }\nfunction KV(key,value){ this.key=key; this.value=value; }\nfunction Extra(commands, extraInfo){ this.commands=commands; this.extraInfo=extraInfo; }\nfunction Commands(commandName, params){ this.commandName=commandName; this.params=params; }\nfunction JC(removeJavascript, loadInWebView, javaScript){ this.removeJavascript=removeJavascript; this.loadInWebView=loadInWebView; this.javaScript=javaScript; }\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image; this.title=title; this.description=description; this.field1=field1; this.field2=field2;\n  this.field3=field3; this.field4=field4; this.isChapter=isChapter; this.link=link; this.openInWebView=openInWebView || false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing; this.orientation=orientation; this.defaultLayout=defaultLayout; this.paging=paging;\n  this.section=section; this.layout=layout; this.data=data;\n}\nfunction Section(sectionName,separator){ this.sectionName=sectionName; this.separator=separator; }\nfunction MainPage(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Search(request,extra,separator,javascriptConfig,output){ this.request=request; this.extra=extra; this.separator=separator; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Info(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Chapter(chapName,link,openInWebView){ this.chapName=chapName; this.link=link; this.openInWebView=openInWebView; }\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image; this.title=title; this.link=link; this.description=description; this.genres=genres;\n  this.field1=field1; this.field2=field2; this.field3=field3; this.field4=field4; this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction ChapterOutput(videos,images,text){ this.videos=videos; this.images=images; this.text=text; }\n\nvar BASE = 'https://toonily.com/';\nvar ICON = 'https://static.tnlycdn.com/2017/10/toonily_favicon2-300x300.png';\nvar E = [new KV('', '')];\nvar finished = false;\n\nfunction saved(){ return document.getElementById('ketsu-final-data'); }\nfunction done(){ try { window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); } catch(e){} }\nfunction clean(value){ return String(value || '').replace(/\\s+/g, ' ').trim(); }\nfunction abs(url){\n  url = String(url || '').trim();\n  if(!url) return '';\n  if(url.indexOf('//') === 0) return 'https:' + url;\n  try { return new URL(url, BASE).href; } catch(e){}\n  if(url.charAt(0) === '/') return BASE.slice(0, -1) + url;\n  return url;\n}\nfunction currentUrl(){\n  try {\n    var node = saved();\n    var meta = JSON.parse((node && (node.textContent || node.innerText)) || '{}');\n    if(meta.request && meta.request.url) return meta.request.url;\n  } catch(e){}\n  return location.href || BASE;\n}\nfunction imageUrl(img){\n  if(!img) return '';\n  var attrs = ['data-src','data-lazy-src','data-original','src'];\n  for(var i=0; i<attrs.length; i++){\n    var value = String(img.getAttribute(attrs[i]) || '').trim();\n    if(value && value.indexOf('data:image') !== 0) return abs(value);\n  }\n  return '';\n}\nfunction htmlHeaders(referer){\n  return [\n    new KV('Accept','text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'),\n    new KV('Accept-Language','en-US,en;q=0.9'),\n    new KV('Cookie','toonily-mature=1'),\n    new KV('Referer',referer || BASE)\n  ];\n}\nfunction imageHeaders(referer){\n  return [\n    new KV('Accept','image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'),\n    new KV('Referer',referer || BASE)\n  ];\n}\nfunction htmlReq(url, referer){ return new MR(abs(url) || BASE, 'GET', htmlHeaders(referer), null); }\nfunction imageReq(url, referer){ return new MR(abs(url) || ICON, 'GET', imageHeaders(referer), null); }\nfunction emptyExtra(){ return new Extra([new Commands('', E)], E); }\nfunction errorCard(title, message){\n  return new Data(imageReq(ICON,BASE),title,message || '','Manhwa','Toonily','','',false,htmlReq(BASE,BASE),false);\n}\nfunction finish(value){\n  if(finished) return false;\n  finished = true;\n  var node = saved();\n  if(node) node.textContent = JSON.stringify(value);\n  done();\n  return true;\n}\nfunction retry(run, attempt){\n  if(attempt < 8) setTimeout(function(){ run(attempt + 1); }, 125);\n  return attempt < 8;\n}\n\nfunction viewNumber(value){\n  var text = clean(value).replace(/[^0-9.KMB]/gi,'');\n  var number = parseFloat(text) || 0;\n  if(/B$/i.test(text)) return number * 1000000000;\n  if(/M$/i.test(text)) return number * 1000000;\n  if(/K$/i.test(text)) return number * 1000;\n  return number;\n}\nfunction cardRecordFromNode(node){\n  var anchor = node.querySelector('.post-title a');\n  var image = node.querySelector('.item-thumb img');\n  var href = anchor ? abs(anchor.getAttribute('href') || anchor.href) : '';\n  var title = clean(anchor && anchor.textContent);\n  if(!href || !title) return null;\n\n  var latest = node.querySelector('.chapter-item .chapter a');\n  var rating = node.querySelector('[property=\"ratingValue\"]') || node.querySelector('#averagerate');\n  var stats = node.querySelectorAll('.manga-rate-view-comment .item');\n  var views = stats.length ? clean(stats[stats.length - 1].textContent) : '';\n  var badge = node.querySelector('.manga-title-badges');\n  var latestRow = latest ? latest.closest('.chapter-item') : null;\n  var date = latestRow ? latestRow.querySelector('.post-on, .chapter-release-date') : null;\n  var ratingValue = parseFloat(clean(rating && rating.textContent)) || 0;\n  var details = [];\n  if(ratingValue) details.push('Rated ' + ratingValue.toFixed(1));\n  if(views) details.push(views + (views.toLowerCase().indexOf('view') >= 0 ? '' : ' views'));\n\n  return {\n    rating: ratingValue,\n    views: viewNumber(views),\n    data: new Data(\n      imageReq(imageUrl(image), currentUrl()),\n      title,\n      details.join(' | '),\n      clean(badge && badge.textContent).toUpperCase() || 'MANHWA',\n      'Toonily',\n      clean(latest && latest.textContent),\n      clean(date && date.textContent),\n      false,\n      htmlReq(href,currentUrl()),\n      false\n    )\n  };\n}\nfunction collectCardRecords(root){\n  root = root || document;\n  var nodes = root.querySelectorAll('.page-item-detail.manga');\n  var records = [];\n  var seen = {};\n  for(var i=0; i<nodes.length; i++){\n    var record = cardRecordFromNode(nodes[i]);\n    if(!record || !record.data.link || !record.data.link.url || seen[record.data.link.url]) continue;\n    seen[record.data.link.url] = true;\n    records.push(record);\n  }\n  return records;\n}\nfunction collectCards(root){\n  return collectCardRecords(root).map(function(record){ return record.data; });\n}\nfunction collectSliderCards(){\n  var anchors = document.querySelectorAll('.comic-slider-section li a[href*=\"/serie/\"]');\n  var cards = [];\n  var seen = {};\n  for(var i=0; i<anchors.length; i++){\n    var href = abs(anchors[i].getAttribute('href') || anchors[i].href);\n    var image = anchors[i].querySelector('img');\n    var titleNode = anchors[i].querySelector('.txt');\n    var title = clean(titleNode && titleNode.textContent) || clean(image && image.getAttribute('alt')).replace(/\\s+manhwa$/i,'');\n    if(!href || !title || seen[href]) continue;\n    seen[href] = true;\n    cards.push(new Data(\n      imageReq(imageUrl(image),currentUrl()),title,'Recently added to Toonily','NEW','Toonily','','',false,htmlReq(href,currentUrl()),false\n    ));\n  }\n  return cards;\n}\n\nfunction runCollection(attempt){\n  try {\n    var cards = collectCards();\n    if(!cards.length && retry(runCollection,attempt)) return;\n    if(!cards.length) cards.push(errorCard('Trending Now unavailable','Reload the module to try again.'));\n    for(var i=0; i<cards.length; i++){\n      if(!cards[i].description) cards[i].description = 'Popular on Toonily';\n    }\n    var output = [new Output('wide6','horizontal','doubletsFull','leading',new Section('Trending Now',true),null,cards)];\n    finish(new MainPage(new MR('','GET',E,null),emptyExtra(),new JC(false,false,''),output));\n  } catch(e){\n    var output = [new Output('wide6','vertical','doubletsFull','',new Section('Trending Now',true),null,[errorCard('Trending Now error',e.message)])];\n    finish(new MainPage(new MR('','GET',E,null),emptyExtra(),new JC(false,false,''),output));\n  }\n}\nrunCollection(0);\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal1",
+          "orientation": "vertical",
+          "defaultLayout": "wide",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": false
+          },
+          "layout": {
+            "insets": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "visibleCellsWidthS": 2,
+            "visibleCellsWidthM": 2,
+            "visibleCellsWidthL": 2,
+            "visibleCellsHeight": 2,
+            "heightForVisibleCells": 400,
+            "cellSize": {
+              "width": 300,
+              "height": 300
+            },
+            "ratio": {
+              "inRelation": "width",
+              "number1": 1,
+              "number2": 2
+            },
+            "constant": {
+              "width": 1,
+              "height": 2
+            },
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0
+          },
+          "data": [
+            {
+              "image": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "openInWebView": false,
+              "isChapter": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "request": {
+        "url": "https://toonily.com/genre/mature/?m_orderby=latest",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "Cookie",
+            "value": "toonily-mature=1"
+          },
+          {
+            "key": "Referer",
+            "value": "https://toonily.com/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": true,
+        "loadInWebView": false,
+        "javaScript": "\nvar KETSU_ASYNC = true;\n\nfunction MR(url, method, headers, body){ this.url=url; this.method=method; this.headers=headers; this.httpBody=body; }\nfunction KV(key,value){ this.key=key; this.value=value; }\nfunction Extra(commands, extraInfo){ this.commands=commands; this.extraInfo=extraInfo; }\nfunction Commands(commandName, params){ this.commandName=commandName; this.params=params; }\nfunction JC(removeJavascript, loadInWebView, javaScript){ this.removeJavascript=removeJavascript; this.loadInWebView=loadInWebView; this.javaScript=javaScript; }\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image; this.title=title; this.description=description; this.field1=field1; this.field2=field2;\n  this.field3=field3; this.field4=field4; this.isChapter=isChapter; this.link=link; this.openInWebView=openInWebView || false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing; this.orientation=orientation; this.defaultLayout=defaultLayout; this.paging=paging;\n  this.section=section; this.layout=layout; this.data=data;\n}\nfunction Section(sectionName,separator){ this.sectionName=sectionName; this.separator=separator; }\nfunction MainPage(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Search(request,extra,separator,javascriptConfig,output){ this.request=request; this.extra=extra; this.separator=separator; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Info(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Chapter(chapName,link,openInWebView){ this.chapName=chapName; this.link=link; this.openInWebView=openInWebView; }\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image; this.title=title; this.link=link; this.description=description; this.genres=genres;\n  this.field1=field1; this.field2=field2; this.field3=field3; this.field4=field4; this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction ChapterOutput(videos,images,text){ this.videos=videos; this.images=images; this.text=text; }\n\nvar BASE = 'https://toonily.com/';\nvar ICON = 'https://static.tnlycdn.com/2017/10/toonily_favicon2-300x300.png';\nvar E = [new KV('', '')];\nvar finished = false;\n\nfunction saved(){ return document.getElementById('ketsu-final-data'); }\nfunction done(){ try { window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); } catch(e){} }\nfunction clean(value){ return String(value || '').replace(/\\s+/g, ' ').trim(); }\nfunction abs(url){\n  url = String(url || '').trim();\n  if(!url) return '';\n  if(url.indexOf('//') === 0) return 'https:' + url;\n  try { return new URL(url, BASE).href; } catch(e){}\n  if(url.charAt(0) === '/') return BASE.slice(0, -1) + url;\n  return url;\n}\nfunction currentUrl(){\n  try {\n    var node = saved();\n    var meta = JSON.parse((node && (node.textContent || node.innerText)) || '{}');\n    if(meta.request && meta.request.url) return meta.request.url;\n  } catch(e){}\n  return location.href || BASE;\n}\nfunction imageUrl(img){\n  if(!img) return '';\n  var attrs = ['data-src','data-lazy-src','data-original','src'];\n  for(var i=0; i<attrs.length; i++){\n    var value = String(img.getAttribute(attrs[i]) || '').trim();\n    if(value && value.indexOf('data:image') !== 0) return abs(value);\n  }\n  return '';\n}\nfunction htmlHeaders(referer){\n  return [\n    new KV('Accept','text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'),\n    new KV('Accept-Language','en-US,en;q=0.9'),\n    new KV('Cookie','toonily-mature=1'),\n    new KV('Referer',referer || BASE)\n  ];\n}\nfunction imageHeaders(referer){\n  return [\n    new KV('Accept','image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'),\n    new KV('Referer',referer || BASE)\n  ];\n}\nfunction htmlReq(url, referer){ return new MR(abs(url) || BASE, 'GET', htmlHeaders(referer), null); }\nfunction imageReq(url, referer){ return new MR(abs(url) || ICON, 'GET', imageHeaders(referer), null); }\nfunction emptyExtra(){ return new Extra([new Commands('', E)], E); }\nfunction errorCard(title, message){\n  return new Data(imageReq(ICON,BASE),title,message || '','Manhwa','Toonily','','',false,htmlReq(BASE,BASE),false);\n}\nfunction finish(value){\n  if(finished) return false;\n  finished = true;\n  var node = saved();\n  if(node) node.textContent = JSON.stringify(value);\n  done();\n  return true;\n}\nfunction retry(run, attempt){\n  if(attempt < 8) setTimeout(function(){ run(attempt + 1); }, 125);\n  return attempt < 8;\n}\n\nfunction viewNumber(value){\n  var text = clean(value).replace(/[^0-9.KMB]/gi,'');\n  var number = parseFloat(text) || 0;\n  if(/B$/i.test(text)) return number * 1000000000;\n  if(/M$/i.test(text)) return number * 1000000;\n  if(/K$/i.test(text)) return number * 1000;\n  return number;\n}\nfunction cardRecordFromNode(node){\n  var anchor = node.querySelector('.post-title a');\n  var image = node.querySelector('.item-thumb img');\n  var href = anchor ? abs(anchor.getAttribute('href') || anchor.href) : '';\n  var title = clean(anchor && anchor.textContent);\n  if(!href || !title) return null;\n\n  var latest = node.querySelector('.chapter-item .chapter a');\n  var rating = node.querySelector('[property=\"ratingValue\"]') || node.querySelector('#averagerate');\n  var stats = node.querySelectorAll('.manga-rate-view-comment .item');\n  var views = stats.length ? clean(stats[stats.length - 1].textContent) : '';\n  var badge = node.querySelector('.manga-title-badges');\n  var latestRow = latest ? latest.closest('.chapter-item') : null;\n  var date = latestRow ? latestRow.querySelector('.post-on, .chapter-release-date') : null;\n  var ratingValue = parseFloat(clean(rating && rating.textContent)) || 0;\n  var details = [];\n  if(ratingValue) details.push('Rated ' + ratingValue.toFixed(1));\n  if(views) details.push(views + (views.toLowerCase().indexOf('view') >= 0 ? '' : ' views'));\n\n  return {\n    rating: ratingValue,\n    views: viewNumber(views),\n    data: new Data(\n      imageReq(imageUrl(image), currentUrl()),\n      title,\n      details.join(' | '),\n      clean(badge && badge.textContent).toUpperCase() || 'MANHWA',\n      'Toonily',\n      clean(latest && latest.textContent),\n      clean(date && date.textContent),\n      false,\n      htmlReq(href,currentUrl()),\n      false\n    )\n  };\n}\nfunction collectCardRecords(root){\n  root = root || document;\n  var nodes = root.querySelectorAll('.page-item-detail.manga');\n  var records = [];\n  var seen = {};\n  for(var i=0; i<nodes.length; i++){\n    var record = cardRecordFromNode(nodes[i]);\n    if(!record || !record.data.link || !record.data.link.url || seen[record.data.link.url]) continue;\n    seen[record.data.link.url] = true;\n    records.push(record);\n  }\n  return records;\n}\nfunction collectCards(root){\n  return collectCardRecords(root).map(function(record){ return record.data; });\n}\nfunction collectSliderCards(){\n  var anchors = document.querySelectorAll('.comic-slider-section li a[href*=\"/serie/\"]');\n  var cards = [];\n  var seen = {};\n  for(var i=0; i<anchors.length; i++){\n    var href = abs(anchors[i].getAttribute('href') || anchors[i].href);\n    var image = anchors[i].querySelector('img');\n    var titleNode = anchors[i].querySelector('.txt');\n    var title = clean(titleNode && titleNode.textContent) || clean(image && image.getAttribute('alt')).replace(/\\s+manhwa$/i,'');\n    if(!href || !title || seen[href]) continue;\n    seen[href] = true;\n    cards.push(new Data(\n      imageReq(imageUrl(image),currentUrl()),title,'Recently added to Toonily','NEW','Toonily','','',false,htmlReq(href,currentUrl()),false\n    ));\n  }\n  return cards;\n}\n\nfunction runCollection(attempt){\n  try {\n    var cards = collectCards();\n    if(!cards.length && retry(runCollection,attempt)) return;\n    if(!cards.length) cards.push(errorCard('18+ Mature unavailable','Reload the module to try again.'));\n    for(var i=0; i<cards.length; i++){\n      if(!cards[i].description) cards[i].description = 'Mature manhwa';\n    }\n    var output = [new Output('normal4','horizontal','longTripletsDouble','leading',new Section('18+ Mature',true),null,cards)];\n    finish(new MainPage(new MR('','GET',E,null),emptyExtra(),new JC(false,false,''),output));\n  } catch(e){\n    var output = [new Output('wide6','vertical','doubletsFull','',new Section('18+ Mature',true),null,[errorCard('18+ Mature error',e.message)])];\n    finish(new MainPage(new MR('','GET',E,null),emptyExtra(),new JC(false,false,''),output));\n  }\n}\nrunCollection(0);\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal1",
+          "orientation": "vertical",
+          "defaultLayout": "wide",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": false
+          },
+          "layout": {
+            "insets": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "visibleCellsWidthS": 2,
+            "visibleCellsWidthM": 2,
+            "visibleCellsWidthL": 2,
+            "visibleCellsHeight": 2,
+            "heightForVisibleCells": 400,
+            "cellSize": {
+              "width": 300,
+              "height": 300
+            },
+            "ratio": {
+              "inRelation": "width",
+              "number1": 1,
+              "number2": 2
+            },
+            "constant": {
+              "width": 1,
+              "height": 2
+            },
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0
+          },
+          "data": [
+            {
+              "image": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "openInWebView": false,
+              "isChapter": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "search": [
+    {
+      "request": {
+        "url": "https://toonily.com/?s=<searched>&post_type=wp-manga&paged=<page>",
+        "method": "get",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "Cookie",
+            "value": "toonily-mature=1"
+          },
+          {
+            "key": "Referer",
+            "value": "https://toonily.com/"
+          }
+        ],
+        "httpBody": null
+      },
+      "separator": "%20",
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": true,
+        "loadInWebView": true,
+        "javaScript": "\nvar KETSU_ASYNC = true;\n\nfunction MR(url, method, headers, body){ this.url=url; this.method=method; this.headers=headers; this.httpBody=body; }\nfunction KV(key,value){ this.key=key; this.value=value; }\nfunction Extra(commands, extraInfo){ this.commands=commands; this.extraInfo=extraInfo; }\nfunction Commands(commandName, params){ this.commandName=commandName; this.params=params; }\nfunction JC(removeJavascript, loadInWebView, javaScript){ this.removeJavascript=removeJavascript; this.loadInWebView=loadInWebView; this.javaScript=javaScript; }\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image; this.title=title; this.description=description; this.field1=field1; this.field2=field2;\n  this.field3=field3; this.field4=field4; this.isChapter=isChapter; this.link=link; this.openInWebView=openInWebView || false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing; this.orientation=orientation; this.defaultLayout=defaultLayout; this.paging=paging;\n  this.section=section; this.layout=layout; this.data=data;\n}\nfunction Section(sectionName,separator){ this.sectionName=sectionName; this.separator=separator; }\nfunction MainPage(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Search(request,extra,separator,javascriptConfig,output){ this.request=request; this.extra=extra; this.separator=separator; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Info(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Chapter(chapName,link,openInWebView){ this.chapName=chapName; this.link=link; this.openInWebView=openInWebView; }\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image; this.title=title; this.link=link; this.description=description; this.genres=genres;\n  this.field1=field1; this.field2=field2; this.field3=field3; this.field4=field4; this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction ChapterOutput(videos,images,text){ this.videos=videos; this.images=images; this.text=text; }\n\nvar BASE = 'https://toonily.com/';\nvar ICON = 'https://static.tnlycdn.com/2017/10/toonily_favicon2-300x300.png';\nvar E = [new KV('', '')];\nvar finished = false;\n\nfunction saved(){ return document.getElementById('ketsu-final-data'); }\nfunction done(){ try { window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); } catch(e){} }\nfunction clean(value){ return String(value || '').replace(/\\s+/g, ' ').trim(); }\nfunction abs(url){\n  url = String(url || '').trim();\n  if(!url) return '';\n  if(url.indexOf('//') === 0) return 'https:' + url;\n  try { return new URL(url, BASE).href; } catch(e){}\n  if(url.charAt(0) === '/') return BASE.slice(0, -1) + url;\n  return url;\n}\nfunction currentUrl(){\n  try {\n    var node = saved();\n    var meta = JSON.parse((node && (node.textContent || node.innerText)) || '{}');\n    if(meta.request && meta.request.url) return meta.request.url;\n  } catch(e){}\n  return location.href || BASE;\n}\nfunction imageUrl(img){\n  if(!img) return '';\n  var attrs = ['data-src','data-lazy-src','data-original','src'];\n  for(var i=0; i<attrs.length; i++){\n    var value = String(img.getAttribute(attrs[i]) || '').trim();\n    if(value && value.indexOf('data:image') !== 0) return abs(value);\n  }\n  return '';\n}\nfunction htmlHeaders(referer){\n  return [\n    new KV('Accept','text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'),\n    new KV('Accept-Language','en-US,en;q=0.9'),\n    new KV('Cookie','toonily-mature=1'),\n    new KV('Referer',referer || BASE)\n  ];\n}\nfunction imageHeaders(referer){\n  return [\n    new KV('Accept','image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'),\n    new KV('Referer',referer || BASE)\n  ];\n}\nfunction htmlReq(url, referer){ return new MR(abs(url) || BASE, 'GET', htmlHeaders(referer), null); }\nfunction imageReq(url, referer){ return new MR(abs(url) || ICON, 'GET', imageHeaders(referer), null); }\nfunction emptyExtra(){ return new Extra([new Commands('', E)], E); }\nfunction errorCard(title, message){\n  return new Data(imageReq(ICON,BASE),title,message || '','Manhwa','Toonily','','',false,htmlReq(BASE,BASE),false);\n}\nfunction finish(value){\n  if(finished) return false;\n  finished = true;\n  var node = saved();\n  if(node) node.textContent = JSON.stringify(value);\n  done();\n  return true;\n}\nfunction retry(run, attempt){\n  if(attempt < 8) setTimeout(function(){ run(attempt + 1); }, 125);\n  return attempt < 8;\n}\n\nfunction viewNumber(value){\n  var text = clean(value).replace(/[^0-9.KMB]/gi,'');\n  var number = parseFloat(text) || 0;\n  if(/B$/i.test(text)) return number * 1000000000;\n  if(/M$/i.test(text)) return number * 1000000;\n  if(/K$/i.test(text)) return number * 1000;\n  return number;\n}\nfunction cardRecordFromNode(node){\n  var anchor = node.querySelector('.post-title a');\n  var image = node.querySelector('.item-thumb img');\n  var href = anchor ? abs(anchor.getAttribute('href') || anchor.href) : '';\n  var title = clean(anchor && anchor.textContent);\n  if(!href || !title) return null;\n\n  var latest = node.querySelector('.chapter-item .chapter a');\n  var rating = node.querySelector('[property=\"ratingValue\"]') || node.querySelector('#averagerate');\n  var stats = node.querySelectorAll('.manga-rate-view-comment .item');\n  var views = stats.length ? clean(stats[stats.length - 1].textContent) : '';\n  var badge = node.querySelector('.manga-title-badges');\n  var latestRow = latest ? latest.closest('.chapter-item') : null;\n  var date = latestRow ? latestRow.querySelector('.post-on, .chapter-release-date') : null;\n  var ratingValue = parseFloat(clean(rating && rating.textContent)) || 0;\n  var details = [];\n  if(ratingValue) details.push('Rated ' + ratingValue.toFixed(1));\n  if(views) details.push(views + (views.toLowerCase().indexOf('view') >= 0 ? '' : ' views'));\n\n  return {\n    rating: ratingValue,\n    views: viewNumber(views),\n    data: new Data(\n      imageReq(imageUrl(image), currentUrl()),\n      title,\n      details.join(' | '),\n      clean(badge && badge.textContent).toUpperCase() || 'MANHWA',\n      'Toonily',\n      clean(latest && latest.textContent),\n      clean(date && date.textContent),\n      false,\n      htmlReq(href,currentUrl()),\n      false\n    )\n  };\n}\nfunction collectCardRecords(root){\n  root = root || document;\n  var nodes = root.querySelectorAll('.page-item-detail.manga');\n  var records = [];\n  var seen = {};\n  for(var i=0; i<nodes.length; i++){\n    var record = cardRecordFromNode(nodes[i]);\n    if(!record || !record.data.link || !record.data.link.url || seen[record.data.link.url]) continue;\n    seen[record.data.link.url] = true;\n    records.push(record);\n  }\n  return records;\n}\nfunction collectCards(root){\n  return collectCardRecords(root).map(function(record){ return record.data; });\n}\nfunction collectSliderCards(){\n  var anchors = document.querySelectorAll('.comic-slider-section li a[href*=\"/serie/\"]');\n  var cards = [];\n  var seen = {};\n  for(var i=0; i<anchors.length; i++){\n    var href = abs(anchors[i].getAttribute('href') || anchors[i].href);\n    var image = anchors[i].querySelector('img');\n    var titleNode = anchors[i].querySelector('.txt');\n    var title = clean(titleNode && titleNode.textContent) || clean(image && image.getAttribute('alt')).replace(/\\s+manhwa$/i,'');\n    if(!href || !title || seen[href]) continue;\n    seen[href] = true;\n    cards.push(new Data(\n      imageReq(imageUrl(image),currentUrl()),title,'Recently added to Toonily','NEW','Toonily','','',false,htmlReq(href,currentUrl()),false\n    ));\n  }\n  return cards;\n}\n\nfunction finishSearch(cards){\n  if(!cards.length) cards.push(errorCard('No results','Try a shorter title or a different spelling.'));\n  var output = [new Output('wide6','vertical','doubletsFull','',new Section('',true),null,cards)];\n  finish(new Search(new MR('','',E,null),emptyExtra(),'',new JC(false,false,''),output));\n}\nfunction searchWords(){\n  var url = currentUrl();\n  var query = '';\n  try {\n    var parsed = new URL(url);\n    query = parsed.searchParams.get('s') || '';\n    if(!query){\n      var match = decodeURIComponent(parsed.pathname).match(/\\/search\\/(.+?)(?:\\/page\\/\\d+)?\\/?$/i);\n      if(match) query = match[1].replace(/[-+]/g,' ');\n    }\n  } catch(e){}\n  if(!query || query.indexOf('<searched>') >= 0){\n    try {\n      var meta = JSON.parse(saved().textContent || '{}');\n      var raw = meta.request && meta.request.url ? meta.request.url : '';\n      var rawUrl = new URL(raw,BASE);\n      query = rawUrl.searchParams.get('s') || '';\n      if(!query){\n        var rawMatch = decodeURIComponent(rawUrl.pathname).match(/\\/search\\/(.+?)(?:\\/page\\/\\d+)?\\/?$/i);\n        if(rawMatch) query = rawMatch[1].replace(/[-+]/g,' ');\n      }\n    } catch(e){}\n  }\n  return clean(query);\n}\nfunction fallbackTerms(query){\n  var stop = {the:1,a:1,an:1,and:1,or:1,of:1,to:1,in:1,on:1,at:1,for:1,from:1,with:1,after:1,before:1,that:1,this:1,my:1,i:1};\n  var words = clean(query).toLowerCase().split(/\\s+/).filter(function(word){ return word.length >= 3 && !stop[word]; });\n  var terms = [];\n  if(words.length > 1) terms.push(words.join(' '));\n  if(words.length) terms.push(words[0]);\n  var unique = [];\n  var seen = {};\n  for(var i=0; i<terms.length; i++){\n    var term = clean(terms[i]);\n    if(!term || term.toLowerCase() === clean(query).toLowerCase() || seen[term]) continue;\n    seen[term] = true;\n    unique.push(term);\n  }\n  return unique.slice(0,2);\n}\nfunction fallbackRequest(terms,index){\n  if(index >= terms.length) return finishSearch([]);\n  try {\n    var xhr = new XMLHttpRequest();\n    var route = BASE + '?s=' + encodeURIComponent(terms[index]) + '&post_type=wp-manga';\n    xhr.open('GET',route,true);\n    xhr.withCredentials = true;\n    xhr.timeout = 4500;\n    xhr.setRequestHeader('Accept','text/html,application/xhtml+xml');\n    xhr.onload = function(){\n      try {\n        var doc = new DOMParser().parseFromString(xhr.responseText || '','text/html');\n        var cards = collectCards(doc);\n        if(cards.length) return finishSearch(cards);\n      } catch(e){}\n      fallbackRequest(terms,index + 1);\n    };\n    xhr.onerror = function(){ fallbackRequest(terms,index + 1); };\n    xhr.ontimeout = function(){ fallbackRequest(terms,index + 1); };\n    xhr.send();\n  } catch(e){\n    fallbackRequest(terms,index + 1);\n  }\n}\nfunction runSearch(){\n  try {\n    var cards = collectCards();\n    if(cards.length) return finishSearch(cards);\n    var terms = fallbackTerms(searchWords());\n    if(!terms.length) return finishSearch([]);\n    fallbackRequest(terms,0);\n  } catch(e){\n    finishSearch([errorCard('Search error',e.message)]);\n  }\n}\nrunSearch();\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal1",
+          "orientation": "vertical",
+          "defaultLayout": "wide",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": false
+          },
+          "layout": {
+            "insets": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "visibleCellsWidthS": 2,
+            "visibleCellsWidthM": 2,
+            "visibleCellsWidthL": 2,
+            "visibleCellsHeight": 2,
+            "heightForVisibleCells": 400,
+            "cellSize": {
+              "width": 300,
+              "height": 300
+            },
+            "ratio": {
+              "inRelation": "width",
+              "number1": 1,
+              "number2": 2
+            },
+            "constant": {
+              "width": 1,
+              "height": 2
+            },
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0
+          },
+          "data": [
+            {
+              "image": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "openInWebView": false,
+              "isChapter": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": [
+    {
+      "request": {
+        "url": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "Cookie",
+            "value": "toonily-mature=1"
+          },
+          {
+            "key": "Referer",
+            "value": "https://toonily.com/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": true,
+        "loadInWebView": false,
+        "javaScript": "\nvar KETSU_ASYNC = true;\n\nfunction MR(url, method, headers, body){ this.url=url; this.method=method; this.headers=headers; this.httpBody=body; }\nfunction KV(key,value){ this.key=key; this.value=value; }\nfunction Extra(commands, extraInfo){ this.commands=commands; this.extraInfo=extraInfo; }\nfunction Commands(commandName, params){ this.commandName=commandName; this.params=params; }\nfunction JC(removeJavascript, loadInWebView, javaScript){ this.removeJavascript=removeJavascript; this.loadInWebView=loadInWebView; this.javaScript=javaScript; }\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image; this.title=title; this.description=description; this.field1=field1; this.field2=field2;\n  this.field3=field3; this.field4=field4; this.isChapter=isChapter; this.link=link; this.openInWebView=openInWebView || false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing; this.orientation=orientation; this.defaultLayout=defaultLayout; this.paging=paging;\n  this.section=section; this.layout=layout; this.data=data;\n}\nfunction Section(sectionName,separator){ this.sectionName=sectionName; this.separator=separator; }\nfunction MainPage(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Search(request,extra,separator,javascriptConfig,output){ this.request=request; this.extra=extra; this.separator=separator; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Info(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Chapter(chapName,link,openInWebView){ this.chapName=chapName; this.link=link; this.openInWebView=openInWebView; }\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image; this.title=title; this.link=link; this.description=description; this.genres=genres;\n  this.field1=field1; this.field2=field2; this.field3=field3; this.field4=field4; this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction ChapterOutput(videos,images,text){ this.videos=videos; this.images=images; this.text=text; }\n\nvar BASE = 'https://toonily.com/';\nvar ICON = 'https://static.tnlycdn.com/2017/10/toonily_favicon2-300x300.png';\nvar E = [new KV('', '')];\nvar finished = false;\n\nfunction saved(){ return document.getElementById('ketsu-final-data'); }\nfunction done(){ try { window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); } catch(e){} }\nfunction clean(value){ return String(value || '').replace(/\\s+/g, ' ').trim(); }\nfunction abs(url){\n  url = String(url || '').trim();\n  if(!url) return '';\n  if(url.indexOf('//') === 0) return 'https:' + url;\n  try { return new URL(url, BASE).href; } catch(e){}\n  if(url.charAt(0) === '/') return BASE.slice(0, -1) + url;\n  return url;\n}\nfunction currentUrl(){\n  try {\n    var node = saved();\n    var meta = JSON.parse((node && (node.textContent || node.innerText)) || '{}');\n    if(meta.request && meta.request.url) return meta.request.url;\n  } catch(e){}\n  return location.href || BASE;\n}\nfunction imageUrl(img){\n  if(!img) return '';\n  var attrs = ['data-src','data-lazy-src','data-original','src'];\n  for(var i=0; i<attrs.length; i++){\n    var value = String(img.getAttribute(attrs[i]) || '').trim();\n    if(value && value.indexOf('data:image') !== 0) return abs(value);\n  }\n  return '';\n}\nfunction htmlHeaders(referer){\n  return [\n    new KV('Accept','text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'),\n    new KV('Accept-Language','en-US,en;q=0.9'),\n    new KV('Cookie','toonily-mature=1'),\n    new KV('Referer',referer || BASE)\n  ];\n}\nfunction imageHeaders(referer){\n  return [\n    new KV('Accept','image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'),\n    new KV('Referer',referer || BASE)\n  ];\n}\nfunction htmlReq(url, referer){ return new MR(abs(url) || BASE, 'GET', htmlHeaders(referer), null); }\nfunction imageReq(url, referer){ return new MR(abs(url) || ICON, 'GET', imageHeaders(referer), null); }\nfunction emptyExtra(){ return new Extra([new Commands('', E)], E); }\nfunction errorCard(title, message){\n  return new Data(imageReq(ICON,BASE),title,message || '','Manhwa','Toonily','','',false,htmlReq(BASE,BASE),false);\n}\nfunction finish(value){\n  if(finished) return false;\n  finished = true;\n  var node = saved();\n  if(node) node.textContent = JSON.stringify(value);\n  done();\n  return true;\n}\nfunction retry(run, attempt){\n  if(attempt < 8) setTimeout(function(){ run(attempt + 1); }, 125);\n  return attempt < 8;\n}\n\nfunction titleText(){\n  var node = document.querySelector('.post-title h1') || document.querySelector('h1');\n  if(!node) return '';\n  var copy = node.cloneNode(true);\n  var badges = copy.querySelectorAll('.manga-title-badges');\n  for(var i=0; i<badges.length; i++) badges[i].remove();\n  return clean(copy.textContent);\n}\nfunction infoValue(label){\n  var wanted = clean(label).toLowerCase();\n  var items = document.querySelectorAll('.post-content_item');\n  for(var i=0; i<items.length; i++){\n    var heading = items[i].querySelector('.summary-heading h5');\n    if(clean(heading && heading.textContent).toLowerCase() !== wanted) continue;\n    var value = items[i].querySelector('.summary-content');\n    return clean(value && value.textContent);\n  }\n  return '';\n}\nfunction chapterNumber(name){\n  var match = clean(name).match(/chapter\\s+(-?\\d+(?:\\.\\d+)?)/i);\n  return match ? parseFloat(match[1]) : NaN;\n}\nfunction collectChapters(){\n  var anchors = document.querySelectorAll('li.wp-manga-chapter a');\n  var rows = [];\n  var seen = {};\n  for(var i=0; i<anchors.length; i++){\n    var href = abs(anchors[i].getAttribute('href') || anchors[i].href);\n    var name = clean(anchors[i].textContent);\n    if(!href || !name || seen[href]) continue;\n    seen[href] = true;\n    rows.push({name:name,href:href,number:chapterNumber(name),index:i});\n  }\n  rows.sort(function(a,b){\n    var aNumber = !isNaN(a.number);\n    var bNumber = !isNaN(b.number);\n    if(aNumber && bNumber && a.number !== b.number) return a.number - b.number;\n    if(aNumber !== bNumber) return aNumber ? -1 : 1;\n    return b.index - a.index;\n  });\n  return rows.map(function(row){ return new Chapter(row.name,htmlReq(row.href,currentUrl()),false); });\n}\nfunction runInfo(attempt){\n  try {\n    var title = titleText();\n    var chapters = collectChapters();\n    if((!title || !chapters.length) && retry(runInfo,attempt)) return;\n\n    var cover = document.querySelector('.summary_image img');\n    var synopsis = document.querySelector('.summary__content.show-more') || document.querySelector('.summary__content');\n    var genreNodes = document.querySelectorAll('.genres-content a');\n    var genres = [];\n    var seen = {};\n    for(var i=0; i<genreNodes.length; i++){\n      var genre = clean(genreNodes[i].textContent);\n      var key = genre.toLowerCase();\n      if(!genre || seen[key]) continue;\n      seen[key] = true;\n      genres.push(genre);\n    }\n\n    finish(new Info(new MR('','',E,null),emptyExtra(),new JC(false,false,''),new InfoOutput(\n      imageReq(imageUrl(cover),currentUrl()),\n      title || 'Toonily series',\n      htmlReq(currentUrl(),BASE),\n      clean(synopsis && synopsis.textContent),\n      genres,\n      infoValue('Status'),\n      infoValue('Publisher'),\n      infoValue('Writer(s)'),\n      'Chapters: ' + chapters.length,\n      chapters\n    )));\n  } catch(e){\n    finish(new Info(new MR('','',E,null),emptyExtra(),new JC(false,false,''),new InfoOutput(\n      imageReq(ICON,BASE),'Series info error',htmlReq(BASE,BASE),e.message,[],'','','','Chapters: 0',[]\n    )));\n  }\n}\nrunInfo(0);\n"
+      },
+      "output": {
+        "image": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "link": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "title": "",
+        "description": "",
+        "genres": [
+          ""
+        ],
+        "field1": "",
+        "field2": "",
+        "field3": "",
+        "field4": "",
+        "chapters": [
+          {
+            "chapName": "",
+            "openInWebView": false,
+            "link": {
+              "url": "empty",
+              "method": "GET",
+              "headers": [
+                {
+                  "key": "",
+                  "value": ""
+                }
+              ],
+              "httpBody": null
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "request": {
+        "url": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "Cookie",
+            "value": "toonily-mature=1"
+          },
+          {
+            "key": "Referer",
+            "value": "https://toonily.com/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": true,
+        "loadInWebView": false,
+        "javaScript": "\nvar KETSU_ASYNC = true;\n\nfunction MR(url, method, headers, body){ this.url=url; this.method=method; this.headers=headers; this.httpBody=body; }\nfunction KV(key,value){ this.key=key; this.value=value; }\nfunction Extra(commands, extraInfo){ this.commands=commands; this.extraInfo=extraInfo; }\nfunction Commands(commandName, params){ this.commandName=commandName; this.params=params; }\nfunction JC(removeJavascript, loadInWebView, javaScript){ this.removeJavascript=removeJavascript; this.loadInWebView=loadInWebView; this.javaScript=javaScript; }\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image; this.title=title; this.description=description; this.field1=field1; this.field2=field2;\n  this.field3=field3; this.field4=field4; this.isChapter=isChapter; this.link=link; this.openInWebView=openInWebView || false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing; this.orientation=orientation; this.defaultLayout=defaultLayout; this.paging=paging;\n  this.section=section; this.layout=layout; this.data=data;\n}\nfunction Section(sectionName,separator){ this.sectionName=sectionName; this.separator=separator; }\nfunction MainPage(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Search(request,extra,separator,javascriptConfig,output){ this.request=request; this.extra=extra; this.separator=separator; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Info(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction Chapter(chapName,link,openInWebView){ this.chapName=chapName; this.link=link; this.openInWebView=openInWebView; }\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image; this.title=title; this.link=link; this.description=description; this.genres=genres;\n  this.field1=field1; this.field2=field2; this.field3=field3; this.field4=field4; this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){ this.request=request; this.extra=extra; this.javascriptConfig=javascriptConfig; this.output=output; }\nfunction ChapterOutput(videos,images,text){ this.videos=videos; this.images=images; this.text=text; }\n\nvar BASE = 'https://toonily.com/';\nvar ICON = 'https://static.tnlycdn.com/2017/10/toonily_favicon2-300x300.png';\nvar E = [new KV('', '')];\nvar finished = false;\n\nfunction saved(){ return document.getElementById('ketsu-final-data'); }\nfunction done(){ try { window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(''); } catch(e){} }\nfunction clean(value){ return String(value || '').replace(/\\s+/g, ' ').trim(); }\nfunction abs(url){\n  url = String(url || '').trim();\n  if(!url) return '';\n  if(url.indexOf('//') === 0) return 'https:' + url;\n  try { return new URL(url, BASE).href; } catch(e){}\n  if(url.charAt(0) === '/') return BASE.slice(0, -1) + url;\n  return url;\n}\nfunction currentUrl(){\n  try {\n    var node = saved();\n    var meta = JSON.parse((node && (node.textContent || node.innerText)) || '{}');\n    if(meta.request && meta.request.url) return meta.request.url;\n  } catch(e){}\n  return location.href || BASE;\n}\nfunction imageUrl(img){\n  if(!img) return '';\n  var attrs = ['data-src','data-lazy-src','data-original','src'];\n  for(var i=0; i<attrs.length; i++){\n    var value = String(img.getAttribute(attrs[i]) || '').trim();\n    if(value && value.indexOf('data:image') !== 0) return abs(value);\n  }\n  return '';\n}\nfunction htmlHeaders(referer){\n  return [\n    new KV('Accept','text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'),\n    new KV('Accept-Language','en-US,en;q=0.9'),\n    new KV('Cookie','toonily-mature=1'),\n    new KV('Referer',referer || BASE)\n  ];\n}\nfunction imageHeaders(referer){\n  return [\n    new KV('Accept','image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'),\n    new KV('Referer',referer || BASE)\n  ];\n}\nfunction htmlReq(url, referer){ return new MR(abs(url) || BASE, 'GET', htmlHeaders(referer), null); }\nfunction imageReq(url, referer){ return new MR(abs(url) || ICON, 'GET', imageHeaders(referer), null); }\nfunction emptyExtra(){ return new Extra([new Commands('', E)], E); }\nfunction errorCard(title, message){\n  return new Data(imageReq(ICON,BASE),title,message || '','Manhwa','Toonily','','',false,htmlReq(BASE,BASE),false);\n}\nfunction finish(value){\n  if(finished) return false;\n  finished = true;\n  var node = saved();\n  if(node) node.textContent = JSON.stringify(value);\n  done();\n  return true;\n}\nfunction retry(run, attempt){\n  if(attempt < 8) setTimeout(function(){ run(attempt + 1); }, 125);\n  return attempt < 8;\n}\n\nfunction allowedPage(url){\n  try {\n    var host = new URL(url).hostname.toLowerCase();\n    return host === 'data.tnlycdn.com' || host === 'static.tnlycdn.com';\n  } catch(e){ return false; }\n}\nfunction collectPages(){\n  var nodes = document.querySelectorAll('.reading-content img.wp-manga-chapter-img, .reading-content .page-break img');\n  var referer = currentUrl();\n  var images = [];\n  var seen = {};\n  for(var i=0; i<nodes.length; i++){\n    var url = imageUrl(nodes[i]);\n    var alt = clean(nodes[i].getAttribute('alt')).toLowerCase();\n    if(!url || seen[url]) continue;\n    if(alt.indexOf('discord') >= 0 || /\\/wp-content\\/assets\\/999\\.png(?:\\?|$)/i.test(url)) continue;\n    if(!allowedPage(url)) continue;\n    seen[url] = true;\n    images.push(imageReq(url,referer));\n  }\n  return images;\n}\nfunction runChapter(attempt){\n  try {\n    var images = collectPages();\n    if(!images.length && retry(runChapter,attempt)) return;\n    if(!images.length) images.push(imageReq(ICON,BASE));\n    finish(new Chapters(new MR('','',E,null),emptyExtra(),new JC(false,false,''),new ChapterOutput(null,images,null)));\n  } catch(e){\n    finish(new Chapters(new MR('','',E,null),emptyExtra(),new JC(false,false,''),new ChapterOutput(null,[imageReq(ICON,BASE)],null)));\n  }\n}\nrunChapter(0);\n"
+      },
+      "output": {
+        "videos": null,
+        "images": [
+          {
+            "url": "empty",
+            "method": "GET",
+            "headers": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ],
+            "httpBody": null
+          }
+        ],
+        "text": null
+      }
+    }
+  ],
+  "moduleResolvers": [],
+  "responseCodeFunctions": [],
+  "helperFunctions": []
+}
