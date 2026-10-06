@@ -1,0 +1,436 @@
+{
+  "moduleInfo": {
+    "moduleName": "Manhwa18 | ENG v1.4",
+    "moduleInitials": "M18",
+    "moduleDesc": "Manhwa18 parser fixes for image URLs, chapter lists, and settled catalog results.",
+    "developer": "Aaron",
+    "moduleID": "manhwa18_zetsu_eng_v1_4_parser_fixes",
+    "moduleImage": "https://manhwa18.net/favicon.ico",
+    "moduleVersion": 1.4,
+    "moduleLenguage": "ENG",
+    "moduleType": "Image",
+    "baseURL": "https://manhwa18.net/",
+    "moduleDeveloperSite": "",
+    "UpdateSite": "",
+    "preferedServer": "",
+    "preferedDownloadServer": "",
+    "blackListed": [
+      ""
+    ]
+  },
+  "global": {
+    "variables": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "cookies": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "headers": [
+      {
+        "key": "Accept",
+        "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+      },
+      {
+        "key": "Referer",
+        "value": "https://manhwa18.net/"
+      }
+    ]
+  },
+  "mainPage": [
+    {
+      "request": {
+        "url": "https://manhwa18.net/",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://manhwa18.net/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "var KETSU_ASYNC=true;\n\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image;this.title=title;this.description=description;this.field1=field1;this.field2=field2;\n  this.field3=field3;this.field4=field4;this.isChapter=isChapter;this.link=link;this.openInWebView=openInWebView||false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing;this.orientation=orientation;this.defaultLayout=defaultLayout;this.paging=paging;\n  this.section=section;this.layout=layout;this.data=data;\n}\nfunction Section(sectionName,separator){this.sectionName=sectionName;this.separator=separator;}\nfunction MainPage(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Search(request,extra,separator,javascriptConfig,output){this.request=request;this.extra=extra;this.separator=separator;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Info(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Chapter(chapName,link,openInWebView){this.chapName=chapName;this.link=link;this.openInWebView=openInWebView;}\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image;this.title=title;this.link=link;this.description=description;this.genres=genres;\n  this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction ChapterOutput(videos,images,text){this.videos=videos;this.images=images;this.text=text;}\n\nvar BASE=\"https://manhwa18.net/\";\nvar ICON=\"https://manhwa18.net/favicon.ico\";\nvar E=[new KV(\"\",\"\")];\nvar finished=false;\n\nfunction saved(){return document.getElementById(\"ketsu-final-data\");}\nfunction done(){try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(\"\");}catch(e){}}\nfunction abs(url,base){\n  try{return new URL(String(url||\"\"),base||location.href||BASE).href;}\n  catch(e){return String(url||\"\");}\n}\nfunction req(url,referer,accept){\n  return new MR(\n    abs(url,referer||BASE)||ICON,\n    \"GET\",\n    [\n      new KV(\"Referer\",referer||BASE),\n      new KV(\"Accept\",accept||\"text/html,application/xhtml+xml,image/avif,image/webp,image/*,*/*;q=0.8\")\n    ],\n    null\n  );\n}\nfunction extra(){return new Extra([new Commands(\"\",E)],E);}\nfunction clean(v){return String(v||\"\").replace(/\\s+/g,\" \").trim();}\nfunction pathParts(url){\n  try{return new URL(url,BASE).pathname.split(\"/\").filter(Boolean);}\n  catch(e){return [];}\n}\nfunction slugFromUrl(url){\n  var p=pathParts(url);\n  return p.length>=2&&p[0]===\"manga\"?p[1]:\"\";\n}\nfunction prettySlug(slug){\n  return clean(String(slug||\"\").replace(/[-_]+/g,\" \").replace(/\\b\\w/g,function(c){return c.toUpperCase();}));\n}\nfunction seriesUrl(url){\n  try{\n    var u=new URL(url,BASE),p=u.pathname.split(\"/\").filter(Boolean);\n    if(p.length>=2&&p[0]===\"manga\")return new URL(\"/manga/\"+p[1],BASE).href;\n  }catch(e){}\n  return \"\";\n}\nfunction isSeriesUrl(url){\n  var p=pathParts(url);\n  return p.length===2&&p[0]===\"manga\";\n}\nfunction nearestImage(anchor){\n  var node=anchor;\n  for(var i=0;i<6&&node;i++,node=node.parentElement){\n    var img=node.querySelector&&node.querySelector(\"img\");\n    if(img){\n      var src=img.currentSrc||img.getAttribute(\"src\")||img.getAttribute(\"data-src\")||img.getAttribute(\"data-lazy-src\")||img.getAttribute(\"data-original\");\n      if(src)return abs(src,location.href);\n    }\n  }\n  return \"\";\n}\nfunction titleForAnchor(a){\n  var title=clean(a.getAttribute(\"aria-label\")||a.getAttribute(\"title\")||a.textContent);\n  var img=a.querySelector&&a.querySelector(\"img\");\n  if(!title&&img)title=clean(img.getAttribute(\"alt\"));\n  if(!title)title=prettySlug(slugFromUrl(a.href||a.getAttribute(\"href\")));\n  return title||\"Series\";\n}\nfunction sectionForAnchor(a){\n  var node=a;\n  for(var depth=0;depth<7&&node;depth++,node=node.parentElement){\n    if(!node.querySelector)continue;\n    var h=node.querySelector(\"h2,h3\");\n    var t=clean(h&&h.textContent);\n    if(t&&t.length<=45&&!/discord|community|comment|review/i.test(t))return t;\n  }\n  return \"\";\n}\nfunction seriesRecords(root){\n  root=root||document;\n  var seen={},records=[];\n  var anchors=Array.prototype.slice.call(root.querySelectorAll(\"a[href*='/manga/']\"));\n  anchors.forEach(function(a){\n    var href=seriesUrl(a.href||a.getAttribute(\"href\"));\n    if(!href||!isSeriesUrl(href)||seen[href])return;\n    seen[href]=true;\n    var title=titleForAnchor(a);\n    records.push({\n      href:href,\n      title:title,\n      slug:slugFromUrl(href),\n      image:nearestImage(a)||ICON,\n      section:sectionForAnchor(a)\n    });\n  });\n  return records;\n}\nfunction recordCard(r,label){\n  return new Data(\n    req(r.image||ICON,location.href,\"image/avif,image/webp,image/*,*/*;q=0.8\"),\n    r.title||prettySlug(r.slug)||\"Series\",\n    \"\",\n    \"MANHWA18\",\n    label||\"\",\n    \"\",\n    \"\",\n    false,\n    req(r.href,location.href),\n    false\n  );\n}\nfunction tokens(value){\n  return clean(value).toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);\n}\nfunction matchesQuery(r,q){\n  var hay=(String(r.title||\"\")+\" \"+String(r.slug||\"\")).toLowerCase();\n  var parts=tokens(q);\n  if(!parts.length)return true;\n  for(var i=0;i<parts.length;i++)if(hay.indexOf(parts[i])<0)return false;\n  return true;\n}\n\nfunction finish(records){\n  if(finished)return;finished=true;\n  try{if(observer)observer.disconnect();}catch(e){}\n  var outputs=[];\n\n  if(records.length){\n    outputs.push(new Output(\n      \"wide11\",\"horizontal\",\"ultraWideFull\",\"leading\",\n      new Section(\"Featured\",true),null,\n      [recordCard(records[0],\"Featured\")]\n    ));\n  }\n\n  var groups={},order=[];\n  records.forEach(function(r,index){\n    if(index===0)return;\n    var name=clean(r.section);\n    if(!name||name===\"Featured\")name=index<18?\"Latest Updates\":\"More Series\";\n    if(!groups[name]){groups[name]=[];order.push(name);}\n    if(groups[name].length<24)groups[name].push(recordCard(r,name));\n  });\n\n  order.slice(0,5).forEach(function(name){\n    if(groups[name]&&groups[name].length){\n      outputs.push(new Output(\n        \"normal4\",\"horizontal\",\"longTripletsDouble\",\"leading\",\n        new Section(name,true),null,groups[name]\n      ));\n    }\n  });\n\n  if(!outputs.length){\n    outputs=[new Output(\n      \"wide6\",\"vertical\",\"doubletsFull\",\"\",\n      new Section(\"Manhwa18\",true),null,\n      [new Data(req(ICON,BASE),\"No series found\",\"The homepage loaded but no public series links were detected.\",\"Manhwa18\",\"\",\"\",\"\",false,req(BASE,BASE),true)]\n    )];\n  }\n\n  saved().textContent=JSON.stringify(new MainPage(new MR(\"\",\"GET\",E,null),extra(),new JC(false,false,\"\"),outputs));\n  done();\n}\nvar observer,latestRecords=[],lastSignature='',lastChange=Date.now();\nfunction snapshot(records){\n  if(records)latestRecords=records;\n  return latestRecords;\n}\nfunction sample(){\n  try{\n    var current=seriesRecords(document);\n    var signature=current.map(function(r){return [r.href,r.title,r.image,r.section].join('|');}).join('\\n');\n    if(signature!==lastSignature){lastSignature=signature;lastChange=Date.now();}\n    snapshot(current);\n  }catch(e){}\n}\nfunction poll(){\n  if(finished)return;\n  sample();\n  if(latestRecords.length&&Date.now()-lastChange>=1000)return finish(snapshot());\n  setTimeout(poll,200);\n}\ntry{\n  observer=new MutationObserver(function(){if(!finished)sample();});\n  observer.observe(document.documentElement||document.body,{\n    childList:true,subtree:true,attributes:true,characterData:true,\n    attributeFilter:['src','data-src','data-original','data-lazy-src','href','title','alt']\n  });\n}catch(e){}\nsetTimeout(poll,150);\nsetTimeout(function(){if(!finished){sample();finish(snapshot());}},10000);\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal1",
+          "orientation": "vertical",
+          "defaultLayout": "wide",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": false
+          },
+          "layout": {
+            "insets": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "visibleCellsWidthS": 2,
+            "visibleCellsWidthM": 2,
+            "visibleCellsWidthL": 2,
+            "visibleCellsHeight": 2,
+            "heightForVisibleCells": 400,
+            "cellSize": {
+              "width": 300,
+              "height": 300
+            },
+            "ratio": {
+              "inRelation": "width",
+              "number1": 1,
+              "number2": 2
+            },
+            "constant": {
+              "width": 1,
+              "height": 2
+            },
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0
+          },
+          "data": [
+            {
+              "image": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "openInWebView": false,
+              "isChapter": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "search": [
+    {
+      "request": {
+        "url": "https://manhwa18.net/tim-kiem?q=<searched>",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://manhwa18.net/"
+          }
+        ],
+        "httpBody": null
+      },
+      "separator": "%20",
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "var KETSU_ASYNC=true;\n\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image;this.title=title;this.description=description;this.field1=field1;this.field2=field2;\n  this.field3=field3;this.field4=field4;this.isChapter=isChapter;this.link=link;this.openInWebView=openInWebView||false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing;this.orientation=orientation;this.defaultLayout=defaultLayout;this.paging=paging;\n  this.section=section;this.layout=layout;this.data=data;\n}\nfunction Section(sectionName,separator){this.sectionName=sectionName;this.separator=separator;}\nfunction MainPage(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Search(request,extra,separator,javascriptConfig,output){this.request=request;this.extra=extra;this.separator=separator;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Info(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Chapter(chapName,link,openInWebView){this.chapName=chapName;this.link=link;this.openInWebView=openInWebView;}\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image;this.title=title;this.link=link;this.description=description;this.genres=genres;\n  this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction ChapterOutput(videos,images,text){this.videos=videos;this.images=images;this.text=text;}\n\nvar BASE=\"https://manhwa18.net/\";\nvar ICON=\"https://manhwa18.net/favicon.ico\";\nvar E=[new KV(\"\",\"\")];\nvar finished=false;\n\nfunction saved(){return document.getElementById(\"ketsu-final-data\");}\nfunction done(){try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(\"\");}catch(e){}}\nfunction abs(url,base){\n  try{return new URL(String(url||\"\"),base||location.href||BASE).href;}\n  catch(e){return String(url||\"\");}\n}\nfunction req(url,referer,accept){\n  return new MR(\n    abs(url,referer||BASE)||ICON,\n    \"GET\",\n    [\n      new KV(\"Referer\",referer||BASE),\n      new KV(\"Accept\",accept||\"text/html,application/xhtml+xml,image/avif,image/webp,image/*,*/*;q=0.8\")\n    ],\n    null\n  );\n}\nfunction extra(){return new Extra([new Commands(\"\",E)],E);}\nfunction clean(v){return String(v||\"\").replace(/\\s+/g,\" \").trim();}\nfunction pathParts(url){\n  try{return new URL(url,BASE).pathname.split(\"/\").filter(Boolean);}\n  catch(e){return [];}\n}\nfunction slugFromUrl(url){\n  var p=pathParts(url);\n  return p.length>=2&&p[0]===\"manga\"?p[1]:\"\";\n}\nfunction prettySlug(slug){\n  return clean(String(slug||\"\").replace(/[-_]+/g,\" \").replace(/\\b\\w/g,function(c){return c.toUpperCase();}));\n}\nfunction seriesUrl(url){\n  try{\n    var u=new URL(url,BASE),p=u.pathname.split(\"/\").filter(Boolean);\n    if(p.length>=2&&p[0]===\"manga\")return new URL(\"/manga/\"+p[1],BASE).href;\n  }catch(e){}\n  return \"\";\n}\nfunction isSeriesUrl(url){\n  var p=pathParts(url);\n  return p.length===2&&p[0]===\"manga\";\n}\nfunction nearestImage(anchor){\n  var node=anchor;\n  for(var i=0;i<6&&node;i++,node=node.parentElement){\n    var img=node.querySelector&&node.querySelector(\"img\");\n    if(img){\n      var src=img.currentSrc||img.getAttribute(\"src\")||img.getAttribute(\"data-src\")||img.getAttribute(\"data-lazy-src\")||img.getAttribute(\"data-original\");\n      if(src)return abs(src,location.href);\n    }\n  }\n  return \"\";\n}\nfunction titleForAnchor(a){\n  var title=clean(a.getAttribute(\"aria-label\")||a.getAttribute(\"title\")||a.textContent);\n  var img=a.querySelector&&a.querySelector(\"img\");\n  if(!title&&img)title=clean(img.getAttribute(\"alt\"));\n  if(!title)title=prettySlug(slugFromUrl(a.href||a.getAttribute(\"href\")));\n  return title||\"Series\";\n}\nfunction sectionForAnchor(a){\n  var node=a;\n  for(var depth=0;depth<7&&node;depth++,node=node.parentElement){\n    if(!node.querySelector)continue;\n    var h=node.querySelector(\"h2,h3\");\n    var t=clean(h&&h.textContent);\n    if(t&&t.length<=45&&!/discord|community|comment|review/i.test(t))return t;\n  }\n  return \"\";\n}\nfunction seriesRecords(root){\n  root=root||document;\n  var seen={},records=[];\n  var anchors=Array.prototype.slice.call(root.querySelectorAll(\"a[href*='/manga/']\"));\n  anchors.forEach(function(a){\n    var href=seriesUrl(a.href||a.getAttribute(\"href\"));\n    if(!href||!isSeriesUrl(href)||seen[href])return;\n    seen[href]=true;\n    var title=titleForAnchor(a);\n    records.push({\n      href:href,\n      title:title,\n      slug:slugFromUrl(href),\n      image:nearestImage(a)||ICON,\n      section:sectionForAnchor(a)\n    });\n  });\n  return records;\n}\nfunction recordCard(r,label){\n  return new Data(\n    req(r.image||ICON,location.href,\"image/avif,image/webp,image/*,*/*;q=0.8\"),\n    r.title||prettySlug(r.slug)||\"Series\",\n    \"\",\n    \"MANHWA18\",\n    label||\"\",\n    \"\",\n    \"\",\n    false,\n    req(r.href,location.href),\n    false\n  );\n}\nfunction tokens(value){\n  return clean(value).toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);\n}\nfunction levenshtein(a,b){\n  a=String(a||\"\"); b=String(b||\"\");\n  var m=a.length,n=b.length;\n  if(!m)return n;\n  if(!n)return m;\n  var prev=new Array(n+1),cur=new Array(n+1);\n  for(var j=0;j<=n;j++)prev[j]=j;\n  for(var i=1;i<=m;i++){\n    cur[0]=i;\n    for(var j2=1;j2<=n;j2++){\n      var cost=a.charAt(i-1)===b.charAt(j2-1)?0:1;\n      cur[j2]=Math.min(\n        cur[j2-1]+1,\n        prev[j2]+1,\n        prev[j2-1]+cost\n      );\n    }\n    var tmp=prev; prev=cur; cur=tmp;\n  }\n  return prev[n];\n}\n\nfunction wordList(value){\n  return clean(value).toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);\n}\n\nfunction fuzzyWordMatch(needle,word){\n  if(!needle||!word)return false;\n  if(word.indexOf(needle)>=0||needle.indexOf(word)>=0)return true;\n\n  // typo tolerance:\n  // 3-4 chars => 1 edit\n  // 5+ chars   => 2 edits\n  var limit=needle.length>=5?2:(needle.length>=3?1:0);\n  if(!limit)return false;\n\n  if(Math.abs(needle.length-word.length)>limit)return false;\n  return levenshtein(needle,word)<=limit;\n}\n\nfunction matchesQuery(r,q){\n  var parts=tokens(q);\n  if(!parts.length)return true;\n\n  var titleWords=wordList(r.title||\"\");\n  var slugWords=wordList(String(r.slug||\"\").replace(/[-_]+/g,\" \"));\n  var words=titleWords.concat(slugWords);\n\n  // Broad search: ANY typed word matching ANY title/slug word is enough.\n  for(var i=0;i<parts.length;i++){\n    for(var j=0;j<words.length;j++){\n      if(fuzzyWordMatch(parts[i],words[j]))return true;\n    }\n  }\n  return false;\n}\n\nfunction searchScore(r,q){\n  var title=clean(r.title||\"\").toLowerCase();\n  var slug=clean(String(r.slug||\"\").replace(/[-_]+/g,\" \")).toLowerCase();\n  var phrase=clean(q).toLowerCase();\n  var qwords=tokens(q);\n  var words=wordList(title+\" \"+slug);\n  var score=0;\n\n  if(title===phrase)score+=1000;\n  if(title.indexOf(phrase)===0)score+=500;\n  if(title.indexOf(phrase)>=0)score+=250;\n  if(slug.indexOf(phrase)>=0)score+=180;\n\n  qwords.forEach(function(qw){\n    words.forEach(function(w){\n      if(qw===w)score+=120;\n      else if(w.indexOf(qw)===0)score+=80;\n      else if(w.indexOf(qw)>=0)score+=50;\n      else{\n        var d=levenshtein(qw,w);\n        if(d===1)score+=35;\n        else if(d===2&&qw.length>=5)score+=15;\n      }\n    });\n  });\n\n  return score;\n}\n\n\nfunction finish(cards){\n  if(finished)return;\n  finished=true;\n  try{if(observer)observer.disconnect();}catch(e){}\n\n  var out=[new Output(\n    \"wide6\",\n    \"vertical\",\n    \"doubletsFull\",\n    \"\",\n    new Section(\"\",true),\n    null,\n    cards\n  )];\n\n  saved().textContent=JSON.stringify(\n    new Search(new MR(\"\",\"\",E,null),extra(),\"\",new JC(false,false,\"\"),out)\n  );\n  done();\n}\n\nfunction searchCards(){\n  var records=seriesRecords(document);\n\n  // The actual /tim-kiem page already decides which titles match,\n  // so do not apply our own fuzzy/exact filter here.\n  return records.map(function(r){\n    var card=recordCard(r,\"Search\");\n\n    // Try to pull extra card metadata without depending on it.\n    var anchor=null;\n    try{\n      anchor=Array.prototype.slice.call(document.querySelectorAll(\"a[href*='/manga/']\")).find(function(a){\n        return seriesUrl(a.href||a.getAttribute(\"href\"))===r.href;\n      });\n    }catch(e){}\n\n    if(anchor){\n      var node=anchor;\n      var text=\"\";\n      for(var i=0;i<5&&node;i++,node=node.parentElement){\n        var t=clean(node.textContent);\n        if(t.length>text.length)text=t;\n      }\n\n      var chapter=(text.match(/(?:Chap(?:ter)?\\.?\\s*)(\\d+(?:\\.\\d+)?)/i)||[])[1]||\"\";\n      var rating=(text.match(/(?:★\\s*)?(\\d+(?:\\.\\d+)?)\\s*(?:\\||$)/)||[])[1]||\"\";\n\n      if(chapter)card.field3=\"Ch. \"+chapter;\n      if(rating)card.field4=\"★ \"+rating;\n    }\n\n    return card;\n  });\n}\n\nvar observer,latestCards=[],lastSignature='',lastChange=Date.now();\nfunction snapshot(cards){\n  if(cards)latestCards=cards;\n  return latestCards;\n}\nfunction sample(){\n  try{\n    var cards=searchCards();\n    var signature=cards.map(function(c){return [\n      c.link&&c.link.url,c.title,c.image&&c.image.url,c.description,\n      c.field1,c.field2,c.field3,c.field4\n    ].join('|');}).join('\\n');\n    if(signature!==lastSignature){lastSignature=signature;lastChange=Date.now();}\n    snapshot(cards);\n  }catch(e){}\n}\nfunction poll(){\n  if(finished)return;\n  sample();\n  if(latestCards.length&&Date.now()-lastChange>=1000)return finish(snapshot());\n  setTimeout(poll,200);\n}\ntry{\n  observer=new MutationObserver(function(){if(!finished)sample();});\n  observer.observe(document.documentElement||document.body,{\n    childList:true,subtree:true,attributes:true,characterData:true,\n    attributeFilter:['src','data-src','data-original','data-lazy-src','href','title','alt']\n  });\n}catch(e){}\nsetTimeout(poll,100);\nsetTimeout(function(){if(!finished){sample();finish(snapshot());}},12000);\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal1",
+          "orientation": "vertical",
+          "defaultLayout": "wide",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": false
+          },
+          "layout": {
+            "insets": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "visibleCellsWidthS": 2,
+            "visibleCellsWidthM": 2,
+            "visibleCellsWidthL": 2,
+            "visibleCellsHeight": 2,
+            "heightForVisibleCells": 400,
+            "cellSize": {
+              "width": 300,
+              "height": 300
+            },
+            "ratio": {
+              "inRelation": "width",
+              "number1": 1,
+              "number2": 2
+            },
+            "constant": {
+              "width": 1,
+              "height": 2
+            },
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0
+          },
+          "data": [
+            {
+              "image": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "openInWebView": false,
+              "isChapter": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": [
+    {
+      "request": {
+        "url": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://manhwa18.net/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "var KETSU_ASYNC=true;\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image;this.title=title;this.description=description;this.field1=field1;this.field2=field2;\n  this.field3=field3;this.field4=field4;this.isChapter=isChapter;this.link=link;this.openInWebView=openInWebView||false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing;this.orientation=orientation;this.defaultLayout=defaultLayout;this.paging=paging;\n  this.section=section;this.layout=layout;this.data=data;\n}\nfunction Section(sectionName,separator){this.sectionName=sectionName;this.separator=separator;}\nfunction MainPage(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Search(request,extra,separator,javascriptConfig,output){this.request=request;this.extra=extra;this.separator=separator;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Info(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Chapter(chapName,link,openInWebView){this.chapName=chapName;this.link=link;this.openInWebView=openInWebView;}\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image;this.title=title;this.link=link;this.description=description;this.genres=genres;\n  this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction ChapterOutput(videos,images,text){this.videos=videos;this.images=images;this.text=text;}\n\nvar SITE='https://manhwa18.net', ICON=SITE+'/favicon.ico', finished=false;\nvar E=[new KV('','')];\n\nfunction extra(){return new Extra([new Commands('',E)],E);}\nfunction clean(v){return String(v==null?'':v).replace(/\\s+/g,' ').trim();}\nfunction req(url,referer,accept){return new MR(url,'GET',[\n  new KV('Referer',referer||SITE+'/'),\n  new KV('Accept',accept||'text/html,application/xhtml+xml,image/avif,image/webp,image/*,*/*;q=0.8')\n],null);}\nfunction props(){\n  try{\n    var n=document.querySelector('#app[data-page]');\n    return JSON.parse(n&&n.getAttribute('data-page')||'{}').props||{};\n  }catch(e){return {};}\n}\nfunction saved(){return document.getElementById('ketsu-final-data');}\nfunction done(value){\n  if(finished)return;finished=true;\n  var n=saved();if(n)n.textContent=JSON.stringify(value);\n  try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage('');}catch(e){}\n}\nfunction routeParts(){\n  try{\n    var u=new URL(location.href);\n    if(u.origin!==SITE)return [];\n    return u.pathname.split('/').filter(Boolean);\n  }catch(e){return [];}\n}\nfunction validSlug(slug){return /^[a-z0-9][a-z0-9._-]*$/i.test(clean(slug));}\nfunction seriesUrl(slug){return SITE+'/manga/'+slug;}\nfunction titleSlug(){\n  var p=routeParts();\n  return p.length===2&&p[0]==='manga'&&validSlug(p[1])?p[1]:'';\n}\nfunction readerRoute(){\n  var p=routeParts();\n  if(p.length!==3||p[0]!=='manga'||!validSlug(p[1])||!validSlug(p[2]))return null;\n  return {slug:p[1],chapter:p[2]};\n}\nfunction validManga(p,slug){\n  return !!(validSlug(slug)&&p&&p.manga&&clean(p.manga.slug).toLowerCase()===clean(slug).toLowerCase());\n}\nfunction safeHttpUrl(value){\n  try{\n    if(value&&typeof value==='object'){\n      value=value.url||value.src||value.href||value.path||value.image||value.file||'';\n    }\n    if(typeof value!=='string')return '';\n    value=clean(value);\n    if(!value)return '';\n    var u=new URL(value,location.href);\n    return /^https?:$/.test(u.protocol)?u.href:'';\n  }catch(e){return '';}\n}\nfunction imageUrl(value){\n  return safeHttpUrl(value);\n}\nfunction coverUrl(manga){\n  manga=manga||{};\n  var keys=[\n    'cover_url','thumb_url','thumbnail_url','image_url','poster_url',\n    'cover','thumb','thumbnail','image','poster'\n  ];\n  for(var i=0;i<keys.length;i++){\n    var v=manga[keys[i]],u=safeHttpUrl(v);\n    if(u&&!/favicon|logo(?:[._-]|$)/i.test(u))return u;\n  }\n  try{\n    var imgs=Array.prototype.slice.call(document.images||[]);\n    for(var j=0;j<imgs.length;j++){\n      var img=imgs[j];\n      var raw=img.currentSrc||img.getAttribute('src')||img.getAttribute('data-src')||\n              img.getAttribute('data-lazy-src')||img.getAttribute('data-original')||'';\n      var u2=safeHttpUrl(raw);\n      if(!u2||/favicon|logo(?:[._-]|$)/i.test(u2))continue;\n      var w=Number(img.naturalWidth||img.width||0),h=Number(img.naturalHeight||img.height||0);\n      if((w>=120&&h>=150)||h>w)return u2;\n    }\n  }catch(e){}\n  return '';\n}\nfunction pageUrl(value){\n  return safeHttpUrl(value);\n}\nfunction chapterImageValue(item){\n  if(typeof item==='string')return item;\n  if(!item||typeof item!=='object')return '';\n  return item.src||item.url||item.image||item.path||item.file||item.original||'';\n}\nfunction chapters(p,slug){\n  if(!Array.isArray(p.chapters)||!p.chapters.length)return [];\n  var seen={},list=[];\n  for(var i=0;i<p.chapters.length;i++){\n    var c=p.chapters[i]||{},chapterSlug=clean(c.slug),num=Number(c.order);\n    if(!/^[a-z0-9._-]+$/i.test(chapterSlug)||c.order==null||clean(c.order)===''||!Number.isFinite(num)||seen[chapterSlug])continue;\n    seen[chapterSlug]=true;\n    list.push({\n      number:num,\n      index:i,\n      chapter:new Chapter(\n        clean(c.name)||('Chapter '+num),\n        req(seriesUrl(slug)+'/'+chapterSlug,seriesUrl(slug)),\n        false\n      )\n    });\n  }\n  list.sort(function(a,b){return a.number-b.number||a.index-b.index;});\n  return list.map(function(item){return item.chapter;});\n}\nfunction emit(p,slug){\n  var okay=!!slug&&validManga(p,slug),m=okay?p.manga:{},list=okay?chapters(p,slug):[];\n  var genre=Array.isArray(m.genres)?m.genres.map(function(g){return clean(g&&g.name);}).filter(Boolean):[];\n  var description=clean(m.pilot||m.description||m.note).replace(/<[^>]+>/g,' ').replace(/\\s+/g,' ').trim();\n  done(new Info(new MR('','',E,null),extra(),new JC(false,false,''),new InfoOutput(\n    req(coverUrl(m)||ICON,seriesUrl(slug||''),'image/*,*/*;q=0.8'),\n    okay?clean(m.name):'',\n    req(okay?seriesUrl(slug):'',seriesUrl(slug||'')),\n    description,genre,'Manhwa18','','','Chapters: '+list.length,list\n  )));\n}\nfunction run(n){\n  var slug=titleSlug();\n  if(!slug)return emit({},'');\n  var p=props();\n  if(validManga(p,slug)||n>=30)return emit(p,slug);\n  setTimeout(function(){run(n+1);},250);\n}\nsetTimeout(function(){run(0);},100);\n"
+      },
+      "output": {
+        "image": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "link": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "title": "",
+        "description": "",
+        "genres": [
+          ""
+        ],
+        "field1": "",
+        "field2": "",
+        "field3": "",
+        "field4": "",
+        "chapters": [
+          {
+            "chapName": "",
+            "openInWebView": false,
+            "link": {
+              "url": "empty",
+              "method": "GET",
+              "headers": [
+                {
+                  "key": "",
+                  "value": ""
+                }
+              ],
+              "httpBody": null
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "request": {
+        "url": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://manhwa18.net/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "var KETSU_ASYNC=true;\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){\n  this.image=image;this.title=title;this.description=description;this.field1=field1;this.field2=field2;\n  this.field3=field3;this.field4=field4;this.isChapter=isChapter;this.link=link;this.openInWebView=openInWebView||false;\n}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){\n  this.cellDesing=cellDesing;this.orientation=orientation;this.defaultLayout=defaultLayout;this.paging=paging;\n  this.section=section;this.layout=layout;this.data=data;\n}\nfunction Section(sectionName,separator){this.sectionName=sectionName;this.separator=separator;}\nfunction MainPage(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Search(request,extra,separator,javascriptConfig,output){this.request=request;this.extra=extra;this.separator=separator;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Info(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Chapter(chapName,link,openInWebView){this.chapName=chapName;this.link=link;this.openInWebView=openInWebView;}\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){\n  this.image=image;this.title=title;this.link=link;this.description=description;this.genres=genres;\n  this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.chapters=chapters;\n}\nfunction Chapters(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction ChapterOutput(videos,images,text){this.videos=videos;this.images=images;this.text=text;}\n\nvar SITE='https://manhwa18.net', ICON=SITE+'/favicon.ico', finished=false;\nvar E=[new KV('','')];\n\nfunction extra(){return new Extra([new Commands('',E)],E);}\nfunction clean(v){return String(v==null?'':v).replace(/\\s+/g,' ').trim();}\nfunction req(url,referer,accept){return new MR(url,'GET',[\n  new KV('Referer',referer||SITE+'/'),\n  new KV('Accept',accept||'text/html,application/xhtml+xml,image/avif,image/webp,image/*,*/*;q=0.8')\n],null);}\nfunction props(){\n  try{\n    var n=document.querySelector('#app[data-page]');\n    return JSON.parse(n&&n.getAttribute('data-page')||'{}').props||{};\n  }catch(e){return {};}\n}\nfunction saved(){return document.getElementById('ketsu-final-data');}\nfunction done(value){\n  if(finished)return;finished=true;\n  var n=saved();if(n)n.textContent=JSON.stringify(value);\n  try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage('');}catch(e){}\n}\nfunction routeParts(){\n  try{\n    var u=new URL(location.href);\n    if(u.origin!==SITE)return [];\n    return u.pathname.split('/').filter(Boolean);\n  }catch(e){return [];}\n}\nfunction validSlug(slug){return /^[a-z0-9][a-z0-9._-]*$/i.test(clean(slug));}\nfunction seriesUrl(slug){return SITE+'/manga/'+slug;}\nfunction titleSlug(){\n  var p=routeParts();\n  return p.length===2&&p[0]==='manga'&&validSlug(p[1])?p[1]:'';\n}\nfunction readerRoute(){\n  var p=routeParts();\n  if(p.length!==3||p[0]!=='manga'||!validSlug(p[1])||!validSlug(p[2]))return null;\n  return {slug:p[1],chapter:p[2]};\n}\nfunction validManga(p,slug){\n  return !!(validSlug(slug)&&p&&p.manga&&clean(p.manga.slug).toLowerCase()===clean(slug).toLowerCase());\n}\nfunction safeHttpUrl(value){\n  try{\n    if(value&&typeof value==='object'){\n      value=value.url||value.src||value.href||value.path||value.image||value.file||'';\n    }\n    if(typeof value!=='string')return '';\n    value=clean(value);\n    if(!value)return '';\n    var u=new URL(value,location.href);\n    return /^https?:$/.test(u.protocol)?u.href:'';\n  }catch(e){return '';}\n}\nfunction imageUrl(value){\n  return safeHttpUrl(value);\n}\nfunction coverUrl(manga){\n  manga=manga||{};\n  var keys=[\n    'cover_url','thumb_url','thumbnail_url','image_url','poster_url',\n    'cover','thumb','thumbnail','image','poster'\n  ];\n  for(var i=0;i<keys.length;i++){\n    var v=manga[keys[i]],u=safeHttpUrl(v);\n    if(u&&!/favicon|logo(?:[._-]|$)/i.test(u))return u;\n  }\n  try{\n    var imgs=Array.prototype.slice.call(document.images||[]);\n    for(var j=0;j<imgs.length;j++){\n      var img=imgs[j];\n      var raw=img.currentSrc||img.getAttribute('src')||img.getAttribute('data-src')||\n              img.getAttribute('data-lazy-src')||img.getAttribute('data-original')||'';\n      var u2=safeHttpUrl(raw);\n      if(!u2||/favicon|logo(?:[._-]|$)/i.test(u2))continue;\n      var w=Number(img.naturalWidth||img.width||0),h=Number(img.naturalHeight||img.height||0);\n      if((w>=120&&h>=150)||h>w)return u2;\n    }\n  }catch(e){}\n  return '';\n}\nfunction pageUrl(value){\n  return safeHttpUrl(value);\n}\nfunction chapterImageValue(item){\n  if(typeof item==='string')return item;\n  if(!item||typeof item!=='object')return '';\n  return item.src||item.url||item.image||item.path||item.file||item.original||'';\n}\nfunction emit(p,r){\n  var okay=!!r;\n\n  // Some reader pages expose mangaSlug; others only expose chapterImages.\n  // Only reject when an exposed slug clearly conflicts with the current route.\n  if(okay){\n    var exposedSlug=clean(\n      (p&&p.mangaSlug)||\n      (p&&p.manga&&p.manga.slug)||\n      (p&&p.slug)||\n      ''\n    ).toLowerCase();\n    if(exposedSlug&&exposedSlug!==r.slug)okay=false;\n  }\n\n  // Validate against listChapters when that list actually exposes usable slugs.\n  if(okay&&Array.isArray(p.listChapters)&&p.listChapters.length){\n    var identifiable=[];\n    for(var j=0;j<p.listChapters.length;j++){\n      var c=p.listChapters[j]||{};\n      var s=clean(c.slug||c.chapter_slug||c.chapterSlug||'');\n      if(s)identifiable.push({slug:s,id:c.id});\n    }\n    if(identifiable.length){\n      var hit=identifiable.find(function(c){return c.slug===r.chapter;});\n      if(!hit)okay=false;\n      else if(p.chapterId!=null&&hit.id!=null&&String(hit.id)!==String(p.chapterId))okay=false;\n    }\n  }\n\n  var source=okay&&Array.isArray(p.chapterImages)?p.chapterImages:[],urls=[];\n  for(var i=0;i<source.length;i++){\n    var url=pageUrl(chapterImageValue(source[i]));\n    if(url)urls.push(url);\n  }\n\n  var images=urls.map(function(url){\n    return req(url,location.href,'image/avif,image/webp,image/apng,image/*,*/*;q=0.8');\n  });\n\n  done(new Chapters(new MR('','',E,null),extra(),new JC(false,false,''),\n    new ChapterOutput(null,images,null)));\n}\nfunction run(n){\n  var r=readerRoute();\n  if(!r)return emit({},null);\n  var p=props();\n  if(Array.isArray(p.chapterImages)||n>=30)return emit(p,r);\n  setTimeout(function(){run(n+1);},250);\n}\nsetTimeout(function(){run(0);},100);\n"
+      },
+      "output": {
+        "videos": null,
+        "images": [
+          {
+            "url": "empty",
+            "method": "GET",
+            "headers": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ],
+            "httpBody": null
+          }
+        ],
+        "text": null
+      }
+    }
+  ],
+  "moduleResolvers": [],
+  "responseCodeFunctions": [],
+  "helperFunctions": []
+}
