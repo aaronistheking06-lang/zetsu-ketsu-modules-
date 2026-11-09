@@ -1,0 +1,632 @@
+{
+  "moduleInfo": {
+    "moduleName": "Comix.to | ENG",
+    "moduleInitials": "CX",
+    "moduleDesc": "Native Comix chapters and panels. Corrected human-verification helper command.",
+    "developer": "Aaron",
+    "moduleID": "comix_to_zetsu_eng_v34_pagination",
+    "moduleImage": "https://comix.to/assets/uploads/35595e3de3c99889c1bd2c56f3e3714fc0c457.png",
+    "moduleVersion": 4.2,
+    "moduleLenguage": "ENG",
+    "moduleType": "Image",
+    "baseURL": "https://comix.to/",
+    "moduleDeveloperSite": "",
+    "UpdateSite": "",
+    "preferedServer": "",
+    "preferedDownloadServer": "",
+    "blackListed": [
+      ""
+    ]
+  },
+  "global": {
+    "variables": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "cookies": [
+      {
+        "key": "",
+        "value": ""
+      }
+    ],
+    "headers": [
+      {
+        "key": "Accept",
+        "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+      }
+    ]
+  },
+  "mainPage": [
+    {
+      "request": {
+        "url": "https://comix.to/",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://comix.to/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\nvar KETSU_ASYNC=true;\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){this.image=image;this.title=title;this.description=description;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.isChapter=isChapter;this.link=link;this.openInWebView=openInWebView||false;}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){this.cellDesing=cellDesing;this.orientation=orientation;this.defaultLayout=defaultLayout;this.paging=paging;this.section=section;this.layout=layout;this.data=data;}\nfunction Section(sectionName,separator){this.sectionName=sectionName;this.separator=separator;}\nfunction MainPage(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nvar BASE=\"https://comix.to/\",ICON=\"https://comix.to/assets/uploads/35595e3de3c99889c1bd2c56f3e3714fc0c457.png\",E=[new KV(\"\",\"\")],finished=false;\nfunction saved(){return document.getElementById(\"ketsu-final-data\");}\nfunction done(){try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(\"\");}catch(e){}}\nfunction abs(url){try{return new URL(String(url||\"\"),BASE).href;}catch(e){return String(url||\"\");}}\nfunction req(url,referer){return new MR(abs(url)||ICON,\"GET\",[new KV(\"Referer\",referer||BASE),new KV(\"Accept\",\"image/avif,image/webp,image/apng,image/*,*/*;q=0.8\")],null);}\nfunction extra(){return new Extra([new Commands(\"\",E)],E);}\nfunction clean(value){return String(value||\"\").replace(/\\s+/g,\" \").trim();}\nfunction initial(){try{return JSON.parse(document.getElementById(\"initial-data\").textContent||\"{}\");}catch(e){return {};}}\nfunction card(item,label){\n  var poster=item&&item.poster||{};\n  var chapter=item&&item.hasChapters&&item.latestChapter!==undefined?\"Ch. \"+item.latestChapter:\"\";\n  var rating=Number(item&&item.ratedAvg)||0;\n  return new Data(req(poster.medium||poster.large||ICON,BASE),clean(item&&item.title)||\"Untitled\",clean(item&&item.synopsis),clean(item&&item.type).toUpperCase()||\"COMIC\",label||clean(item&&item.status),chapter,rating?\"★ \"+rating.toFixed(1):\"\",false,req(item&&item.url||BASE,BASE),false);\n}\nfunction queryList(data,kind){\n  var pairs=Object.entries(data.queries||{});\n  for(var i=0;i<pairs.length;i++){\n    var key=pairs[i][0],value=pairs[i][1];\n    if(kind===\"trending\"&&key.indexOf('\"type\":\"trending\"')<0)continue;\n    if(kind===\"follows\"&&key.indexOf('\"type\":\"follows\"')<0)continue;\n    if(kind===\"hot\"&&(key.indexOf('\"scope\":\"hot\"')<0||key.indexOf('\"manga\",\"list\"')<0))continue;\n    if(kind===\"new\"&&(key.indexOf('\"created_at\":\"desc\"')<0||key.indexOf('\"scope\":\"hot\"')>=0))continue;\n    return Array.isArray(value)?value:Array.isArray(value&&value.items)?value.items:[];\n  }\n  return [];\n}\nfunction finish(outputs){if(finished)return;finished=true;saved().textContent=JSON.stringify(new MainPage(new MR(\"\",\"GET\",E,null),extra(),new JC(false,false,\"\"),outputs));done();}\nfunction run(){\n  try{\n    var data=initial();\n    var trending=queryList(data,\"trending\"),follows=queryList(data,\"follows\"),hot=queryList(data,\"hot\"),newest=queryList(data,\"new\");\n    var outputs=[];\n    if(trending.length)outputs.push(new Output(\"wide11\",\"horizontal\",\"ultraWideFull\",\"leading\",new Section(\"Featured\",true),null,[card(trending[0],\"Trending\")]));\n    if(hot.length)outputs.push(new Output(\"normal4\",\"horizontal\",\"longTripletsDouble\",\"leading\",new Section(\"Latest Updates\",true),null,hot.slice(0,24).map(function(x){return card(x,\"Updated\");})));\n    if(trending.length>1)outputs.push(new Output(\"normal4\",\"horizontal\",\"longTripletsDouble\",\"leading\",new Section(\"Popular Today\",true),null,trending.slice(1,17).map(function(x){return card(x,\"Popular\");})));\n    if(follows.length)outputs.push(new Output(\"normal4\",\"horizontal\",\"longTripletsDouble\",\"leading\",new Section(\"Most Followed\",true),null,follows.slice(0,16).map(function(x){return card(x,\"Most Followed\");})));\n    if(newest.length)outputs.push(new Output(\"normal4\",\"horizontal\",\"longTripletsDouble\",\"leading\",new Section(\"New Comics\",true),null,newest.slice(0,12).map(function(x){return card(x,\"New\");})));\n    if(!outputs.length)throw new Error(\"No home lists were found\");\n    finish(outputs);\n  }catch(e){\n    finish([new Output(\"wide6\",\"vertical\",\"doubletsFull\",\"\",new Section(\"\",true),null,[new Data(req(ICON,BASE),\"Home page error\",e.message,\"Comix.to\",\"\",\"\",\"\",false,req(BASE,BASE),true)])]);\n  }\n}\nsetTimeout(run,100);\nsetTimeout(function(){if(!finished)run();},1500);\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal1",
+          "orientation": "vertical",
+          "defaultLayout": "wide",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": false
+          },
+          "layout": {
+            "insets": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "visibleCellsWidthS": 2,
+            "visibleCellsWidthM": 2,
+            "visibleCellsWidthL": 2,
+            "visibleCellsHeight": 2,
+            "heightForVisibleCells": 400,
+            "cellSize": {
+              "width": 300,
+              "height": 300
+            },
+            "ratio": {
+              "inRelation": "width",
+              "number1": 1,
+              "number2": 2
+            },
+            "constant": {
+              "width": 1,
+              "height": 2
+            },
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0
+          },
+          "data": [
+            {
+              "image": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "openInWebView": false,
+              "isChapter": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "search": [
+    {
+      "request": {
+        "url": "https://comix.to/browse?q=<searched>&sort=relevance%3Adesc&page=<page>",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://comix.to/"
+          }
+        ],
+        "httpBody": null
+      },
+      "separator": "%20",
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\nvar KETSU_ASYNC=true;\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Data(image,title,description,field1,field2,field3,field4,isChapter,link,openInWebView){this.image=image;this.title=title;this.description=description;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.isChapter=isChapter;this.link=link;this.openInWebView=openInWebView||false;}\nfunction Output(cellDesing,orientation,defaultLayout,paging,section,layout,data){this.cellDesing=cellDesing;this.orientation=orientation;this.defaultLayout=defaultLayout;this.paging=paging;this.section=section;this.layout=layout;this.data=data;}\nfunction Section(sectionName,separator){this.sectionName=sectionName;this.separator=separator;}\nfunction Search(request,extra,separator,javascriptConfig,output){this.request=request;this.extra=extra;this.separator=separator;this.javascriptConfig=javascriptConfig;this.output=output;}\nvar BASE=\"https://comix.to/\",ICON=\"https://comix.to/assets/uploads/35595e3de3c99889c1bd2c56f3e3714fc0c457.png\",E=[new KV(\"\",\"\")],finished=false;\nfunction saved(){return document.getElementById(\"ketsu-final-data\");}\nfunction done(){try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage(\"\");}catch(e){}}\nfunction abs(url){try{return new URL(String(url||\"\"),BASE).href;}catch(e){return String(url||\"\");}}\nfunction req(url,referer){return new MR(abs(url)||ICON,\"GET\",[new KV(\"Referer\",referer||BASE),new KV(\"Accept\",\"image/avif,image/webp,image/apng,image/*,*/*;q=0.8\")],null);}\nfunction extra(){return new Extra([new Commands(\"\",E)],E);}\nfunction clean(value){return String(value||\"\").replace(/\\s+/g,\" \").trim();}\nfunction finish(cards){if(finished)return;finished=true;var output=[new Output(\"wide6\",\"vertical\",\"doubletsFull\",\"\",new Section(\"\",true),null,cards)];saved().textContent=JSON.stringify(new Search(new MR(\"\",\"\",E,null),extra(),\"\",new JC(false,false,\"\"),output));done();}\nfunction parse(){\n  var rows=Array.prototype.slice.call(document.querySelectorAll(\".lrow\"));\n  return rows.map(function(row){\n    var titleLink=row.querySelector(\"a.lrow__title-link[href*='/title/']\");\n    var poster=row.querySelector(\".lrow__poster img\");\n    var title=clean(row.querySelector(\".lrow__title\")&&row.querySelector(\".lrow__title\").textContent);\n    if(!titleLink||!title)return null;\n    return new Data(req(poster&&(poster.currentSrc||poster.getAttribute(\"src\")||poster.getAttribute(\"data-src\"))||ICON,location.href),title,clean(row.querySelector(\".lrow__desc\")&&row.querySelector(\".lrow__desc\").textContent),clean(row.querySelector(\".lrow__type\")&&row.querySelector(\".lrow__type\").textContent)||\"COMIC\",clean(row.querySelector(\".lrow__status\")&&row.querySelector(\".lrow__status\").textContent),clean(row.querySelector(\".lrow__ch\")&&row.querySelector(\".lrow__ch\").textContent),clean(row.querySelector(\".lrow__rating\")&&row.querySelector(\".lrow__rating\").textContent),false,req(titleLink.getAttribute(\"href\"),location.href),false);\n  }).filter(Boolean);\n}\nfunction run(attempt){\n  try{\n    var cards=parse();\n    if(!cards.length&&attempt<30)return setTimeout(function(){run(attempt+1);},250);\n    if(!cards.length)cards=[new Data(req(ICON,BASE),\"No results\",\"Try another title.\",\"Comix.to\",\"\",\"\",\"\",false,req(BASE,BASE),false)];\n    finish(cards);\n  }catch(e){finish([new Data(req(ICON,BASE),\"Search error\",e.message,\"Comix.to\",\"\",\"\",\"\",false,req(BASE,BASE),true)]);}\n}\nsetTimeout(function(){run(0);},150);\n"
+      },
+      "output": [
+        {
+          "cellDesing": "normal1",
+          "orientation": "vertical",
+          "defaultLayout": "wide",
+          "paging": "",
+          "section": {
+            "sectionName": "",
+            "separator": false
+          },
+          "layout": {
+            "insets": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "visibleCellsWidthS": 2,
+            "visibleCellsWidthM": 2,
+            "visibleCellsWidthL": 2,
+            "visibleCellsHeight": 2,
+            "heightForVisibleCells": 400,
+            "cellSize": {
+              "width": 300,
+              "height": 300
+            },
+            "ratio": {
+              "inRelation": "width",
+              "number1": 1,
+              "number2": 2
+            },
+            "constant": {
+              "width": 1,
+              "height": 2
+            },
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0
+          },
+          "data": [
+            {
+              "image": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              },
+              "title": "",
+              "description": "",
+              "field1": "",
+              "field2": "",
+              "field3": "",
+              "field4": "",
+              "openInWebView": false,
+              "isChapter": false,
+              "link": {
+                "url": "",
+                "method": "GET",
+                "headers": [
+                  {
+                    "key": "",
+                    "value": ""
+                  }
+                ],
+                "httpBody": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": [
+    {
+      "request": {
+        "url": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://comix.to/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\nvar KETSU_ASYNC=true;\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Info(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Chapter(chapName,link,openInWebView){this.chapName=chapName;this.link=link;this.openInWebView=openInWebView;}\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){this.image=image;this.title=title;this.link=link;this.description=description;this.genres=genres;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.chapters=chapters;}\nvar BASE=\"https://comix.to/\",E=[new KV(\"\",\"\")],finished=false;\nfunction saved(){return document.getElementById('ketsu-final-data');}\nfunction done(){try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage('');}catch(e){}}\nfunction clean(x){return String(x||'').replace(/\\s+/g,' ').trim();}\nfunction abs(x){return new URL(String(x||''),location.href).href;}\nfunction req(x){return new MR(abs(x),'GET',[new KV('Referer',location.href),new KV('Accept','text/html,application/xhtml+xml,image/*,*/*;q=0.8')],null);}\nfunction extra(){return new Extra([new Commands('',E)],E);}\nfunction sleep(ms){return new Promise(function(resolve){setTimeout(resolve,ms);});}\nfunction initial(){try{return JSON.parse(document.getElementById('initial-data').textContent||'{}');}catch(e){return {};}}\nfunction mangaData(){var queries=initial().queries||{};for(var key in queries)if(key.indexOf('\"manga\",\"detail\"')>=0)return queries[key]||{};return {};}\n\nfunction rows(){var items=Array.prototype.slice.call(document.querySelectorAll('.mchap-row')).map(function(row){var a=row.querySelector('a.mchap-row__primary[href*=\"-chapter-\"]');if(!a)return null;var url=abs(a.getAttribute('href')),chapter=row.querySelector('.mchap-row__ch'),label=clean(chapter?chapter.textContent:a.textContent).replace(/^(?:Chapter\\s+|Ch\\.?(?=\\s|\\d)\\s*)/i,'Chapter '),volume=row.querySelector('.mchap-row__vol'),group=clean(row.querySelector('.mchap-row__group')&&row.querySelector('.mchap-row__group').textContent),official=!!row.querySelector('.mchap-row__group.is-official');if(volume)label+=' '+clean(volume.textContent);return {url:url,label:label,group:group,official:official};}).filter(Boolean);if(items.length)return items;return Array.prototype.slice.call(document.querySelectorAll('a.mchap-row__primary[href*=\"-chapter-\"]')).map(function(a){var url=abs(a.getAttribute('href')),chapter=a.querySelector&&a.querySelector('.mchap-row__ch'),label=clean(chapter?chapter.textContent:a.textContent).replace(/^(?:Chapter\\s+|Ch\\.?(?=\\s|\\d)\\s*)/i,'Chapter ');return {url:url,label:label,group:'',official:false};});}\nfunction domState(){var rowCount=document.querySelectorAll('.mchap-row').length,anchorCount=document.querySelectorAll('a.mchap-row__primary[href*=\"-chapter-\"]').length,footer=!!document.querySelector('.mchap-foot__hint'),pager=!!document.querySelector('.npager'),security=!!(document.querySelector('.wafcap')||document.querySelector('[aria-label=\"Security check\"]'));return 'rows='+rowCount+', anchors='+anchorCount+', footer='+footer+', pager='+pager+', securityCheck='+security;}\n\nfunction pageState(){var hint=clean(document.querySelector('.mchap-foot__hint')&&document.querySelector('.mchap-foot__hint').textContent),match=hint.replace(/(\\d),(?=\\d{3}(?:\\D|$))/g,'$1').match(/Showing\\s+(\\d+)\\s+to\\s+(\\d+)\\s+of\\s+(\\d+)\\s+items/i),active=document.querySelector('.npager__num.is-active');if(!match)throw new Error('Chapter pagination is unavailable');if(!active&&Number(match[3])>20)throw new Error('Chapter pagination controls missing');return {start:+match[1],end:+match[2],total:+match[3],page:active?+clean(active.textContent):1};}\n\n\nvar lastPageAction=Date.now();\nasync function pacePage(){var remaining=3000-(Date.now()-lastPageAction);if(remaining>0)await sleep(remaining);}\nfunction requestedPage(){try{return Number(new URL(location.href).searchParams.get('page'))||1;}catch(e){return 1;}}\nasync function clickPage(target,alternate){\n for(var n=0;n<20;n++){\n  var exact=Array.prototype.slice.call(document.querySelectorAll('.npager__num')).filter(function(button){return Number(clean(button.textContent))===target;})[0],next=document.querySelector('button[aria-label=\"Next page\"]'),active=document.querySelector('.npager__num.is-active'),current=active?Number(clean(active.textContent)):0;\n  // Next is safe only when both the displayed and requested pages precede target.\n  var adjacent=current===target-1&&requestedPage()!==target;\n  var button=alternate&&adjacent&&next&&!next.disabled?next:exact;\n  if((!button||button.disabled)&&adjacent&&next&&!next.disabled)button=next;\n  if(button&&!button.disabled){await pacePage();lastPageAction=Date.now();button.click();return;}\n  await sleep(100);\n }\n throw new Error('Chapter page '+target+' control unavailable');\n}\nasync function waitPage(target,previousFirst,total){\n var started=Date.now(),retried=false,lastState=null,lastCount=0;\n for(var n=0;n<200;n++){\n  if(challenged()&&!await waitForChallenge())throw new Error('Human verification is still required; the chapter list has not loaded');\n  try{\n   var state=pageState(),list=rows(),first=list[0],expected=Math.min(20,total-(target-1)*20);lastState=state;lastCount=list.length;\n   if(state.page===target&&state.total===total&&state.start===(target-1)*20+1&&state.end===Math.min(target*20,total)&&list.length===expected&&first&&first.url!==previousFirst)return state;\n   // A click may be lost during hydration/remount. Retry once using the other\n   // control, but do not click Next while the requested target is in flight.\n   if(!retried&&Date.now()-started>=3000&&state.page===target-1&&requestedPage()!==target&&first&&first.url===previousFirst){retried=true;await clickPage(target,true);}\n  }catch(e){}\n  await sleep(100);\n }\n var detail=lastState?' (website page '+lastState.page+', '+lastCount+' entries)':'';\n throw new Error('Chapter page '+target+' did not settle'+detail);\n}\n\nfunction ordered(all){return all.sort(function(a,b){var na=Number((a.label.match(/\\d+(?:\\.\\d+)?/)||[])[0]),nb=Number((b.label.match(/\\d+(?:\\.\\d+)?/)||[])[0]);if(Number.isFinite(na)&&Number.isFinite(nb)&&na!==nb)return na-nb;if(a.official!==b.official)return a.official?-1:1;return a.label.localeCompare(b.label)||a.url.localeCompare(b.url);});}\n\n\nfunction cacheKey(){return 'zetsu-comix-chapters-v1:'+location.pathname.split('/').slice(0,3).join('/');}\nfunction readCache(){try{var c=JSON.parse(localStorage.getItem(cacheKey()));if(c&&Array.isArray(c.items)&&Date.now()-c.time<86400000)return c;}catch(e){}return null;}\nfunction saveCache(items,total,complete){try{localStorage.setItem(cacheKey(),JSON.stringify({time:Date.now(),items:items,total:total,complete:complete}));}catch(e){}}\nfunction challenged(){var node=document.querySelector('.wafcap')||document.querySelector('[aria-label=\"Security check\"]');if(!node)return false;if(node.hidden||node.getAttribute&&node.getAttribute('aria-hidden')==='true')return false;try{var style=getComputedStyle(node);if(style.display==='none'||style.visibility==='hidden')return false;}catch(e){}return true;}\nasync function waitForChallenge(){for(var attempt=0;attempt<50&&challenged();attempt++)await sleep(100);var cleared=!challenged();if(!cleared)verificationRequired=true;return cleared;}\nasync function allRows(){\n var cached=readCache(),state=null,list=[],all=[],seen={},total=0;\n function collect(){rows().forEach(function(x){if(!seen[x.url]){seen[x.url]=true;all.push(x);}});if(all.length)saveCache(all,total,false);}\n function partial(reason){if(all.length)return {items:ordered(all),total:total,error:reason};if(cached&&cached.items.length)return {items:ordered(cached.items),total:cached.total,error:reason+'; showing saved chapters, refresh incomplete'};return {items:[],total:0,error:reason};}\n // Wait for the page's own initial request. Never issue a second raw API request.\n for(var n=0;n<300;n++){list=rows();try{state=pageState();}catch(e){state=null;}if(list.length&&state)break;if(challenged()&&!await waitForChallenge())return partial('Human verification is still required; the chapter list has not loaded');await sleep(100);}\n if(!list.length)return partial('The website did not render its chapter list');\n if(!state){collect();return partial('Only visible chapter links were available');}\n total=state.total;\n // Reuse only a recent complete snapshot whose first page and total still agree.\n if(state.page===1&&cached&&cached.complete&&Date.now()-cached.time<600000&&cached.total===total&&cached.items.length===total&&list.every(function(x,i){return cached.items[i]&&cached.items[i].url===x.url;}))return {items:ordered(cached.items),total:total,error:''};\n if(state.page!==1){var old=list[0].url;try{await pacePage();var first=document.querySelector('button[aria-label=\"First page\"]');if(first&&!first.disabled){lastPageAction=Date.now();first.click();}else await clickPage(1);state=await waitPage(1,old,total);}catch(e){collect();return partial(String(e.message||e));}}\n try{\n  collect();\n  for(var page=2;page<=Math.ceil(total/20)&&all.length<total;page++){\n   // One site-control action per interval; no concurrent API calls or security patches.\n   await pacePage();\n   if(challenged()&&!await waitForChallenge())throw new Error('Human verification is still required; the chapter list has not loaded');\n   var previous=rows()[0];if(!previous)throw new Error('The website cleared its chapter list');\n   await clickPage(page);state=await waitPage(page,previous.url,total);collect();\n  }\n  if(all.length!==total)throw new Error('Chapter list incomplete: '+all.length+' of '+total);\n  saveCache(all,total,true);return {items:ordered(all),total:total,error:''};\n }catch(e){return partial(String(e.message||e));}\n}\n\n\n\nvar verificationRequired=false;\nfunction incomingVerificationAttempt(){try{var data=JSON.parse(saved().textContent||'{}'),items=data.extra&&data.extra.extraInfo||[];return items.some(function(x){return x.key==='comixVerificationAttempted'&&x.value==='true';});}catch(e){return false;}}\nvar verificationAttempted=incomingVerificationAttempt();\nfunction verificationKey(){return 'zetsu-comix-verification-v3:'+new URL(location.href).pathname;}\nfunction verificationNote(value,message){value.description=message+(value.description?'\\n'+value.description:'');}\nfunction clearVerificationAttempts(){try{localStorage.removeItem(verificationKey());localStorage.removeItem('zetsu-comix-verify-attempt:'+new URL(location.href).pathname);}catch(e){}}\nfunction requestVerification(value){\n var target=new URL(location.href);\n if(target.protocol!=='https:'||target.hostname!=='comix.to'||!/^\\/title\\/[^/]+\\/?$/.test(target.pathname))return false;\n // The host's extraInfo marker bounds this request's helper handoff. A small\n // persistent budget additionally protects hosts which discard that marker.\n if(verificationAttempted){verificationNote(value,'Verification did not carry back to the chapter loader. Close this title before trying again.');return false;}\n try{\n  var now=Date.now(),attempts=JSON.parse(localStorage.getItem(verificationKey())||'null');\n  if(!attempts||!Number.isFinite(attempts.started)||now<attempts.started||now-attempts.started>=600000)attempts={started:now,count:0};\n  if(attempts.count>=2){verificationNote(value,'Verification is still required after two attempts. Retry in '+Math.max(1,Math.ceil((600000-(now-attempts.started))/60000))+' minutes.');return false;}\n  attempts.count=(Number(attempts.count)||0)+1;localStorage.setItem(verificationKey(),JSON.stringify(attempts));\n }catch(e){verificationNote(value,'Unable to safely open verification because browser storage is unavailable.');return false;}\n var command=new Commands('helperFunction',[new KV('name','comix-title-verification'),new KV('isCustomRequest','true')]);\n var handoffExtra=new Extra([command],[new KV('comixVerificationAttempted','true')]);\n verificationAttempted=true;finished=true;\n saved().textContent=JSON.stringify(new Info(req(target.href),handoffExtra,new JC(false,true,''),value));done();return true;\n}\nfunction finish(value){\n if(finished)return;\n var needsVerification=verificationRequired||challenged();\n if(needsVerification&&requestVerification(value))return;\n if(!needsVerification&&value.chapters&&value.chapters.length)clearVerificationAttempts();\n finished=true;saved().textContent=JSON.stringify(new Info(new MR('','',E,null),extra(),new JC(false,false,''),value));done();\n}\n\nfunction output(manga,chapters,note,total){var poster=manga.poster||{},genres=(manga.genres||[]).map(function(x){return clean(x.title);}).filter(Boolean);if(!genres.length)genres=(manga.formats||[]).map(function(x){return clean(x.title);}).filter(Boolean);if(!genres.length)genres=[clean(manga.type)||'Comic'];var synopsis=clean(manga.synopsis),description=note?note+(synopsis?'\\n'+synopsis:''):synopsis,field4=note?(total?'Partial chapters: '+chapters.length+' of '+total:chapters.length?'Partial chapters: '+chapters.length+' (total unknown)':'Chapter list unavailable'):'Chapters: '+chapters.length;return new InfoOutput(req(poster.large||poster.medium||BASE),clean(manga.title)||'Comix.to',req(manga.url||location.href),description,genres,clean(manga.type).toUpperCase(),clean(manga.status),String(manga.year||manga.startDate||''),field4,chapters);}\nasync function run(){var manga=mangaData();try{for(var ready=0;!manga.hid&&ready<100;ready++){await sleep(100);manga=mangaData();}if(!manga.hid)throw new Error('Title metadata missing');var result=manga.hasChapters===false?{items:[],total:0,error:''}:await allRows(),chapters=result.items.map(function(item){var name=item.label;if(item.group)name+=' - '+(item.official?'Official ':'')+item.group;return new Chapter(name,req(item.url),false);}),note=result.error?'Incomplete chapter list: '+result.error:'';finish(output(manga,chapters,note,result.total));}catch(e){finish(output(manga,[],'Unable to load chapters: '+String(e.message||e),0));}}\n\nsetTimeout(run,100);\n"
+      },
+      "output": {
+        "image": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "link": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "title": "",
+        "description": "",
+        "genres": [
+          ""
+        ],
+        "field1": "",
+        "field2": "",
+        "field3": "",
+        "field4": "",
+        "chapters": [
+          {
+            "chapName": "",
+            "openInWebView": false,
+            "link": {
+              "url": "empty",
+              "method": "GET",
+              "headers": [
+                {
+                  "key": "",
+                  "value": ""
+                }
+              ],
+              "httpBody": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "url": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://comix.to/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\nvar KETSU_ASYNC=true;\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Info(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction Chapter(chapName,link,openInWebView){this.chapName=chapName;this.link=link;this.openInWebView=openInWebView;}\nfunction InfoOutput(image,title,link,description,genres,field1,field2,field3,field4,chapters){this.image=image;this.title=title;this.link=link;this.description=description;this.genres=genres;this.field1=field1;this.field2=field2;this.field3=field3;this.field4=field4;this.chapters=chapters;}\nvar BASE=\"https://comix.to/\",E=[new KV(\"\",\"\")],finished=false;\nfunction saved(){return document.getElementById('ketsu-final-data');}\nfunction done(){try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage('');}catch(e){}}\nfunction clean(x){return String(x||'').replace(/\\s+/g,' ').trim();}\nfunction abs(x){return new URL(String(x||''),location.href).href;}\nfunction req(x){return new MR(abs(x),'GET',[new KV('Referer',location.href),new KV('Accept','text/html,application/xhtml+xml,image/*,*/*;q=0.8')],null);}\nfunction extra(){return new Extra([new Commands('',E)],E);}\nfunction sleep(ms){return new Promise(function(resolve){setTimeout(resolve,ms);});}\nfunction initial(){try{return JSON.parse(document.getElementById('initial-data').textContent||'{}');}catch(e){return {};}}\nfunction mangaData(){var queries=initial().queries||{};for(var key in queries)if(key.indexOf('\"manga\",\"detail\"')>=0)return queries[key]||{};return {};}\n\nfunction rows(){var items=Array.prototype.slice.call(document.querySelectorAll('.mchap-row')).map(function(row){var a=row.querySelector('a.mchap-row__primary[href*=\"-chapter-\"]');if(!a)return null;var url=abs(a.getAttribute('href')),chapter=row.querySelector('.mchap-row__ch'),label=clean(chapter?chapter.textContent:a.textContent).replace(/^(?:Chapter\\s+|Ch\\.?(?=\\s|\\d)\\s*)/i,'Chapter '),volume=row.querySelector('.mchap-row__vol'),group=clean(row.querySelector('.mchap-row__group')&&row.querySelector('.mchap-row__group').textContent),official=!!row.querySelector('.mchap-row__group.is-official');if(volume)label+=' '+clean(volume.textContent);return {url:url,label:label,group:group,official:official};}).filter(Boolean);if(items.length)return items;return Array.prototype.slice.call(document.querySelectorAll('a.mchap-row__primary[href*=\"-chapter-\"]')).map(function(a){var url=abs(a.getAttribute('href')),chapter=a.querySelector&&a.querySelector('.mchap-row__ch'),label=clean(chapter?chapter.textContent:a.textContent).replace(/^(?:Chapter\\s+|Ch\\.?(?=\\s|\\d)\\s*)/i,'Chapter ');return {url:url,label:label,group:'',official:false};});}\nfunction domState(){var rowCount=document.querySelectorAll('.mchap-row').length,anchorCount=document.querySelectorAll('a.mchap-row__primary[href*=\"-chapter-\"]').length,footer=!!document.querySelector('.mchap-foot__hint'),pager=!!document.querySelector('.npager'),security=!!(document.querySelector('.wafcap')||document.querySelector('[aria-label=\"Security check\"]'));return 'rows='+rowCount+', anchors='+anchorCount+', footer='+footer+', pager='+pager+', securityCheck='+security;}\n\nfunction pageState(){var hint=clean(document.querySelector('.mchap-foot__hint')&&document.querySelector('.mchap-foot__hint').textContent),match=hint.replace(/(\\d),(?=\\d{3}(?:\\D|$))/g,'$1').match(/Showing\\s+(\\d+)\\s+to\\s+(\\d+)\\s+of\\s+(\\d+)\\s+items/i),active=document.querySelector('.npager__num.is-active');if(!match)throw new Error('Chapter pagination is unavailable');if(!active&&Number(match[3])>20)throw new Error('Chapter pagination controls missing');return {start:+match[1],end:+match[2],total:+match[3],page:active?+clean(active.textContent):1};}\n\n\nvar lastPageAction=Date.now();\nasync function pacePage(){var remaining=3000-(Date.now()-lastPageAction);if(remaining>0)await sleep(remaining);}\nfunction requestedPage(){try{return Number(new URL(location.href).searchParams.get('page'))||1;}catch(e){return 1;}}\nasync function clickPage(target,alternate){\n for(var n=0;n<20;n++){\n  var exact=Array.prototype.slice.call(document.querySelectorAll('.npager__num')).filter(function(button){return Number(clean(button.textContent))===target;})[0],next=document.querySelector('button[aria-label=\"Next page\"]'),active=document.querySelector('.npager__num.is-active'),current=active?Number(clean(active.textContent)):0;\n  // Next is safe only when both the displayed and requested pages precede target.\n  var adjacent=current===target-1&&requestedPage()!==target;\n  var button=alternate&&adjacent&&next&&!next.disabled?next:exact;\n  if((!button||button.disabled)&&adjacent&&next&&!next.disabled)button=next;\n  if(button&&!button.disabled){await pacePage();lastPageAction=Date.now();button.click();return;}\n  await sleep(100);\n }\n throw new Error('Chapter page '+target+' control unavailable');\n}\nasync function waitPage(target,previousFirst,total){\n var started=Date.now(),retried=false,lastState=null,lastCount=0;\n for(var n=0;n<200;n++){\n  if(challenged()&&!await waitForChallenge())throw new Error('Human verification is still required; the chapter list has not loaded');\n  try{\n   var state=pageState(),list=rows(),first=list[0],expected=Math.min(20,total-(target-1)*20);lastState=state;lastCount=list.length;\n   if(state.page===target&&state.total===total&&state.start===(target-1)*20+1&&state.end===Math.min(target*20,total)&&list.length===expected&&first&&first.url!==previousFirst)return state;\n   // A click may be lost during hydration/remount. Retry once using the other\n   // control, but do not click Next while the requested target is in flight.\n   if(!retried&&Date.now()-started>=3000&&state.page===target-1&&requestedPage()!==target&&first&&first.url===previousFirst){retried=true;await clickPage(target,true);}\n  }catch(e){}\n  await sleep(100);\n }\n var detail=lastState?' (website page '+lastState.page+', '+lastCount+' entries)':'';\n throw new Error('Chapter page '+target+' did not settle'+detail);\n}\n\nfunction ordered(all){return all.sort(function(a,b){var na=Number((a.label.match(/\\d+(?:\\.\\d+)?/)||[])[0]),nb=Number((b.label.match(/\\d+(?:\\.\\d+)?/)||[])[0]);if(Number.isFinite(na)&&Number.isFinite(nb)&&na!==nb)return na-nb;if(a.official!==b.official)return a.official?-1:1;return a.label.localeCompare(b.label)||a.url.localeCompare(b.url);});}\n\n\nfunction cacheKey(){return 'zetsu-comix-chapters-v1:'+location.pathname.split('/').slice(0,3).join('/');}\nfunction readCache(){try{var c=JSON.parse(localStorage.getItem(cacheKey()));if(c&&Array.isArray(c.items)&&Date.now()-c.time<86400000)return c;}catch(e){}return null;}\nfunction saveCache(items,total,complete){try{localStorage.setItem(cacheKey(),JSON.stringify({time:Date.now(),items:items,total:total,complete:complete}));}catch(e){}}\nfunction challenged(){var node=document.querySelector('.wafcap')||document.querySelector('[aria-label=\"Security check\"]');if(!node)return false;if(node.hidden||node.getAttribute&&node.getAttribute('aria-hidden')==='true')return false;try{var style=getComputedStyle(node);if(style.display==='none'||style.visibility==='hidden')return false;}catch(e){}return true;}\nasync function waitForChallenge(){for(var attempt=0;attempt<50&&challenged();attempt++)await sleep(100);var cleared=!challenged();if(!cleared)verificationRequired=true;return cleared;}\nasync function allRows(){\n var cached=readCache(),state=null,list=[],all=[],seen={},total=0;\n function collect(){rows().forEach(function(x){if(!seen[x.url]){seen[x.url]=true;all.push(x);}});if(all.length)saveCache(all,total,false);}\n function partial(reason){if(all.length)return {items:ordered(all),total:total,error:reason};if(cached&&cached.items.length)return {items:ordered(cached.items),total:cached.total,error:reason+'; showing saved chapters, refresh incomplete'};return {items:[],total:0,error:reason};}\n // Wait for the page's own initial request. Never issue a second raw API request.\n for(var n=0;n<300;n++){list=rows();try{state=pageState();}catch(e){state=null;}if(list.length&&state)break;if(challenged()&&!await waitForChallenge())return partial('Human verification is still required; the chapter list has not loaded');await sleep(100);}\n if(!list.length)return partial('The website did not render its chapter list');\n if(!state){collect();return partial('Only visible chapter links were available');}\n total=state.total;\n // Reuse only a recent complete snapshot whose first page and total still agree.\n if(state.page===1&&cached&&cached.complete&&Date.now()-cached.time<600000&&cached.total===total&&cached.items.length===total&&list.every(function(x,i){return cached.items[i]&&cached.items[i].url===x.url;}))return {items:ordered(cached.items),total:total,error:''};\n if(state.page!==1){var old=list[0].url;try{await pacePage();var first=document.querySelector('button[aria-label=\"First page\"]');if(first&&!first.disabled){lastPageAction=Date.now();first.click();}else await clickPage(1);state=await waitPage(1,old,total);}catch(e){collect();return partial(String(e.message||e));}}\n try{\n  collect();\n  for(var page=2;page<=Math.ceil(total/20)&&all.length<total;page++){\n   // One site-control action per interval; no concurrent API calls or security patches.\n   await pacePage();\n   if(challenged()&&!await waitForChallenge())throw new Error('Human verification is still required; the chapter list has not loaded');\n   var previous=rows()[0];if(!previous)throw new Error('The website cleared its chapter list');\n   await clickPage(page);state=await waitPage(page,previous.url,total);collect();\n  }\n  if(all.length!==total)throw new Error('Chapter list incomplete: '+all.length+' of '+total);\n  saveCache(all,total,true);return {items:ordered(all),total:total,error:''};\n }catch(e){return partial(String(e.message||e));}\n}\n\n\n\nvar verificationRequired=false;\nfunction incomingVerificationAttempt(){try{var data=JSON.parse(saved().textContent||'{}'),items=data.extra&&data.extra.extraInfo||[];return items.some(function(x){return x.key==='comixVerificationAttempted'&&x.value==='true';});}catch(e){return false;}}\nvar verificationAttempted=incomingVerificationAttempt();\nfunction verificationKey(){return 'zetsu-comix-verification-v3:'+new URL(location.href).pathname;}\nfunction verificationNote(value,message){value.description=message+(value.description?'\\n'+value.description:'');}\nfunction clearVerificationAttempts(){try{localStorage.removeItem(verificationKey());localStorage.removeItem('zetsu-comix-verify-attempt:'+new URL(location.href).pathname);}catch(e){}}\nfunction requestVerification(value){\n var target=new URL(location.href);\n if(target.protocol!=='https:'||target.hostname!=='comix.to'||!/^\\/title\\/[^/]+\\/?$/.test(target.pathname))return false;\n // The host's extraInfo marker bounds this request's helper handoff. A small\n // persistent budget additionally protects hosts which discard that marker.\n if(verificationAttempted){verificationNote(value,'Verification did not carry back to the chapter loader. Close this title before trying again.');return false;}\n try{\n  var now=Date.now(),attempts=JSON.parse(localStorage.getItem(verificationKey())||'null');\n  if(!attempts||!Number.isFinite(attempts.started)||now<attempts.started||now-attempts.started>=600000)attempts={started:now,count:0};\n  if(attempts.count>=2){verificationNote(value,'Verification is still required after two attempts. Retry in '+Math.max(1,Math.ceil((600000-(now-attempts.started))/60000))+' minutes.');return false;}\n  attempts.count=(Number(attempts.count)||0)+1;localStorage.setItem(verificationKey(),JSON.stringify(attempts));\n }catch(e){verificationNote(value,'Unable to safely open verification because browser storage is unavailable.');return false;}\n var command=new Commands('helperFunction',[new KV('name','comix-title-verification'),new KV('isCustomRequest','true')]);\n var handoffExtra=new Extra([command],[new KV('comixVerificationAttempted','true')]);\n verificationAttempted=true;finished=true;\n saved().textContent=JSON.stringify(new Info(req(target.href),handoffExtra,new JC(false,true,''),value));done();return true;\n}\nfunction finish(value){\n if(finished)return;\n var needsVerification=verificationRequired||challenged();\n if(needsVerification&&requestVerification(value))return;\n if(!needsVerification&&value.chapters&&value.chapters.length)clearVerificationAttempts();\n finished=true;saved().textContent=JSON.stringify(new Info(new MR('','',E,null),extra(),new JC(false,false,''),value));done();\n}\n\nfunction output(manga,chapters,note,total){var poster=manga.poster||{},genres=(manga.genres||[]).map(function(x){return clean(x.title);}).filter(Boolean);if(!genres.length)genres=(manga.formats||[]).map(function(x){return clean(x.title);}).filter(Boolean);if(!genres.length)genres=[clean(manga.type)||'Comic'];var synopsis=clean(manga.synopsis),description=note?note+(synopsis?'\\n'+synopsis:''):synopsis,field4=note?(total?'Partial chapters: '+chapters.length+' of '+total:chapters.length?'Partial chapters: '+chapters.length+' (total unknown)':'Chapter list unavailable'):'Chapters: '+chapters.length;return new InfoOutput(req(poster.large||poster.medium||BASE),clean(manga.title)||'Comix.to',req(manga.url||location.href),description,genres,clean(manga.type).toUpperCase(),clean(manga.status),String(manga.year||manga.startDate||''),field4,chapters);}\nasync function run(){var manga=mangaData();try{for(var ready=0;!manga.hid&&ready<100;ready++){await sleep(100);manga=mangaData();}if(!manga.hid)throw new Error('Title metadata missing');var result=manga.hasChapters===false?{items:[],total:0,error:''}:await allRows(),chapters=result.items.map(function(item){var name=item.label;if(item.group)name+=' - '+(item.official?'Official ':'')+item.group;return new Chapter(name,req(item.url),false);}),note=result.error?'Incomplete chapter list: '+result.error:'';finish(output(manga,chapters,note,result.total));}catch(e){finish(output(manga,[],'Unable to load chapters: '+String(e.message||e),0));}}\n\nsetTimeout(run,100);\n"
+      },
+      "output": {
+        "image": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "link": {
+          "url": "",
+          "method": "GET",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "httpBody": null
+        },
+        "title": "",
+        "description": "",
+        "genres": [
+          ""
+        ],
+        "field1": "",
+        "field2": "",
+        "field3": "",
+        "field4": "",
+        "chapters": [
+          {
+            "chapName": "",
+            "openInWebView": false,
+            "link": {
+              "url": "empty",
+              "method": "GET",
+              "headers": [
+                {
+                  "key": "",
+                  "value": ""
+                }
+              ],
+              "httpBody": null
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "request": {
+        "url": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://comix.to/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\nvar KETSU_ASYNC=true;\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Chapters(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction ChapterOutput(videos,images,text){this.videos=videos;this.images=images;this.text=text;}\nvar E=[new KV('','')],finished=false,exportFrame=null,wasmExports=null;\nvar DESCRAMBLE_WASM=\"AGFzbQEAAAABDgJgAn9/AX9gA39/fwF/AwUEAAABAQUDAQABB0QFBm1lbW9yeQIADGJ1aWxkT3JkZXJWMQAADGJ1aWxkT3JkZXJWMgABC3hvclByZWZpeFYxAAILeG9yUHJlZml4VjIAAwrACgTtAgERf0GHrcsAIQlBhp8aIQogCSAKaiELQdWq1aoFIQxBiszuyQYhDSAMIA1zIQ4gCyALcyEQIBBBAEcEQCAAQbWc6QpsQQFqIQ8gD0H4rNGRAXMhDwsgAEEBciERIBFFBEAgD0GbgvUjbCEPC0EAQQA2AgAgACABbCALQarVqtV6c2ohD0EBIQICQANAIAIgAU4NASACQQJ0IAI2AgAgD0EBdCACcyEPIAJBAWohAgwACwsgACEFIAEhA0EAIRICQANAIANBAkgNAQJAAkACQAJAIBIOAwECAwALIA9BAWohDwwECyAFIAtsIA5qIQUgDyAFIANscyEPQQEhEgwCCyAFIANwIQQgA0EBayEGIAZBAnQoAgAhByAEQQJ0KAIAIQggBkECdCAINgIAIARBAnQgBzYCACAPQQN0IAcgCHNqIQ9BAiESDAELIANBAWshA0EAIRIMAAsLIA8gD3NBAEcEQEEAIA82AgALQQAL5QIBEH9BHyEMQQ8hDUGNmO/VeiAMcSEJQZGA0JEBIAxxIQpBhfy29X0gDXEhCyAAQQFyIQ8gD0UEQCAOQQd0Qb71+td8cyEOIA5BC3ZB/p/w1ntzIQ4LIAEgAXMhECAQQQBHBEAgDkG5893xeWwhDgtBACECAkADQCACIAFODQEgAkECdCACNgIAIA4gAnMgAiAJbGohDiACQQFqIQIMAAsLIABBAXIhBiABIQMCQANAIANBAkgNASAGIAYgCXRzIQYgDiAGIANsaiEOIAYgBiAKdnMhBiAOQQl3IAZzIQ4gBiAGIAt0cyEGIAYgA3AhBCADQQFrIQUgBSAFcyERIBFBAEcEQCAOQe/9tvV9aiEOCyAFQQJ0KAIAIQcgBEECdCgCACEIIAVBAnQgCDYCACAEQQJ0IAc2AgAgDkEFdCAHIAhqcyEOIANBAWshAwwACwsgDiAOc0EARwRAQQAgDjYCAAtBAAurAgEQf0Gz4y0hCEGSoQ8hCSAIIAlqIQpB+KzRkQEhC0GrqYndBSEMIAsgDHMhDSAKIApzIQ8gD0EARwRAIAJB7ZyZjgRsQbngAGohDiAOQf////8HcyEOCyACRQRAQQAPCyACQQFyIRAgEEUEQCAOQYWIosAAbCEOCyACIAFsIApBqtWq1XpzaiEOIAIhBEEAIQNBACERAkADQCADIAFODQECQAJAAkAgEQ4CAQIACyAOQQFqIQ4MAwsgBCAKbCANaiEEIA4gBCADbHMhDkEBIREMAQsgBEEYdkH/AXEhByAAIANqIQUgBS0AACEGIAUgBiAHczoAACAOQQN0IAcgBnNqIQ4gA0EBaiEDQQAhEQwACwsgDiAOcyESIBJBAEcEQCAAIA46AAALQQALugIBD39BHyELQQ8hDEH/ASENQY38tncgC3EhCEGRgLTeeiALcSEJQYXc/4d8IAxxIQogAkUEQEEADwsgAkEBciEPIA9FBEAgDkEHdEGNoPvXfHMhDiAOQQt2Qe39u1ZzIQ4LIAEgAXMhECAQQQBHBEAgDkG5893xeWwhDgsgAiABbCAIQaqrqa0Fc2ohDiACQQFyIQRBACEDAkADQCADIAFODQEgBCAEIAh0cyEEIA4gBCADbGohDiAEIAQgCXZzIQQgDkEJdyAEcyEOIAQgBCAKdHMhBCADIANzIREgEUEARwRAIA5B8d3v1ntqIQ4LIAQgDXEhByAAIANqIQUgBS0AACEGIAUgBiAHczoAACAOQQV0IAcgBmpzIQ4gA0EBaiEDDAALCyAOIA5zQQBHBEAgACAOOgAAC0EACw==\";\nvar HASH_MASKS={'03632':58414,'02900':117532};\nfunction saved(){return document.getElementById('ketsu-final-data');}\nfunction done(){try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage('');}catch(e){}}\nfunction sleep(ms){return new Promise(function(resolve){setTimeout(resolve,ms);});}\nfunction abs(x){return new URL(String(x||''),location.href).href;}\nfunction imageRequest(url){return new MR(abs(url),'GET',[new KV('Accept','image/avif,image/webp,image/apng,image/*,*/*;q=0.8')],null);}\nfunction extra(){return new Extra([new Commands('',E)],E);}\nfunction finish(images,error){if(finished)return;finished=true;try{if(exportFrame)exportFrame.remove();}catch(e){}saved().textContent=JSON.stringify(new Chapters(new MR('','',E,null),extra(),new JC(false,false,''),new ChapterOutput(null,images,error||null)));done();}\nfunction challenged(){var node=document.querySelector('.wafcap')||document.querySelector('[aria-label=\"Security check\"]');if(!node)return false;if(node.hidden||node.getAttribute&&node.getAttribute('aria-hidden')==='true')return false;try{var style=getComputedStyle(node);if(style.display==='none'||style.visibility==='hidden')return false;}catch(e){}return true;}\nasync function waitForChallenge(){for(var attempt=0;attempt<50&&challenged();attempt++)await sleep(100);return !challenged();}\n\nfunction readerVerification(){\n var target=new URL(location.href),key='zetsu-comix-reader-verify-v2:'+target.pathname;\n if(target.protocol!=='https:'||target.hostname!=='comix.to'||!/^\\/title\\/[^/]+\\/\\d+-chapter-[^/]+\\/?$/.test(target.pathname))return false;\n try{var last=Number(localStorage.getItem(key)||0);if(Date.now()-last<600000)return false;localStorage.setItem(key,String(Date.now()));}catch(e){return false;}\n var command=new Commands('helperFunction',[new KV('name','comix-reader-verification'),new KV('isCustomRequest','true')]);\n finished=true;\n try{if(exportFrame)exportFrame.remove();}catch(e){}\n saved().textContent=JSON.stringify(new Chapters(new MR(target.href,'GET',[],null),new Extra([command],[new KV('comixReaderVerificationAttempted','true')]),new JC(false,true,''),new ChapterOutput(null,[],null)));done();return true;\n}\nasync function checkReaderVerification(){if(challenged()&&!await waitForChallenge())throw new Error('Human verification is required for this chapter');}\n\nfunction nodeList(){return Array.prototype.slice.call(document.querySelectorAll('.rpage-page[data-page]'));}\nfunction slot(node){return Number(node.getAttribute('data-page'))-1;}\nfunction source(node){var img=node&&node.querySelector('img.rpage-page__img,img[alt^=\"Page \"]');if(!img)return '';var candidates=[img.getAttribute('src'),img.getAttribute('data-src'),img.currentSrc];for(var i=0;i<candidates.length;i++)try{if(candidates[i]){var parsed=new URL(candidates[i],location.href);if(parsed.protocol==='https:'||parsed.protocol==='http:')return parsed.href;}}catch(e){}return '';}\nfunction collect(urls){nodeList().forEach(function(node){var index=slot(node),url=source(node);if(index>=0&&index<urls.length&&url)urls[index]=url;});}\nasync function waitImage(index,timeout){for(var n=0;n<timeout/75;n++){await checkReaderVerification();var node=document.querySelector('.rpage-page[data-page=\"'+(index+1)+'\"]');if(source(node))return;await sleep(75);}}\n\nasync function loadUrls(){\n var nodes=[];for(var n=0;n<300;n++){await checkReaderVerification();nodes=nodeList();if(nodes.length)break;await sleep(100);}\n if(!nodes.length)throw new Error('Reader page slots missing');\n var count=Math.max.apply(null,nodes.map(function(node){return Number(node.getAttribute('data-page'))||0;}));\n if(count!==nodes.length||count>1000)throw new Error('Invalid reader page slots');\n var urls=new Array(count),started=Date.now();collect(urls);\n for(var index=0;index<count;index++){\n  if(urls[index])continue;\n  if(Date.now()-started>180000)throw new Error('Reader stopped before all panels loaded');\n  var node=document.querySelector('.rpage-page[data-page=\"'+(index+1)+'\"]'),button=document.querySelector('button[aria-label=\"Go to page '+(index+1)+'\"]');\n  if(button&&!button.disabled)button.click();else if(node&&node.scrollIntoView)node.scrollIntoView({block:'center'});else throw new Error('Reader page navigation missing for '+(index+1));\n  await waitImage(index,8000);collect(urls);\n  if(!urls[index])throw new Error('Panel '+(index+1)+' did not load');\n }\n return urls;\n}\nfunction makeExportRealm(){var frame=document.createElement('iframe');frame.id='ketsu-export-'+Date.now();frame.src='about:blank';frame.style.cssText='display:none!important;width:0;height:0;border:0';document.documentElement.appendChild(frame);if(!frame.contentDocument||!frame.contentWindow)throw new Error('Clean image canvas unavailable');exportFrame=frame;return {doc:frame.contentDocument,win:frame.contentWindow};}\nfunction wasm(){if(wasmExports)return wasmExports;var raw=atob(DESCRAMBLE_WASM),bytes=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);wasmExports=new WebAssembly.Instance(new WebAssembly.Module(bytes)).exports;return wasmExports;}\nfunction tileOrder(seed,count,version){var engine=wasm(),pointer=(version===2?engine.buildOrderV2:engine.buildOrderV1)(seed>>>0,count);return Array.from(new Int32Array(engine.memory.buffer,pointer,count));}\nfunction blobData(blob){return new Promise(function(resolve,reject){var reader=new FileReader;reader.onload=function(){var value=String(reader.result||'');value.indexOf('data:image/')===0?resolve(value):reject(new Error('Image export failed'));};reader.onerror=function(){reject(new Error('Blob read failed'));};reader.readAsDataURL(blob);});}\nfunction exportCanvas(canvas){return new Promise(function(resolve,reject){canvas.toBlob(function(blob){if(!blob)return reject(new Error('Canvas blob failed'));blobData(blob).then(resolve,reject);},'image/jpeg',0.9);});}\nfunction saveNativeImage(data,key){if(finished)return false;try{window.webkit.messageHandlers.SAVE_BASE64_CACHE.postMessage(JSON.stringify({base64String:data,key:key}));return true;}catch(e){return false;}}\n\nasync function bitmapFromBlob(blob,realm){\n if(typeof realm.win.createImageBitmap==='function'){\n  try{return await realm.win.createImageBitmap(blob,{colorSpaceConversion:'none'});}catch(e){}\n }\n // Older WebKit can decode an image element even when createImageBitmap is unavailable.\n return await new Promise(function(resolve,reject){\n  var image=new realm.win.Image(),url=realm.win.URL.createObjectURL(blob),timer;\n  function release(){clearTimeout(timer);image.onload=null;image.onerror=null;realm.win.URL.revokeObjectURL(url);}\n  image.onload=function(){var width=image.naturalWidth,height=image.naturalHeight;release();if(!width||!height)return reject(new Error('Invalid image dimensions'));resolve(image);};\n  image.onerror=function(){release();reject(new Error('This WebView cannot decode the panel image'));};\n  timer=setTimeout(function(){release();reject(new Error('Image decoding timed out'));},12000);\n  image.src=url;\n });\n}\n\nasync function decodePage(url,realm){var Controller=realm.win.AbortController||AbortController,controller=new Controller(),timer=setTimeout(function(){controller.abort();},15000),bitmap=null,canvas=null;try{var response=await realm.win.fetch(url,{mode:'cors',credentials:'omit',referrerPolicy:'no-referrer',signal:controller.signal});if(!response.ok)throw new Error('Image request '+response.status);var hash=String(response.headers.get('X-Scramble-Hash')||'').trim(),seedHeader=parseInt(response.headers.get('X-Scramble-Seed')||'0',10)||0;if(hash&&!Object.prototype.hasOwnProperty.call(HASH_MASKS,hash))throw new Error('Unknown image scramble hash '+hash);var seed=(seedHeader^(HASH_MASKS[hash]||0))>>>0,grid=String(response.headers.get('X-Scramble-Grid')||'5x5').split('x'),cols=parseInt(grid[0],10)||5,rows=parseInt(grid[1],10)||5,version=response.headers.get('X-Scramble-Algo')==='3'?2:1,blob=await response.blob();if(!blob.size)throw new Error('Empty image response');if(blob.type&&!/^image\\//i.test(blob.type))throw new Error('Image URL returned '+blob.type);bitmap=await bitmapFromBlob(blob,realm);canvas=realm.doc.createElement('canvas');if(!bitmap.width||!bitmap.height)throw new Error('Invalid image dimensions');canvas.width=bitmap.width;canvas.height=bitmap.height;var context=canvas.getContext('2d',{colorSpace:'srgb'});if(!context)throw new Error('Image canvas unavailable');context.drawImage(bitmap,0,0);if(seed){var tileW=Math.floor(bitmap.width/cols),tileH=Math.floor(bitmap.height/rows),count=cols*rows,order=tileOrder(seed,count,version);if(tileW<1||tileH<1)throw new Error('Invalid image tile grid');for(var i=0;i<count;i++){var dest=order[i];context.drawImage(bitmap,(i%cols)*tileW,Math.floor(i/cols)*tileH,tileW,tileH,(dest%cols)*tileW,Math.floor(dest/cols)*tileH,tileW,tileH);}}var data=await exportCanvas(canvas);if(!saveNativeImage(data,url))throw new Error('Native image cache unavailable');return imageRequest(url);}finally{clearTimeout(timer);try{if(bitmap&&bitmap.close)bitmap.close();if(canvas){canvas.width=0;canvas.height=0;}}catch(e){}}}\n\nasync function decodeAll(urls){\n var realm=makeExportRealm(),results=new Array(urls.length),cursor=0,stopped=false;\n async function worker(){while(!stopped&&cursor<urls.length){var index=cursor++,timer;try{\n  // AbortController does not bound bitmap/canvas/FileReader promises. Bound the whole operation.\n  results[index]=await Promise.race([decodePage(urls[index],realm),new Promise(function(resolve,reject){timer=setTimeout(function(){reject(new Error('Image preparation timed out'));},20000);})]);\n }catch(e){stopped=true;throw new Error('page '+(index+1)+': '+String(e.message||e));}finally{clearTimeout(timer);}}}\n var jobs=[];for(var i=0;i<Math.min(2,urls.length);i++)jobs.push(worker());\n try{await Promise.all(jobs);}catch(e){stopped=true;throw new Error('Image preparation failed: '+e.message);}\n await sleep(700);return results;\n}\nasync function run(){try{await checkReaderVerification();var urls=await loadUrls(),images=await decodeAll(urls);finish(images,null);}catch(e){if(challenged()&&readerVerification())return;finish([],'Reader error: '+e.message);}}\nsetTimeout(run,50);\n"
+      },
+      "output": {
+        "videos": null,
+        "images": [
+          {
+            "url": "empty",
+            "method": "GET",
+            "headers": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ],
+            "httpBody": null
+          }
+        ],
+        "text": null
+      }
+    },
+    {
+      "request": {
+        "url": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          },
+          {
+            "key": "Referer",
+            "value": "https://comix.to/"
+          }
+        ],
+        "httpBody": null
+      },
+      "extra": {
+        "commands": [
+          {
+            "commandName": "",
+            "params": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ]
+          }
+        ],
+        "extraInfo": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ]
+      },
+      "javascriptConfig": {
+        "removeJavascript": false,
+        "loadInWebView": true,
+        "javaScript": "\nvar KETSU_ASYNC=true;\nfunction MR(url,method,headers,body){this.url=url;this.method=method;this.headers=headers;this.httpBody=body;}\nfunction KV(key,value){this.key=key;this.value=value;}\nfunction Extra(commands,extraInfo){this.commands=commands;this.extraInfo=extraInfo;}\nfunction Commands(commandName,params){this.commandName=commandName;this.params=params;}\nfunction JC(removeJavascript,loadInWebView,javaScript){this.removeJavascript=removeJavascript;this.loadInWebView=loadInWebView;this.javaScript=javaScript;}\nfunction Chapters(request,extra,javascriptConfig,output){this.request=request;this.extra=extra;this.javascriptConfig=javascriptConfig;this.output=output;}\nfunction ChapterOutput(videos,images,text){this.videos=videos;this.images=images;this.text=text;}\nvar E=[new KV('','')],finished=false,exportFrame=null,wasmExports=null;\nvar DESCRAMBLE_WASM=\"AGFzbQEAAAABDgJgAn9/AX9gA39/fwF/AwUEAAABAQUDAQABB0QFBm1lbW9yeQIADGJ1aWxkT3JkZXJWMQAADGJ1aWxkT3JkZXJWMgABC3hvclByZWZpeFYxAAILeG9yUHJlZml4VjIAAwrACgTtAgERf0GHrcsAIQlBhp8aIQogCSAKaiELQdWq1aoFIQxBiszuyQYhDSAMIA1zIQ4gCyALcyEQIBBBAEcEQCAAQbWc6QpsQQFqIQ8gD0H4rNGRAXMhDwsgAEEBciERIBFFBEAgD0GbgvUjbCEPC0EAQQA2AgAgACABbCALQarVqtV6c2ohD0EBIQICQANAIAIgAU4NASACQQJ0IAI2AgAgD0EBdCACcyEPIAJBAWohAgwACwsgACEFIAEhA0EAIRICQANAIANBAkgNAQJAAkACQAJAIBIOAwECAwALIA9BAWohDwwECyAFIAtsIA5qIQUgDyAFIANscyEPQQEhEgwCCyAFIANwIQQgA0EBayEGIAZBAnQoAgAhByAEQQJ0KAIAIQggBkECdCAINgIAIARBAnQgBzYCACAPQQN0IAcgCHNqIQ9BAiESDAELIANBAWshA0EAIRIMAAsLIA8gD3NBAEcEQEEAIA82AgALQQAL5QIBEH9BHyEMQQ8hDUGNmO/VeiAMcSEJQZGA0JEBIAxxIQpBhfy29X0gDXEhCyAAQQFyIQ8gD0UEQCAOQQd0Qb71+td8cyEOIA5BC3ZB/p/w1ntzIQ4LIAEgAXMhECAQQQBHBEAgDkG5893xeWwhDgtBACECAkADQCACIAFODQEgAkECdCACNgIAIA4gAnMgAiAJbGohDiACQQFqIQIMAAsLIABBAXIhBiABIQMCQANAIANBAkgNASAGIAYgCXRzIQYgDiAGIANsaiEOIAYgBiAKdnMhBiAOQQl3IAZzIQ4gBiAGIAt0cyEGIAYgA3AhBCADQQFrIQUgBSAFcyERIBFBAEcEQCAOQe/9tvV9aiEOCyAFQQJ0KAIAIQcgBEECdCgCACEIIAVBAnQgCDYCACAEQQJ0IAc2AgAgDkEFdCAHIAhqcyEOIANBAWshAwwACwsgDiAOc0EARwRAQQAgDjYCAAtBAAurAgEQf0Gz4y0hCEGSoQ8hCSAIIAlqIQpB+KzRkQEhC0GrqYndBSEMIAsgDHMhDSAKIApzIQ8gD0EARwRAIAJB7ZyZjgRsQbngAGohDiAOQf////8HcyEOCyACRQRAQQAPCyACQQFyIRAgEEUEQCAOQYWIosAAbCEOCyACIAFsIApBqtWq1XpzaiEOIAIhBEEAIQNBACERAkADQCADIAFODQECQAJAAkAgEQ4CAQIACyAOQQFqIQ4MAwsgBCAKbCANaiEEIA4gBCADbHMhDkEBIREMAQsgBEEYdkH/AXEhByAAIANqIQUgBS0AACEGIAUgBiAHczoAACAOQQN0IAcgBnNqIQ4gA0EBaiEDQQAhEQwACwsgDiAOcyESIBJBAEcEQCAAIA46AAALQQALugIBD39BHyELQQ8hDEH/ASENQY38tncgC3EhCEGRgLTeeiALcSEJQYXc/4d8IAxxIQogAkUEQEEADwsgAkEBciEPIA9FBEAgDkEHdEGNoPvXfHMhDiAOQQt2Qe39u1ZzIQ4LIAEgAXMhECAQQQBHBEAgDkG5893xeWwhDgsgAiABbCAIQaqrqa0Fc2ohDiACQQFyIQRBACEDAkADQCADIAFODQEgBCAEIAh0cyEEIA4gBCADbGohDiAEIAQgCXZzIQQgDkEJdyAEcyEOIAQgBCAKdHMhBCADIANzIREgEUEARwRAIA5B8d3v1ntqIQ4LIAQgDXEhByAAIANqIQUgBS0AACEGIAUgBiAHczoAACAOQQV0IAcgBmpzIQ4gA0EBaiEDDAALCyAOIA5zQQBHBEAgACAOOgAAC0EACw==\";\nvar HASH_MASKS={'03632':58414,'02900':117532};\nfunction saved(){return document.getElementById('ketsu-final-data');}\nfunction done(){try{window.webkit.messageHandlers.EXECUTE_KETSU_ASYNC.postMessage('');}catch(e){}}\nfunction sleep(ms){return new Promise(function(resolve){setTimeout(resolve,ms);});}\nfunction abs(x){return new URL(String(x||''),location.href).href;}\nfunction imageRequest(url){return new MR(abs(url),'GET',[new KV('Accept','image/avif,image/webp,image/apng,image/*,*/*;q=0.8')],null);}\nfunction extra(){return new Extra([new Commands('',E)],E);}\nfunction finish(images,error){if(finished)return;finished=true;try{if(exportFrame)exportFrame.remove();}catch(e){}saved().textContent=JSON.stringify(new Chapters(new MR('','',E,null),extra(),new JC(false,false,''),new ChapterOutput(null,images,error||null)));done();}\nfunction challenged(){var node=document.querySelector('.wafcap')||document.querySelector('[aria-label=\"Security check\"]');if(!node)return false;if(node.hidden||node.getAttribute&&node.getAttribute('aria-hidden')==='true')return false;try{var style=getComputedStyle(node);if(style.display==='none'||style.visibility==='hidden')return false;}catch(e){}return true;}\nasync function waitForChallenge(){for(var attempt=0;attempt<50&&challenged();attempt++)await sleep(100);return !challenged();}\n\nfunction readerVerification(){\n var target=new URL(location.href),key='zetsu-comix-reader-verify-v2:'+target.pathname;\n if(target.protocol!=='https:'||target.hostname!=='comix.to'||!/^\\/title\\/[^/]+\\/\\d+-chapter-[^/]+\\/?$/.test(target.pathname))return false;\n try{var last=Number(localStorage.getItem(key)||0);if(Date.now()-last<600000)return false;localStorage.setItem(key,String(Date.now()));}catch(e){return false;}\n var command=new Commands('helperFunction',[new KV('name','comix-reader-verification'),new KV('isCustomRequest','true')]);\n finished=true;\n try{if(exportFrame)exportFrame.remove();}catch(e){}\n saved().textContent=JSON.stringify(new Chapters(new MR(target.href,'GET',[],null),new Extra([command],[new KV('comixReaderVerificationAttempted','true')]),new JC(false,true,''),new ChapterOutput(null,[],null)));done();return true;\n}\nasync function checkReaderVerification(){if(challenged()&&!await waitForChallenge())throw new Error('Human verification is required for this chapter');}\n\nfunction nodeList(){return Array.prototype.slice.call(document.querySelectorAll('.rpage-page[data-page]'));}\nfunction slot(node){return Number(node.getAttribute('data-page'))-1;}\nfunction source(node){var img=node&&node.querySelector('img.rpage-page__img,img[alt^=\"Page \"]');if(!img)return '';var candidates=[img.getAttribute('src'),img.getAttribute('data-src'),img.currentSrc];for(var i=0;i<candidates.length;i++)try{if(candidates[i]){var parsed=new URL(candidates[i],location.href);if(parsed.protocol==='https:'||parsed.protocol==='http:')return parsed.href;}}catch(e){}return '';}\nfunction collect(urls){nodeList().forEach(function(node){var index=slot(node),url=source(node);if(index>=0&&index<urls.length&&url)urls[index]=url;});}\nasync function waitImage(index,timeout){for(var n=0;n<timeout/75;n++){await checkReaderVerification();var node=document.querySelector('.rpage-page[data-page=\"'+(index+1)+'\"]');if(source(node))return;await sleep(75);}}\n\nasync function loadUrls(){\n var nodes=[];for(var n=0;n<300;n++){await checkReaderVerification();nodes=nodeList();if(nodes.length)break;await sleep(100);}\n if(!nodes.length)throw new Error('Reader page slots missing');\n var count=Math.max.apply(null,nodes.map(function(node){return Number(node.getAttribute('data-page'))||0;}));\n if(count!==nodes.length||count>1000)throw new Error('Invalid reader page slots');\n var urls=new Array(count),started=Date.now();collect(urls);\n for(var index=0;index<count;index++){\n  if(urls[index])continue;\n  if(Date.now()-started>180000)throw new Error('Reader stopped before all panels loaded');\n  var node=document.querySelector('.rpage-page[data-page=\"'+(index+1)+'\"]'),button=document.querySelector('button[aria-label=\"Go to page '+(index+1)+'\"]');\n  if(button&&!button.disabled)button.click();else if(node&&node.scrollIntoView)node.scrollIntoView({block:'center'});else throw new Error('Reader page navigation missing for '+(index+1));\n  await waitImage(index,8000);collect(urls);\n  if(!urls[index])throw new Error('Panel '+(index+1)+' did not load');\n }\n return urls;\n}\nfunction makeExportRealm(){var frame=document.createElement('iframe');frame.id='ketsu-export-'+Date.now();frame.src='about:blank';frame.style.cssText='display:none!important;width:0;height:0;border:0';document.documentElement.appendChild(frame);if(!frame.contentDocument||!frame.contentWindow)throw new Error('Clean image canvas unavailable');exportFrame=frame;return {doc:frame.contentDocument,win:frame.contentWindow};}\nfunction wasm(){if(wasmExports)return wasmExports;var raw=atob(DESCRAMBLE_WASM),bytes=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);wasmExports=new WebAssembly.Instance(new WebAssembly.Module(bytes)).exports;return wasmExports;}\nfunction tileOrder(seed,count,version){var engine=wasm(),pointer=(version===2?engine.buildOrderV2:engine.buildOrderV1)(seed>>>0,count);return Array.from(new Int32Array(engine.memory.buffer,pointer,count));}\nfunction blobData(blob){return new Promise(function(resolve,reject){var reader=new FileReader;reader.onload=function(){var value=String(reader.result||'');value.indexOf('data:image/')===0?resolve(value):reject(new Error('Image export failed'));};reader.onerror=function(){reject(new Error('Blob read failed'));};reader.readAsDataURL(blob);});}\nfunction exportCanvas(canvas){return new Promise(function(resolve,reject){canvas.toBlob(function(blob){if(!blob)return reject(new Error('Canvas blob failed'));blobData(blob).then(resolve,reject);},'image/jpeg',0.9);});}\nfunction saveNativeImage(data,key){if(finished)return false;try{window.webkit.messageHandlers.SAVE_BASE64_CACHE.postMessage(JSON.stringify({base64String:data,key:key}));return true;}catch(e){return false;}}\n\nasync function bitmapFromBlob(blob,realm){\n if(typeof realm.win.createImageBitmap==='function'){\n  try{return await realm.win.createImageBitmap(blob,{colorSpaceConversion:'none'});}catch(e){}\n }\n // Older WebKit can decode an image element even when createImageBitmap is unavailable.\n return await new Promise(function(resolve,reject){\n  var image=new realm.win.Image(),url=realm.win.URL.createObjectURL(blob),timer;\n  function release(){clearTimeout(timer);image.onload=null;image.onerror=null;realm.win.URL.revokeObjectURL(url);}\n  image.onload=function(){var width=image.naturalWidth,height=image.naturalHeight;release();if(!width||!height)return reject(new Error('Invalid image dimensions'));resolve(image);};\n  image.onerror=function(){release();reject(new Error('This WebView cannot decode the panel image'));};\n  timer=setTimeout(function(){release();reject(new Error('Image decoding timed out'));},12000);\n  image.src=url;\n });\n}\n\nasync function decodePage(url,realm){var Controller=realm.win.AbortController||AbortController,controller=new Controller(),timer=setTimeout(function(){controller.abort();},15000),bitmap=null,canvas=null;try{var response=await realm.win.fetch(url,{mode:'cors',credentials:'omit',referrerPolicy:'no-referrer',signal:controller.signal});if(!response.ok)throw new Error('Image request '+response.status);var hash=String(response.headers.get('X-Scramble-Hash')||'').trim(),seedHeader=parseInt(response.headers.get('X-Scramble-Seed')||'0',10)||0;if(hash&&!Object.prototype.hasOwnProperty.call(HASH_MASKS,hash))throw new Error('Unknown image scramble hash '+hash);var seed=(seedHeader^(HASH_MASKS[hash]||0))>>>0,grid=String(response.headers.get('X-Scramble-Grid')||'5x5').split('x'),cols=parseInt(grid[0],10)||5,rows=parseInt(grid[1],10)||5,version=response.headers.get('X-Scramble-Algo')==='3'?2:1,blob=await response.blob();if(!blob.size)throw new Error('Empty image response');if(blob.type&&!/^image\\//i.test(blob.type))throw new Error('Image URL returned '+blob.type);bitmap=await bitmapFromBlob(blob,realm);canvas=realm.doc.createElement('canvas');if(!bitmap.width||!bitmap.height)throw new Error('Invalid image dimensions');canvas.width=bitmap.width;canvas.height=bitmap.height;var context=canvas.getContext('2d',{colorSpace:'srgb'});if(!context)throw new Error('Image canvas unavailable');context.drawImage(bitmap,0,0);if(seed){var tileW=Math.floor(bitmap.width/cols),tileH=Math.floor(bitmap.height/rows),count=cols*rows,order=tileOrder(seed,count,version);if(tileW<1||tileH<1)throw new Error('Invalid image tile grid');for(var i=0;i<count;i++){var dest=order[i];context.drawImage(bitmap,(i%cols)*tileW,Math.floor(i/cols)*tileH,tileW,tileH,(dest%cols)*tileW,Math.floor(dest/cols)*tileH,tileW,tileH);}}var data=await exportCanvas(canvas);if(!saveNativeImage(data,url))throw new Error('Native image cache unavailable');return imageRequest(url);}finally{clearTimeout(timer);try{if(bitmap&&bitmap.close)bitmap.close();if(canvas){canvas.width=0;canvas.height=0;}}catch(e){}}}\n\nasync function decodeAll(urls){\n var realm=makeExportRealm(),results=new Array(urls.length),cursor=0,stopped=false;\n async function worker(){while(!stopped&&cursor<urls.length){var index=cursor++,timer;try{\n  // AbortController does not bound bitmap/canvas/FileReader promises. Bound the whole operation.\n  results[index]=await Promise.race([decodePage(urls[index],realm),new Promise(function(resolve,reject){timer=setTimeout(function(){reject(new Error('Image preparation timed out'));},20000);})]);\n }catch(e){stopped=true;throw new Error('page '+(index+1)+': '+String(e.message||e));}finally{clearTimeout(timer);}}}\n var jobs=[];for(var i=0;i<Math.min(2,urls.length);i++)jobs.push(worker());\n try{await Promise.all(jobs);}catch(e){stopped=true;throw new Error('Image preparation failed: '+e.message);}\n await sleep(700);return results;\n}\nasync function run(){try{await checkReaderVerification();var urls=await loadUrls(),images=await decodeAll(urls);finish(images,null);}catch(e){if(challenged()&&readerVerification())return;finish([],'Reader error: '+e.message);}}\nsetTimeout(run,50);\n"
+      },
+      "output": {
+        "videos": null,
+        "images": [
+          {
+            "url": "empty",
+            "method": "GET",
+            "headers": [
+              {
+                "key": "",
+                "value": ""
+              }
+            ],
+            "httpBody": null
+          }
+        ],
+        "text": null
+      }
+    }
+  ],
+  "moduleResolvers": [],
+  "responseCodeFunctions": [],
+  "helperFunctions": [
+    {
+      "functionName": "comix-title-verification",
+      "msgTitle": "Comix title verification",
+      "msgBody": "Complete the website check on this manga page. Once its chapter list appears, tap Done. If it cannot complete, cancel.",
+      "type": "captcha",
+      "functions": [
+        {
+          "request": {
+            "url": "https://comix.to/",
+            "method": "GET",
+            "headers": [],
+            "httpBody": null
+          },
+          "extra": {
+            "commands": [],
+            "extraInfo": []
+          },
+          "javascriptConfig": {
+            "removeJavascript": false,
+            "loadInWebView": true,
+            "javaScript": ""
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "comix-reader-verification",
+      "msgTitle": "Comix chapter verification",
+      "msgBody": "Complete the website check on this chapter. Once its panels appear, tap Done. Cancel if verification cannot complete.",
+      "type": "captcha",
+      "functions": [
+        {
+          "request": {
+            "url": "https://comix.to/",
+            "method": "GET",
+            "headers": [],
+            "httpBody": null
+          },
+          "extra": {
+            "commands": [],
+            "extraInfo": []
+          },
+          "javascriptConfig": {
+            "removeJavascript": false,
+            "loadInWebView": true,
+            "javaScript": ""
+          }
+        }
+      ]
+    }
+  ]
+}
